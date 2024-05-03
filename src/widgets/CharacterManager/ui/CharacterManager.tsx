@@ -1,10 +1,10 @@
 import {Button, Image, List, Space} from "antd-mobile";
 import { AddOutline} from "antd-mobile-icons";
 import { useCharacterManager} from '../model/useCharacterManager.ts'
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
 export const CharacterManager = () => {
-
+    const navigate = useNavigate()
     const {useCharacterList} = useCharacterManager()
 
     return (
@@ -32,6 +32,7 @@ export const CharacterManager = () => {
                             }
                             description={character.description}
                             clickable
+                            onClick = {() => navigate(`/character/card?id=${character.id}`)}
                         >
 
                             {character.name}
