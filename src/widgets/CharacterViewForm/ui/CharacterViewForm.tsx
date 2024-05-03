@@ -10,7 +10,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     return (
         <Card>
             <List>
-                <List.Item title={"Назад"}  prefix={<LeftOutline />} clickable={false} onClick={() => navigate("/characters")}>
+                <List.Item title={"Назад"} arrow={false} prefix={<LeftOutline />} clickable={true} onClick={() => navigate("/characters")}>
                 </List.Item>
                 <List.Item title={"Имя"}>
                     {useCharacterData?.data?.name}
