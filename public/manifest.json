@@ -1,0 +1,14 @@
+{
+  "name": "Soul writer",
+  "description": "Your writing assistant",
+  "start_url": "/",
+  "lang": "ru-RU",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/icon/icon-192.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

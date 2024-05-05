@@ -5,7 +5,7 @@ import {useIndexedDB} from "react-indexed-db-hook";
 import {Dialog} from "antd-mobile";
 import {useNavigate} from "react-router-dom";
 
-export const useCharacterNew = () => {
+export const useCharacterAddForm = () => {
 
     const dbCharacterSpace = useIndexedDB("characters")
 

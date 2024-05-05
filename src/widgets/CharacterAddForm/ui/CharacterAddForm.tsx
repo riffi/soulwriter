@@ -1,11 +1,11 @@
 import {Button, Dialog, Form, Input, Selector} from "antd-mobile";
-import {useCharacterNew} from "../../../pages/CharacterNew/model/useCharacterNew.ts";
-import {ICharacterNewFormValues} from "../../../pages/CharacterNew/model/type.ts";
+import {useCharacterAddForm} from "../model/useCharacterAddForm.ts";
+import {ICharacterNewFormValues} from "../model/type.ts";
 
 export const CharacterAddForm = () => {
 
 
-    const {getInitialValues, onSubmitNewCharacter} = useCharacterNew()
+    const {getInitialValues, onSubmitNewCharacter} = useCharacterAddForm()
     const onFinish = (values: ICharacterNewFormValues) => {
         onSubmitNewCharacter(values)
     }
