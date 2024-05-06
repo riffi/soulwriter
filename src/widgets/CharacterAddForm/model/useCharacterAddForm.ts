@@ -34,6 +34,7 @@ export const useCharacterAddForm = () => {
             name: formData.name,
             description: formData.description,
             sex: formData.sex[0],
+            dictAttributes: []
         }
         addCharacter.mutate(characterData)
     }

@@ -5,6 +5,7 @@ import {General} from "../../../pages/General";
 import {Scenes} from "../../../pages/Scenes";
 import {CharacterNew} from "../../../pages/CharacterNew/ui/CharacterNew.tsx";
 import {CharacterCard} from "../../../pages/CharacterCard/ui/CharacterCard.tsx";
+import {Settings} from "../../../pages/Settings/ui/Settings.tsx";
 
 export const AppRouter = () => {
     return (
@@ -15,6 +16,7 @@ export const AppRouter = () => {
                     <Route key={"characters"} path={"characters"} element={<Characters/>} />
                     <Route key={"general"} path={"general"} element={<General/>} />
                     <Route key={"scenes"} path={"scenes"} element={<Scenes/>} />
+                    <Route key={"settings"} path={"settings"} element={<Settings/>} />
                     <Route key={"character/new"} path={"character/new"} element={<CharacterNew/>} />
                     <Route key={"character/card"} path={"character/card"} element={<CharacterCard/>} />
                 </Route>
