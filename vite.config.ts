@@ -29,6 +29,7 @@ export default defineConfig({
               short_name: 'Soul writer',
               description: 'My writing assistant',
               theme_color: '#ffffff',
+              display: 'standalone',
               icons: [
                   {
                       src: '/icon/icon-192.png',
