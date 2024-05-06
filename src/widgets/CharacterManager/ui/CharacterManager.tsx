@@ -17,7 +17,7 @@ export const CharacterManager = () => {
                     </Button>
                 </NavLink>
             </Space>
-        <List header='Персонажи'  mode='card' >
+        <List header='Персонажи2'  mode='card' >
             {useCharacterList?.data?.map(character =>(
                         <List.Item
                             key={character.name}
