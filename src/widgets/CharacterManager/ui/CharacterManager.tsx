@@ -1,51 +1,26 @@
-import {AutoCenter, Button, Image, List, Space} from "antd-mobile";
-import {AddCircleOutline, AddOutline} from "antd-mobile-icons";
-import { useCharacterManager} from '../model/useCharacterManager.ts'
-import {NavLink, useNavigate} from "react-router-dom";
-import React from "react";
+import {useCharactersManager} from "../model/useCharacterManager.ts";
+import styled from "../../../pages/Characters/ui/Characters.module.scss";
+import {Tabs} from "antd-mobile";
+import {CharactersByGroup} from "../../../features/CharactersByGroup";
 
 export const CharacterManager = () => {
-    const navigate = useNavigate()
-    const {useCharacterList} = useCharacterManager()
+    const {useCharacterGroupList} = useCharactersManager()
 
     return (
         <>
-        <List header='Персонажи'  mode='card' >
-            {useCharacterList?.data?.map(character =>(
-                        <List.Item
-                            key={character.name}
-                            prefix={
-                                <Image
-                                    src={character.avatar ? character.avatar: '/default-avatar.jpeg'}
-                                    style={{ borderRadius: 20 }}
-                                    fit='cover'
-                                    width={40}
-                                    height={40}
-                                />
-                            }
-                            description={character.description}
-                            clickable
-                            onClick = {() => navigate(`/character/card?id=${character.id}`)}
-                        >
+            <div className={styled.charactersPage}>
+                <Tabs tabIndex={0}>
+                    {useCharacterGroupList?.data?.map((characterGroup) =>  (
+                    <Tabs.Tab
+                        key={characterGroup.id}
+                        title={characterGroup.title}
+                    >
+                        <CharactersByGroup characterGroupId={characterGroup.id}/>
+                    </Tabs.Tab>
+                ))}
+                </Tabs>
 
-                            {character.name}
-                        </List.Item>
-            ))}
-            <List.Item title={""}>
-                <AutoCenter>
-                    <NavLink to={"/character/new"}>
-                        <Button size='large' fill={'none'}  onClick={() => {
-
-                        }}>
-                            <AddCircleOutline />
-
-                        </Button>
-                    </NavLink>
-                </AutoCenter>
-            </List.Item>
-        </List>
+            </div>
         </>
-
     )
-
 }

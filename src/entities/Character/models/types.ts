@@ -4,7 +4,8 @@ export interface ICharacter {
     name: string
     description: string,
     sex: string,
-    dictAttributes: ICharacterDictAttributeWithValue[]
+    dictAttributes: ICharacterDictAttributeWithValue[],
+    groupId: string
 }
 
 export interface ICharacterDictAttribute{
@@ -14,6 +15,11 @@ export interface ICharacterDictAttribute{
 
 export interface ICharacterDictAttributeWithValue extends  ICharacterDictAttribute{
     value: string
+}
+
+export interface ICharacterGroup{
+    id: string
+    title: string
 }
 
 

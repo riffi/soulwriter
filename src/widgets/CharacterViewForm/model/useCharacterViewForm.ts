@@ -8,7 +8,7 @@ export const useCharacterViewForm = (characterId: number) => {
 
     const queryClient = useQueryClient()
 
-    const dbCharacterAttributeSpace = useIndexedDB("characterAttributes")
+    const dbCharacterAttributeSpace = useIndexedDB("characterAttributeDict")
 
     const useCharacterData = useQuery<ICharacter>({
         queryKey: ['character', characterId],

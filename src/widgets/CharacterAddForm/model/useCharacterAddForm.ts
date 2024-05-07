@@ -5,7 +5,7 @@ import {useIndexedDB} from "react-indexed-db-hook";
 import {Dialog} from "antd-mobile";
 import {useNavigate} from "react-router-dom";
 
-export const useCharacterAddForm = () => {
+export const useCharacterAddForm = (characterGroupId: string) => {
 
     const dbCharacterSpace = useIndexedDB("characters")
 
@@ -30,7 +30,9 @@ export const useCharacterAddForm = () => {
 
 
     const onSubmitNewCharacter = (formData: ICharacterNewFormValues) => {
+        console.log('characterGroupId', characterGroupId)
         const characterData: ICharacter = {
+            groupId: characterGroupId,
             name: formData.name,
             description: formData.description,
             sex: formData.sex[0],

@@ -1,25 +1,17 @@
-import {useMutation, useQuery} from "@tanstack/react-query";
-import {ICharacter} from "../../../entities/Character";
 import {useIndexedDB} from "react-indexed-db-hook";
+import {useQuery} from "@tanstack/react-query";
+import {ICharacterGroup} from "../../../entities/Character";
 
-export const useCharacterManager = () => {
+export const useCharactersManager= () => {
 
-    const dbCharacterSpace = useIndexedDB("characters")
+    const dbCharacterGroupsSpace = useIndexedDB("characterGroups")
 
-    const useCharacterList = useQuery<ICharacter[]>({
-        queryKey: ['character', 'list'],
-        queryFn: () => dbCharacterSpace.getAll()
+    const useCharacterGroupList = useQuery<ICharacterGroup[]>({
+        queryKey: ['characterGroup', 'list'],
+        queryFn: () => dbCharacterGroupsSpace.getAll()
     })
 
-    // const addCharacter = useMutation({
-    //     mutationFn: async (characterData: ICharacter) => dbCharacterSpace.add(characterData),
-    //     onError: error => {
-    //         toast.error(error.message);
-    //         console.error(error);
-    //     },
-    // });
-
     return {
-        useCharacterList
+        useCharacterGroupList
     }
 }

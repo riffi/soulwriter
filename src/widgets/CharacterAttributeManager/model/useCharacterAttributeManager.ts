@@ -4,7 +4,7 @@ import {ICharacterDictAttribute} from "../../../entities/Character";
 
 export const useCharacterAttributeManager = () => {
 
-    const dbCharacterAttributeSpace = useIndexedDB("characterAttributes")
+    const dbCharacterAttributeSpace = useIndexedDB("characterAttributeDict")
     const queryClient = useQueryClient()
 
     const useCharacterAttributeDict = useQuery<ICharacterDictAttribute[]>({
