@@ -52,6 +52,8 @@ export const useCharacterViewForm = (characterId: number) => {
 
     const deleteDictAttributeValue = (dictAttributeId: string, character?: ICharacter) => {
         if (character){
+            // Создаем массив атрибутов, если он не определен
+            if (!character.dictAttributes) character.dictAttributes = []
             character.dictAttributes = character.dictAttributes.filter((attr) => attr.id != dictAttributeId)
             updateCharacter.mutate(character)
         }
