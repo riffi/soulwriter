@@ -1,7 +1,8 @@
-import {Button, Image, List, Space} from "antd-mobile";
-import { AddOutline} from "antd-mobile-icons";
+import {AutoCenter, Button, Image, List, Space} from "antd-mobile";
+import {AddCircleOutline, AddOutline} from "antd-mobile-icons";
 import { useCharacterManager} from '../model/useCharacterManager.ts'
 import {NavLink, useNavigate} from "react-router-dom";
+import React from "react";
 
 export const CharacterManager = () => {
     const navigate = useNavigate()
@@ -9,14 +10,6 @@ export const CharacterManager = () => {
 
     return (
         <>
-            <Space wrap align='center'>
-                <NavLink to={"/character/new"}>
-                    <Button size='mini' color='primary' >
-                        <AddOutline />
-                        Новый
-                    </Button>
-                </NavLink>
-            </Space>
         <List header='Персонажи'  mode='card' >
             {useCharacterList?.data?.map(character =>(
                         <List.Item
@@ -38,6 +31,18 @@ export const CharacterManager = () => {
                             {character.name}
                         </List.Item>
             ))}
+            <List.Item title={""}>
+                <AutoCenter>
+                    <NavLink to={"/character/new"}>
+                        <Button size='large' fill={'none'}  onClick={() => {
+
+                        }}>
+                            <AddCircleOutline />
+
+                        </Button>
+                    </NavLink>
+                </AutoCenter>
+            </List.Item>
         </List>
         </>
 
