@@ -19,7 +19,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
 
     const notUsedDictAttributesList = useCharacterAttributeDict?.data?.filter(
         (dictAttr) => {
-            const existingAttr = useCharacterData?.data?.dictAttributes.find(
+            const existingAttr = useCharacterData?.data?.dictAttributes?.find(
                 (charAttr) => charAttr.id === dictAttr.id
             )
             return !existingAttr
