@@ -58,6 +58,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                 {useCharacterData?.data?.dictAttributes?.map(dictAttribute => (
                     <SwipeAction
                         closeOnAction={true}
+                        key={dictAttribute.id}
                         onAction = {action => {
                             console.log('closed')
                             deleteDictAttributeValue(dictAttribute.id, useCharacterData?.data)
@@ -79,13 +80,15 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                     )
                 )}
 
-                {notUsedDictAttributesList && notUsedDictAttributesList.length > 0 && (<List.Item title={""}  key={"add"}>
-                    <AutoCenter>
-                        <Button onClick={() => setPopupPropDictVisible(true)} size='middle' fill={'none'}>
-                            <AddCircleOutline />
-                        </Button>
-                    </AutoCenter>
-                </List.Item>)
+                {notUsedDictAttributesList && notUsedDictAttributesList.length > 0 && (
+                    <List.Item title={""}  key={"add"}>
+                        <AutoCenter>
+                            <Button onClick={() => setPopupPropDictVisible(true)} size='middle' fill={'none'}>
+                                <AddCircleOutline />
+                            </Button>
+                        </AutoCenter>
+                    </List.Item>
+                )
                 }
             </List>
         </Card>

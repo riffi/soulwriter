@@ -1,6 +1,6 @@
 export const DBConfig = {
     name: "writer",
-    version: 2,
+    version: 3,
     objectStoresMeta: [
         {
             store: "characters",

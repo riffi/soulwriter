@@ -5,7 +5,7 @@ import { DBConfig } from "../shared/db/DBconfig";
 import {IndexedDB, initDB} from "react-indexed-db-hook";
 
 const queryClient = new QueryClient()
-
+console.log('Init DB')
 initDB(DBConfig)
 export const App = () => {
 
