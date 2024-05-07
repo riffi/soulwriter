@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import {CharacterAttributeDictList} from "../../../features/CharacterAttributeDictList";
 import {InlineEdit} from "../../../shared/ui/InlineEdit";
+import {InlineSelector} from "../../../shared/ui/InlineSelector";
 export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     const {useCharacterData,
         useCharacterAttributeDict,
@@ -51,8 +52,13 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                     />
                 </List.Item>
                 <List.Item title={"Пол"} key={"sex"}>
-                    {useCharacterData?.data?.sex}
-                    <EditFill style={{float: "right"}}/>
+                    <InlineSelector items={[
+                                {label: 'Мужской', value: 'male'},
+                                {label: 'Женский', value: 'female'}
+                        ]}
+                        onChange={(val) => changeBaseAttributeValue("sex", val, useCharacterData?.data)}
+                        selectedItemValue={useCharacterData?.data?.sex}
+                    />
                 </List.Item>
 
                 {useCharacterData?.data?.dictAttributes?.map(dictAttribute => (
@@ -60,7 +66,6 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                         closeOnAction={true}
                         key={dictAttribute.id}
                         onAction = {action => {
-                            console.log('closed')
                             deleteDictAttributeValue(dictAttribute.id, useCharacterData?.data)
                         }}
                         rightActions={[
