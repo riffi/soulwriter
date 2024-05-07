@@ -35,7 +35,13 @@ export const useCharacterViewForm = (characterId: number) => {
 
     const changeDictAttributeValue = (dictAttributeId: string, newValue: string, character?: ICharacter) => {
         if (character){
-            const dictAttribute = character.dictAttributes.find((attr) => attr.id = dictAttributeId)
+            // Создаем массив атрибутов, если он не определен
+            if (!character.dictAttributes) character.dictAttributes = []
+
+            const dictAttribute = character.dictAttributes.find(
+                (attr) => attr.id === dictAttributeId
+            )
+
             if (dictAttribute){
                 dictAttribute.value = newValue
                 updateCharacter.mutate(character)
