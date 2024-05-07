@@ -34,6 +34,12 @@ export const CharacterAttributeManager = () => {
                     onChange={val => {
                         setNewAttributeTitle(val)
                     }}
+                    onKeyUp={(event) => {
+                        if (event.key === 'Enter') {
+                            onSaveNewAttribute(newAttributeTitle)
+                            setPopupAddAttributeVisible(false)
+                        }
+                    }}
                 />
                 <Button onClick={() => {
                     onSaveNewAttribute(newAttributeTitle)
