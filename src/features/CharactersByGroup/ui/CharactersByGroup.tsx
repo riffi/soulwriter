@@ -7,12 +7,12 @@ import {ICharactersByGroupProps} from "../type/type.ts";
 
 export const CharactersByGroup = (props: ICharactersByGroupProps) => {
     const navigate = useNavigate()
-    const {useCharacterList} = useCharactersByGroup(props.characterGroupId)
-
+    const {characterList} = useCharactersByGroup(props.characterGroupId)
+    if (!characterList) return
     return (
         <>
         <List header='Персонажи'  mode='card' >
-            {useCharacterList?.data?.map(character =>(
+            {characterList?.map(character =>(
                         <List.Item
                             key={character.name}
                             prefix={

@@ -1,16 +1,16 @@
-import {useQuery} from "@tanstack/react-query";
-import {ICharacter} from "../../../entities/Character";
-import {useIndexedDB} from "react-indexed-db-hook";
+import {useLiveQuery} from "dexie-react-hooks";
+import {db} from "../../../entities/Db/model/Db";
 
 export const useCharactersByGroup = (characterGroupId: string) => {
-    const dbCharacterSpace = useIndexedDB("characters")
 
-    const useCharacterList = useQuery<ICharacter[]>({
-        queryKey: ['character', 'byGroup', characterGroupId],
-        queryFn: () => dbCharacterSpace.getAll()
-    })
+    const characterList = useLiveQuery(async () => db.characters
+        .where('groupId')
+        .equals(characterGroupId)
+        .toArray(),
+        [characterGroupId]
+    )
 
     return {
-        useCharacterList
+        characterList
     }
 }

@@ -1,36 +1,20 @@
-import {useIndexedDB} from "react-indexed-db-hook";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {ICharacterDictAttribute} from "../../../entities/Character";
+import {db} from "../../../entities/Db/model/Db";
+import {useLiveQuery} from "dexie-react-hooks";
 
 export const useCharacterAttributeManager = () => {
 
-    const dbCharacterAttributeSpace = useIndexedDB("characterAttributeDict")
-    const queryClient = useQueryClient()
-
-    const useCharacterAttributeDict = useQuery<ICharacterDictAttribute[]>({
-        queryKey: ['characterAttributeDict', 'list'],
-        queryFn: () => dbCharacterAttributeSpace.getAll()
-    })
-
-    const addCharacterAttribute = useMutation({
-        mutationFn: async (characterDictAttribute: ICharacterDictAttribute) => dbCharacterAttributeSpace.add(characterDictAttribute),
-        onSuccess: () =>{
-            queryClient.invalidateQueries({queryKey: ['characterAttributeDict', 'list']})
-        },
-        onError: error => {
-            console.error(error);
-        },
-    });
+    const characterAttributeDict = useLiveQuery(() => db.characterAttributeDict.toArray())
 
     const onSaveNewAttribute = (title: string) => {
         const characterDistAttribute: ICharacterDictAttribute = {
             title
         }
-        addCharacterAttribute.mutate(characterDistAttribute)
+        db.characterAttributeDict.add(characterDistAttribute)
     }
 
     return {
-        useCharacterAttributeDict,
+        characterAttributeDict,
         onSaveNewAttribute
     }
 }

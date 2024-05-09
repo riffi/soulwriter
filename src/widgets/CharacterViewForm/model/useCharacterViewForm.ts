@@ -1,35 +1,18 @@
 import {useIndexedDB} from "react-indexed-db-hook";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {ICharacter, ICharacterDictAttribute, ICharacterDictAttributeWithValue} from "../../../entities/Character";
-import {Dialog} from "antd-mobile";
+import {ICharacter, ICharacterDictAttribute} from "../../../entities/Character";
+import {useLiveQuery} from "dexie-react-hooks";
+import {db} from "../../../entities/Db/model/Db";
 
 export const useCharacterViewForm = (characterId: number) => {
-    const dbCharacterSpace = useIndexedDB("characters")
 
-    const queryClient = useQueryClient()
-
-    const dbCharacterAttributeSpace = useIndexedDB("characterAttributeDict")
-
-    const useCharacterData = useQuery<ICharacter>({
-        queryKey: ['character', characterId],
-        queryFn: () => dbCharacterSpace.getByID(characterId)
-    })
-
-    const useCharacterAttributeDict = useQuery<ICharacterDictAttribute[]>({
-        queryKey: ['characterAttributeDict', 'list'],
-        queryFn: () => dbCharacterAttributeSpace.getAll()
-    })
-
-    const updateCharacter = useMutation({
-        mutationFn: async (characterData: ICharacter) => dbCharacterSpace.update(characterData),
-        onSuccess: () => queryClient.invalidateQueries({queryKey: ['character', characterId]})
-    });
-
+    const characterData = useLiveQuery(() => db.characters.get(characterId))
+    const characterAttributeDict = useLiveQuery(() => db.characterAttributeDict.toArray())
 
     const changeBaseAttributeValue = (attributeName: string, newValue: string, character?: ICharacter) => {
         if (character){
             character[attributeName] = newValue
-            updateCharacter.mutate(character)
+            db.characters.update(characterId, {...character})
         }
     }
 
@@ -44,7 +27,7 @@ export const useCharacterViewForm = (characterId: number) => {
 
             if (dictAttribute){
                 dictAttribute.value = newValue
-                updateCharacter.mutate(character)
+                db.characters.update(characterId, {...character})
             }
 
         }
@@ -55,7 +38,7 @@ export const useCharacterViewForm = (characterId: number) => {
             // Создаем массив атрибутов, если он не определен
             if (!character.dictAttributes) character.dictAttributes = []
             character.dictAttributes = character.dictAttributes.filter((attr) => attr.id != dictAttributeId)
-            updateCharacter.mutate(character)
+            db.characters.update(characterId, {...character})
         }
     }
     const appendDictAttribute = (dictAttribute: ICharacterDictAttribute, character?: ICharacter) => {
@@ -70,12 +53,12 @@ export const useCharacterViewForm = (characterId: number) => {
             title: dictAttribute.title,
             value: ''
         })
-        updateCharacter.mutate(character)
+        db.characters.update(characterId, {...character})
     }
 
     return {
-        useCharacterData,
-        useCharacterAttributeDict,
+        characterData,
+        characterAttributeDict,
         appendDictAttribute,
         changeDictAttributeValue,
         changeBaseAttributeValue,

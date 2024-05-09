@@ -7,14 +7,14 @@ import styled from "./CharacterAttributeManager.module.scss";
 
 export const CharacterAttributeManager = () => {
 
-    const {useCharacterAttributeDict, onSaveNewAttribute} = useCharacterAttributeManager()
+    const {characterAttributeDict, onSaveNewAttribute} = useCharacterAttributeManager()
     const [popupAddAttributeVisible, setPopupAddAttributeVisible] = useState<boolean>(false)
     const [newAttributeTitle, setNewAttributeTitle] = useState<string>("")
 
     return (
         <>
         <CharacterAttributeDictList
-            attributeList={useCharacterAttributeDict?.data}
+            attributeList={characterAttributeDict}
             addButtonEnabled={true}
             addButtonCallback={() => {
                 setPopupAddAttributeVisible(true)

@@ -18,7 +18,7 @@ export interface ICharacterDictAttributeWithValue extends  ICharacterDictAttribu
 }
 
 export interface ICharacterGroup{
-    id: string
+    id?: string
     title: string
 }
 

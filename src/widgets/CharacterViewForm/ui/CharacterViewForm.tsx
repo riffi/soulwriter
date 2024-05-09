@@ -8,8 +8,8 @@ import {CharacterAttributeDictList} from "../../../features/CharacterAttributeDi
 import {InlineEdit} from "../../../shared/ui/InlineEdit";
 import {InlineSelector} from "../../../shared/ui/InlineSelector";
 export const CharacterViewForm = (props: ICharacterViewFormProps) => {
-    const {useCharacterData,
-        useCharacterAttributeDict,
+    const {characterData,
+        characterAttributeDict,
         appendDictAttribute,
         changeBaseAttributeValue,
         changeDictAttributeValue,
@@ -18,9 +18,9 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     const navigate = useNavigate()
     const [popupPropDictVisible, setPopupPropDictVisible] = useState<boolean>(false)
 
-    const notUsedDictAttributesList = useCharacterAttributeDict?.data?.filter(
+    const notUsedDictAttributesList = characterAttributeDict?.filter(
         (dictAttr) => {
-            const existingAttr = useCharacterData?.data?.dictAttributes?.find(
+            const existingAttr = characterData?.dictAttributes?.find(
                 (charAttr) => charAttr.id === dictAttr.id
             )
             return !existingAttr
@@ -41,14 +41,14 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                 </List.Item>
                 <List.Item title={"Имя"} key={"name"}>
                     <InlineEdit
-                        value={useCharacterData?.data?.name}
-                        onChange={(val) => changeBaseAttributeValue("name", val, useCharacterData?.data)}
+                        value={characterData?.name}
+                        onChange={(val) => changeBaseAttributeValue("name", val, characterData)}
                     />
                 </List.Item>
                 <List.Item title={"Краткое описание"} key={"description"}>
                     <InlineEdit
-                        value={useCharacterData?.data?.description}
-                        onChange={(val) => changeBaseAttributeValue("description", val, useCharacterData?.data)}
+                        value={characterData?.description}
+                        onChange={(val) => changeBaseAttributeValue("description", val, characterData)}
                     />
                 </List.Item>
                 <List.Item title={"Пол"} key={"sex"}>
@@ -56,17 +56,17 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                                 {label: 'Мужской', value: 'male'},
                                 {label: 'Женский', value: 'female'}
                         ]}
-                        onChange={(val) => changeBaseAttributeValue("sex", val, useCharacterData?.data)}
-                        selectedItemValue={useCharacterData?.data?.sex}
+                        onChange={(val) => changeBaseAttributeValue("sex", val, characterData)}
+                        selectedItemValue={characterData?.sex}
                     />
                 </List.Item>
 
-                {useCharacterData?.data?.dictAttributes?.map(dictAttribute => (
+                {characterData?.dictAttributes?.map(dictAttribute => (
                     <SwipeAction
                         closeOnAction={true}
                         key={dictAttribute.id}
                         onAction = {action => {
-                            deleteDictAttributeValue(dictAttribute.id, useCharacterData?.data)
+                            deleteDictAttributeValue(dictAttribute.id, characterData)
                         }}
                         rightActions={[
                         {
@@ -78,7 +78,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                         <List.Item title={dictAttribute.title} key={dictAttribute.id}>
                             <InlineEdit
                                 value={dictAttribute.value}
-                                onChange={(val) => changeDictAttributeValue(dictAttribute.id, val, useCharacterData?.data)}
+                                onChange={(val) => changeDictAttributeValue(dictAttribute.id, val, characterData)}
                             />
                         </List.Item>
                     </SwipeAction>
@@ -108,7 +108,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                     attributeList={notUsedDictAttributesList}
                     addButtonEnabled={false}
                     onClickCallback={(dictAttribute) => {
-                        appendDictAttribute(dictAttribute, useCharacterData?.data)
+                        appendDictAttribute(dictAttribute, characterData)
                         setPopupPropDictVisible(false)
                     }}
                 />
