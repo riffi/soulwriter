@@ -4,3 +4,7 @@ export interface ICharacterNewFormValues{
     description: string,
     sex: ('male' | 'female')[]
 }
+
+export interface ICharacterAddFormProps{
+    characterGroupId: string
+}

@@ -1,7 +1,8 @@
-import {ICharacterAttributeDictListProps} from "../model/type.ts";
-import {AutoCenter, Button, List} from "antd-mobile";
-import {AddCircleOutline} from "antd-mobile-icons";
-import React from "react";
+import {ICharacterAttributeDictListProps} from "../model/type"
+import {AutoCenter, Button, List} from "antd-mobile"
+import {AddCircleOutline} from "antd-mobile-icons"
+
+
 
 export const CharacterAttributeDictList = (props: ICharacterAttributeDictListProps) => {
     return (

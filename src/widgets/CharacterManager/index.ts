@@ -1,1 +1,1 @@
-export * from './ui/CharacterManager.tsx'
+export * from "./ui/CharacterManager"
