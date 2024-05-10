@@ -12,15 +12,18 @@ export const InlineEdit = (props: IInlineEditProps) => {
         setMode(ViewMode.READ)
     }
     return (
-        <>
-            {mode === ViewMode.READ && <>
-                {props.value}
+        <div>
+            {mode === ViewMode.READ && <div onDoubleClick={() => {
+                setVal(props.value)
+                setMode(ViewMode.WRITE)
+            }}>
+                {props.prefix} {props.value}
                 <EditFill style={{float: "right"}} onClick={() => {
                     setVal(props.value)
                     setMode(ViewMode.WRITE)
                  }
                 }/>
-                </>
+                </div>
             }
 
             {mode === ViewMode.WRITE &&
@@ -31,9 +34,10 @@ export const InlineEdit = (props: IInlineEditProps) => {
                     onBlur={ handleSave }
                     onKeyUp={(event) => {
                         if (event.key === 'Enter') handleSave()
+                        if (event.key === 'Escape') setMode(ViewMode.READ)
                     }}
                 />
             }
-        </>
+        </div>
     )
 }

@@ -7,7 +7,11 @@ import styled from "./CharacterAttributeManager.module.scss";
 
 export const CharacterAttributeManager = () => {
 
-    const {characterAttributeDict, onSaveNewAttribute} = useCharacterAttributeManager()
+    const {characterAttributeDict,
+        onSaveNewAttribute,
+        onChangeAttribute,
+        onDeleteAttribute
+    } = useCharacterAttributeManager()
     const [popupAddAttributeVisible, setPopupAddAttributeVisible] = useState<boolean>(false)
     const [newAttributeTitle, setNewAttributeTitle] = useState<string>("")
 
@@ -16,6 +20,8 @@ export const CharacterAttributeManager = () => {
         <CharacterAttributeDictList
             attributeList={characterAttributeDict}
             addButtonEnabled={true}
+            onChangeCallback={onChangeAttribute}
+            onDeleteCallBack={onDeleteAttribute}
             addButtonCallback={() => {
                 setPopupAddAttributeVisible(true)
                 setNewAttributeTitle("")
