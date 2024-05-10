@@ -26,7 +26,7 @@ export const CharactersByGroup = (props: ICharactersByGroupProps) => {
                             }
                             description={character.description}
                             clickable
-                            onClick = {() => navigate(`/character/card?id=${props.characterGroupId}`)}
+                            onClick = {() => navigate(`/character/card?id=${character.id}`)}
                         >
 
                             {character.name}

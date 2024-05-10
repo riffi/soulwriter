@@ -6,11 +6,13 @@ import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import {CharacterAttributeDictList} from "../../../features/CharacterAttributeDictList";
 import {InlineEdit} from "../../../shared/ui/InlineEdit";
-import {InlineSelector} from "../../../shared/ui/InlineSelector";
+import {IInlineSelectorItem, InlineSelector} from "../../../shared/ui/InlineSelector";
+import {ICharacterGroup} from "../../../entities/Character";
 export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     const {characterData,
         characterAttributeDict,
         appendDictAttribute,
+        characterGroups,
         changeBaseAttributeValue,
         changeDictAttributeValue,
         deleteDictAttributeValue
@@ -26,6 +28,13 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
             return !existingAttr
         }
     )
+
+    let selectorGroupsItems: IInlineSelectorItem[] = []
+
+    if (characterGroups){
+         selectorGroupsItems = characterGroups?.map((group)=> {return {value: String(group.id), label: group.title}})
+    }
+
 
     return (
         <>
@@ -49,6 +58,12 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                     <InlineEdit
                         value={characterData?.description}
                         onChange={(val) => changeBaseAttributeValue("description", val, characterData)}
+                    />
+                </List.Item>
+                <List.Item title={"Группа"} key={"groupId"}>
+                    <InlineSelector items={selectorGroupsItems}
+                                    onChange={(val) => changeBaseAttributeValue("groupId", String(val), characterData)}
+                                    selectedItemValue={characterData?.groupId}
                     />
                 </List.Item>
                 <List.Item title={"Пол"} key={"sex"}>
@@ -100,6 +115,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
         <Popup
             visible={popupPropDictVisible}
             style={{overflowY: "scroll"}}
+            bodyStyle={{overflow: "auto", maxHeight: "100dvh"}}
             onMaskClick={() => setPopupPropDictVisible(false)}
         >
             <Grid columns={1} gap={1} style={{margin: '10px'}}>

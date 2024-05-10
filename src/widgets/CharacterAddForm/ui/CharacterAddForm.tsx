@@ -1,9 +1,12 @@
-import {Button, Dialog, Form, Input, Selector} from "antd-mobile";
+import {Badge, Button, Dialog, Form, Input, Selector, Space} from "antd-mobile";
 import {useCharacterAddForm} from "../model/useCharacterAddForm.ts";
 import {ICharacterAddFormProps, ICharacterNewFormValues} from "../model/type.ts";
+import React from "react";
+import {CharacterNameGenerator, characterNameGenerator} from "../../../features/CharacterNameGenerator";
 
 export const CharacterAddForm = (props: ICharacterAddFormProps) => {
 
+    const [form] = Form.useForm();
 
     const {getInitialValues, onSubmitNewCharacter} = useCharacterAddForm(props.characterGroupId)
     const onFinish = (values: ICharacterNewFormValues) => {
@@ -14,6 +17,7 @@ export const CharacterAddForm = (props: ICharacterAddFormProps) => {
     <Form
         onFinish={onFinish}
         mode={'card'}
+        form={form}
         initialValues = {getInitialValues()}
         footer={
             <Button block type='submit' color='primary' size='large'>
@@ -29,7 +33,7 @@ export const CharacterAddForm = (props: ICharacterAddFormProps) => {
             rules={[{required: true, message: 'Обязательное поле'}]}>
             <Input placeholder='Имя нового персонажа' />
         </Form.Item>
-
+        <CharacterNameGenerator onSelect={(title) => form.setFieldValue("name", title)}/>
         <Form.Item
             name = {'description'}
             label = {'Краткое описание'}
