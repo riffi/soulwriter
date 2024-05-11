@@ -1,5 +1,6 @@
 import Dexie, { Table } from 'dexie'
 import {ICharacter, ICharacterDictAttribute, ICharacterGroup} from "../../Character";
+import {IWorld} from "../../World";
 
 
 export class DbAdapter extends Dexie {
@@ -7,15 +8,17 @@ export class DbAdapter extends Dexie {
     characters!: Table<ICharacter>
     characterGroups!: Table<ICharacterGroup>
     characterAttributeDict!: Table<ICharacterDictAttribute>
+    worlds!: Table<IWorld>
 
     constructor() {
         const DBDeleteRequest = window.indexedDB.deleteDatabase("writer");
 
         super('soulwriter');
-        this.version(2).stores({
+        this.version(3).stores({
             characters: '++id, groupId, name, description, sex',
             characterGroups: '++id, title',
-            characterAttributeDict: '++id, title'
+            characterAttributeDict: '++id, title',
+            worlds: '++id, title',
         })
         this.characterGroups.count().then((count) => {
             if (count === 0){
@@ -37,6 +40,13 @@ export class DbAdapter extends Dexie {
                 this.characterAttributeDict.add({title: 'Возраст'})
             }
         })
+
+        this.worlds.count().then((count) => {
+            if (count === 0){
+                this.worlds.add({title: 'Наша вселенная', description: 'Наша вселенная'})
+            }
+        })
+
     }
 }
 

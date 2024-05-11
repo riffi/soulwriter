@@ -1,5 +1,5 @@
 import {TabBar} from "antd-mobile";
-import {AppstoreOutline, FileOutline, UserOutline, SetOutline} from "antd-mobile-icons";
+import {AppstoreOutline, FileOutline, UserOutline, SetOutline, GlobalOutline} from "antd-mobile-icons";
 import {useNavigate} from "react-router-dom";
 
 export const Navbar = () => {
@@ -15,6 +15,7 @@ export const Navbar = () => {
                 <TabBar.Item key="general" icon={<AppstoreOutline/>} title={"Основное"}/>
                 <TabBar.Item key="scenes" icon={<FileOutline/>} title={"Сцены"}/>
                 <TabBar.Item key="characters" icon={<UserOutline/>} title={"Персонажи"}/>
+                <TabBar.Item key="worlds" icon={<GlobalOutline/>} title={"Миры"}/>
                 <TabBar.Item key="settings" icon={<SetOutline/>} title={"Настройки"}/>
             </TabBar>
     );
