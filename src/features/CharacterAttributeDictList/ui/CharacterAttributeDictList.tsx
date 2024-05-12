@@ -44,7 +44,8 @@ export const CharacterAttributeDictList = (props: ICharacterAttributeDictListPro
                             prefix={<TeamOutline />}
                             onChange={(val) => props.onChangeCallback?.({
                                 id: characterAttribute.id,
-                                title: val ? val : ''
+                                title: val ? val : '',
+                                bookId: props.book.id
                             })}
                         />
                     </>

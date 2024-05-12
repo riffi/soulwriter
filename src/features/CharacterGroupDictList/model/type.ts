@@ -1,6 +1,8 @@
 import {ICharacterGroup} from "../../../entities/Character";
+import {IBook} from "../../../entities/Book";
 
 export interface ICharacterGroupDictListProps{
+    book: IBook
     groupList?: ICharacterGroup[]
     addButtonEnabled: boolean
     addButtonCallback?: () => void

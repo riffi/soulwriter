@@ -4,11 +4,14 @@ import {useWorldManager} from "../model/useWorldManager.ts";
 import styled from "../../CharacterAttributeManager/ui/CharacterAttributeManager.module.scss";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store.ts";
 
 export const WorldManager = () => {
 
     const navigate = useNavigate();
-    const {worldList, onSaveNewWorld} = useWorldManager()
+    const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
+    const {worldList, onSaveNewWorld} = useWorldManager(currentBook)
     const [popupAddWorldVisible, setPopupAddWorldVisible] = useState<boolean>(false)
     const [newWorldTitle, setNewWorldTitle] = useState<string>("")
 

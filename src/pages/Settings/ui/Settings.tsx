@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-import {TabBar, Tabs} from "antd-mobile";
+import {Tabs} from "antd-mobile";
 import {CharacterAttributeManager} from "../../../widgets/CharacterAttributeManager";
 import {CharacterGroupManager} from "../../../widgets/CharacterGroupManager/ui/CharacterGroupManager.tsx";
 

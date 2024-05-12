@@ -47,7 +47,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     let selectorGroupsItems: IInlineSelectorItem[] = []
 
     if (characterGroups){
-         selectorGroupsItems = characterGroups?.map((group)=> {return {value: String(group.id), label: group.title}})
+         selectorGroupsItems = characterGroups?.map((group)=> {return {value: group.id, label: group.title}})
     }
 
     const onUploadCharacterAvatar = async (file: File): Promise<ImageUploadItem> => {
@@ -76,7 +76,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
         <>
         <Card>
 
-            <div style={{position: "absolute", left: 0, top: 0, width: '97%', backgroundColor:'rgb(145 135 171)', marginTop: "10px", borderRadius: '10px'}}>
+            <div style={{position: "absolute", left: 0, top: 0, width: '97%', backgroundColor:'var(--adm-color-nav)', marginTop: "0px", borderRadius: '10px'}}>
             <Space direction={"horizontal"} style={{margin:'0px'}}>
                 <ImageUploader
                     style={{
@@ -132,7 +132,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                 </List.Item>
                 <List.Item title={"Группа"} key={"groupId"}>
                     <InlineSelector items={selectorGroupsItems}
-                                    onChange={(val) => changeBaseAttributeValue("groupId", String(val), characterData)}
+                                    onChange={(val) => changeBaseAttributeValue("groupId", val, characterData)}
                                     selectedItemValue={characterData?.groupId}
                     />
                 </List.Item>

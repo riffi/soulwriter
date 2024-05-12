@@ -1,19 +1,19 @@
 :root {
-    --adm-color-primary: #264653;
-    --adm-color-success: #2a9d8f;
-    --adm-color-warning: #f4a261;
-    --adm-color-danger: #e76f51;
+    --adm-color-nav: #546c72 !important;
+    --adm-color-primary: #457e94 !important;
+    --adm-color-success: #2a9d8f !important;
+    --adm-color-warning: #f4a261 !important;
+    --adm-color-danger: #e76f51 !important;
+    --adm-color-white: #ffffff !important;
+    --adm-color-text: #333333 !important;
+    --adm-color-text-secondary: #666666 !important;
+    --adm-color-weak: #999999 !important;
+    --adm-color-light: #cccccc !important;
+    --adm-color-border: #eeeeee !important;
+    --adm-color-box: #f5f5f5 !important;
+    --adm-color-background: #ffffff !important;
 
-    --adm-color-white: #ffffff;
-    --adm-color-text: #333333;
-    --adm-color-text-secondary: #666666;
-    --adm-color-weak: #999999;
-    --adm-color-light: #cccccc;
-    --adm-color-border: #eeeeee;
-    --adm-color-box: #f5f5f5;
-    --adm-color-background: #ffffff;
-
-    --adm-font-size-main: var(--adm-font-size-5);
+    --adm-font-size-main: var(--adm-font-size-5) !important;
 
     --adm-font-family: -apple-system, blinkmacsystemfont, 'Helvetica Neue',
     helvetica, segoe ui, arial, roboto, 'PingFang SC', 'miui',

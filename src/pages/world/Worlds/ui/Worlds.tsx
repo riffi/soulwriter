@@ -1,4 +1,4 @@
-import {WorldManager} from "../../../widgets/WorldManager";
+import {WorldManager} from "../../../../widgets/WorldManager";
 
 export const Worlds = () => {
     return (

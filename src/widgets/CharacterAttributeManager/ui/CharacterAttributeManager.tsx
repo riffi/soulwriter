@@ -4,20 +4,30 @@ import {useState} from "react";
 import {CharacterAttributeDictList} from "../../../features/CharacterAttributeDictList";
 
 import styled from "./CharacterAttributeManager.module.scss";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store.ts";
 
 export const CharacterAttributeManager = () => {
+
+    const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
+
+
 
     const {characterAttributeDict,
         onSaveNewAttribute,
         onChangeAttribute,
         onDeleteAttribute
-    } = useCharacterAttributeManager()
+    } = useCharacterAttributeManager(currentBook)
+
     const [popupAddAttributeVisible, setPopupAddAttributeVisible] = useState<boolean>(false)
     const [newAttributeTitle, setNewAttributeTitle] = useState<string>("")
+
+    if (!currentBook) return
 
     return (
         <>
         <CharacterAttributeDictList
+            book = {currentBook}
             attributeList={characterAttributeDict}
             addButtonEnabled={true}
             onChangeCallback={onChangeAttribute}

@@ -1,3 +1,3 @@
 export interface ICharactersByGroupProps{
-    characterGroupId: string
+    characterGroupId: number
 }

@@ -1,24 +1,28 @@
 import {useCharactersManager} from "../model/useCharacterManager.ts";
-import styled from "../../../pages/Characters/ui/Characters.module.scss";
 import {Tabs} from "antd-mobile";
 import {CharactersByGroup} from "../../../features/CharactersByGroup";
 import {ICharacterGroup} from "../../../entities/Character";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store.ts";
 
 export const CharacterManager = () => {
-    const {characterGroupList} = useCharactersManager()
+    const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
+
+    const {characterGroupList} = useCharactersManager(currentBook?.id)
+
 
     if (!characterGroupList) return
 
     return (
         <>
-            <div className={styled.charactersPage}>
+            <div>
                 <Tabs initialPage={0}>
                     {characterGroupList?.map((characterGroup: ICharacterGroup) =>  (
                     <Tabs.Tab
                         key={characterGroup.id}
                         title={characterGroup.title}
                     >
-                        <CharactersByGroup characterGroupId={String(characterGroup.id)}/>
+                        <CharactersByGroup characterGroupId={characterGroup.id}/>
                     </Tabs.Tab>
                 ))}
                 </Tabs>

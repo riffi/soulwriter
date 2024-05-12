@@ -2,13 +2,18 @@ import {ICharacterGroup} from "../../../entities/Character";
 import {db} from "../../../entities/Db/model/Db";
 import {useLiveQuery} from "dexie-react-hooks";
 import {Dialog} from "antd-mobile";
+import {IBook} from "../../../entities/Book";
 
-export const useCharacterGroupManager = () => {
+export const useCharacterGroupManager = (book?: IBook) => {
 
-    const characterGroups = useLiveQuery(() => db.characterGroups.toArray())
+    const characterGroups = useLiveQuery(() => db.characterGroups
+        .where("bookId")
+        .equals(book?.id)
+        .toArray())
 
     const onSaveNewGroup = (title: string) => {
         const characterDistAttribute: ICharacterGroup = {
+            bookId: book?.id,
             title
         }
         db.characterGroups.add(characterDistAttribute)
@@ -21,7 +26,7 @@ export const useCharacterGroupManager = () => {
     const isGroupDeletionAllowed = async (groupId: number): Promise<boolean> => {
          const count = await db.characters
             .where('groupId')
-            .equals(groupId.toString())
+            .equals(groupId)
             .count()
         return count === 0
     };

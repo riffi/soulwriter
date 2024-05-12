@@ -2,13 +2,18 @@ import {ICharacterDictAttribute, ICharacterGroup} from "../../../entities/Charac
 import {db} from "../../../entities/Db/model/Db";
 import {useLiveQuery} from "dexie-react-hooks";
 import {Dialog} from "antd-mobile";
+import {IBook} from "../../../entities/Book";
 
-export const useCharacterAttributeManager = () => {
+export const useCharacterAttributeManager = (book?: IBook) => {
 
-    const characterAttributeDict = useLiveQuery(() => db.characterAttributeDict.toArray())
+    const characterAttributeDict = useLiveQuery(() => db.characterAttributeDict
+        .where("bookId")
+        .equals(book?.id)
+        .toArray())
 
     const onSaveNewAttribute = (title: string) => {
         const characterDistAttribute: ICharacterDictAttribute = {
+            bookId: book?.id,
             title
         }
         db.characterAttributeDict.add(characterDistAttribute)

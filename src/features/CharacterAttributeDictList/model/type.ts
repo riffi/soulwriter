@@ -1,7 +1,9 @@
 import {ICharacterDictAttribute, ICharacterGroup} from "../../../entities/Character";
+import {IBook} from "../../../entities/Book";
 
 export interface ICharacterAttributeDictListProps{
-    attributeList?: ICharacterDictAttribute[],
+    book: IBook
+    attributeList?: ICharacterDictAttribute[]
     addButtonEnabled: boolean,
     addButtonCallback?: () => void
     onClickCallback?: (attribute: ICharacterDictAttribute) => void

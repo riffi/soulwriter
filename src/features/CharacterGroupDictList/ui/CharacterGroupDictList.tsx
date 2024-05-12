@@ -42,7 +42,8 @@ export const CharacterGroupDictList = (props: ICharacterGroupDictListProps) => {
                                     prefix={<TeamOutline />}
                                     onChange={(val) => props.onChangeCallback?.({
                                         id: group.id,
-                                        title: val ? val : ''
+                                        title: val ? val : '',
+                                        bookId: props.book.id
                                     })}
                                 />
                             </>

@@ -1,8 +1,7 @@
-import {Badge, Button, Dialog, Form, Input, Selector, Space} from "antd-mobile";
+import { Button, Form, Input, Selector} from "antd-mobile";
 import {useCharacterAddForm} from "../model/useCharacterAddForm.ts";
 import {ICharacterAddFormProps, ICharacterNewFormValues} from "../model/type.ts";
-import React from "react";
-import {CharacterNameGenerator, characterNameGenerator} from "../../../features/CharacterNameGenerator";
+import {CharacterNameGenerator} from "../../../features/CharacterNameGenerator";
 
 export const CharacterAddForm = (props: ICharacterAddFormProps) => {
 

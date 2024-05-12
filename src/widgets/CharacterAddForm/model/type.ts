@@ -6,5 +6,5 @@ export interface ICharacterNewFormValues{
 }
 
 export interface ICharacterAddFormProps{
-    characterGroupId: string
+    characterGroupId: number
 }
