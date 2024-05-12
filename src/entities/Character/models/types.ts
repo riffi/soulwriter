@@ -5,12 +5,14 @@ export interface ICharacter {
     description: string,
     sex: string,
     dictAttributes: ICharacterDictAttributeWithValue[],
-    groupId: string
+    groupId: number,
+    bookId: number
 }
 
 export interface ICharacterDictAttribute{
-    id?: string,
+    id?: number,
     title: string,
+    bookId: number
 }
 
 export interface ICharacterDictAttributeWithValue extends  ICharacterDictAttribute{
@@ -18,8 +20,9 @@ export interface ICharacterDictAttributeWithValue extends  ICharacterDictAttribu
 }
 
 export interface ICharacterGroup{
-    id?: string
-    title: string
+    id?: number
+    title: string,
+    bookId: number
 }
 
 

@@ -1,7 +1,7 @@
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "../../../entities/Db/model/Db";
 
-export const useCharactersByGroup = (characterGroupId: string) => {
+export const useCharactersByGroup = (characterGroupId: number) => {
 
     const characterList = useLiveQuery(async () => db.characters
         .where('groupId')

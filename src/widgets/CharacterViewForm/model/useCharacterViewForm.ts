@@ -8,6 +8,7 @@ export const useCharacterViewForm = (characterId: number) => {
 
     const characterData = useLiveQuery(() => db.characters.get(characterId))
     const characterAttributeDict = useLiveQuery(() => db.characterAttributeDict.toArray())
+    const characterGroups = useLiveQuery(() => db.characterGroups.toArray())
 
     const changeBaseAttributeValue = (attributeName: string, newValue: string, character?: ICharacter) => {
         if (character){
@@ -58,6 +59,7 @@ export const useCharacterViewForm = (characterId: number) => {
 
     return {
         characterData,
+        characterGroups,
         characterAttributeDict,
         appendDictAttribute,
         changeDictAttributeValue,

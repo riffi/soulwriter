@@ -1,14 +1,30 @@
 .outlet{
   position: fixed;
-  top: 0;
-  height: calc(100dvh - 60px);
+  top: 60px;
+  height: calc(100dvh - 95px);
   width: 99%;
   overflow: auto;
 }
+
+.header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 45px;
+  width: 100%;
+  background-color: var(--adm-color-nav);
+  color: white;
+}
+
 
 .mainMenu{
   position: fixed;
   bottom: 0;
   height: 50px;
   width: 100%;
+}
+
+.bookButton{
+  font-size: 28px;
+  cursor: pointer;
 }
