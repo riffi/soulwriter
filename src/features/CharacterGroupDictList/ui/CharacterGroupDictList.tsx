@@ -5,11 +5,7 @@ import {InlineEdit} from "../../../shared/ui/InlineEdit";
 
 export const CharacterGroupDictList = (props: ICharacterGroupDictListProps) => {
     return (
-        <List header={
-            <>
-                <TeamOutline /> Группы персонажей
-            </>
-        }  mode='card' >
+        <List  style={{"--border-top": "none", "--border-bottom": "none", "--padding-left": "0px", "--font-size": "14px"}}>
             {props.groupList?.map(group =>(
                 <SwipeAction
                     closeOnAction={true}

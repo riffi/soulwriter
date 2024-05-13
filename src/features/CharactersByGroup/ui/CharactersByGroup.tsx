@@ -11,7 +11,7 @@ export const CharactersByGroup = (props: ICharactersByGroupProps) => {
     if (!characterList) return
     return (
         <>
-        <List header='Персонажи'  mode='card' >
+        <List style={{"--border-top": "none", "--border-bottom": "none", "--padding-left": "0px", "--font-size": "14px"}}>
             {characterList?.map(character =>(
                         <List.Item
                             key={character.name}

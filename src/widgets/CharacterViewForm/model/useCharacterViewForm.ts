@@ -4,10 +4,13 @@ import {ICharacter, ICharacterDictAttribute} from "../../../entities/Character";
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "../../../entities/Db/model/Db";
 
-export const useCharacterViewForm = (characterId: number) => {
+export const useCharacterViewForm = (characterId: number, bookId: number) => {
 
     const characterData = useLiveQuery(() => db.characters.get(characterId))
-    const characterAttributeDict = useLiveQuery(() => db.characterAttributeDict.toArray())
+    const characterAttributeDict = useLiveQuery(() => db.characterAttributeDict
+        .where("bookId")
+        .equals(bookId)
+        .toArray(), [characterData])
     const characterGroups = useLiveQuery(() => db.characterGroups.toArray())
 
     const changeBaseAttributeValue = (attributeName: string, newValue: string, character?: ICharacter) => {
@@ -17,7 +20,7 @@ export const useCharacterViewForm = (characterId: number) => {
         }
     }
 
-    const changeDictAttributeValue = (dictAttributeId: string, newValue: string, character?: ICharacter) => {
+    const changeDictAttributeValue = (dictAttributeId: number, newValue: string, character?: ICharacter) => {
         if (character){
             // Создаем массив атрибутов, если он не определен
             if (!character.dictAttributes) character.dictAttributes = []
@@ -34,7 +37,7 @@ export const useCharacterViewForm = (characterId: number) => {
         }
     }
 
-    const deleteDictAttributeValue = (dictAttributeId: string, character?: ICharacter) => {
+    const deleteDictAttributeValue = (dictAttributeId: number, character?: ICharacter) => {
         if (character){
             // Создаем массив атрибутов, если он не определен
             if (!character.dictAttributes) character.dictAttributes = []
@@ -52,7 +55,8 @@ export const useCharacterViewForm = (characterId: number) => {
         character.dictAttributes.push({
             id: dictAttribute.id,
             title: dictAttribute.title,
-            value: ''
+            value: '',
+            bookId: bookId
         })
         db.characters.update(characterId, {...character})
     }

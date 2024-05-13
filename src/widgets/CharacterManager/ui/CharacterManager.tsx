@@ -4,11 +4,11 @@ import {CharactersByGroup} from "../../../features/CharactersByGroup";
 import {ICharacterGroup} from "../../../entities/Character";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
+import {ICharacterManagerProps} from "../model/types.ts";
 
-export const CharacterManager = () => {
-    const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
+export const CharacterManager = (props: ICharacterManagerProps) => {
 
-    const {characterGroupList} = useCharactersManager(currentBook?.id)
+    const {characterGroupList} = useCharactersManager(props.bookId)
 
 
     if (!characterGroupList) return

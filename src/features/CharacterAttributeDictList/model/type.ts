@@ -2,7 +2,7 @@ import {ICharacterDictAttribute, ICharacterGroup} from "../../../entities/Charac
 import {IBook} from "../../../entities/Book";
 
 export interface ICharacterAttributeDictListProps{
-    book: IBook
+    bookId: number,
     attributeList?: ICharacterDictAttribute[]
     addButtonEnabled: boolean,
     addButtonCallback?: () => void

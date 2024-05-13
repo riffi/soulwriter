@@ -27,7 +27,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
         changeBaseAttributeValue,
         changeDictAttributeValue,
         deleteDictAttributeValue
-    } = useCharacterViewForm(props.id)
+    } = useCharacterViewForm(props.id, props.bookId)
     const navigate = useNavigate()
     const [popupPropDictVisible, setPopupPropDictVisible] = useState<boolean>(false)
 
@@ -47,7 +47,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     let selectorGroupsItems: IInlineSelectorItem[] = []
 
     if (characterGroups){
-         selectorGroupsItems = characterGroups?.map((group)=> {return {value: group.id, label: group.title}})
+         selectorGroupsItems = characterGroups?.map((group)=> {return {value: String(group.id), label: group.title}})
     }
 
     const onUploadCharacterAvatar = async (file: File): Promise<ImageUploadItem> => {
@@ -74,10 +74,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
 
     return (
         <>
-        <Card>
-
-            <div style={{position: "absolute", left: 0, top: 0, width: '97%', backgroundColor:'var(--adm-color-nav)', marginTop: "0px", borderRadius: '10px'}}>
-            <Space direction={"horizontal"} style={{margin:'0px'}}>
+            <Space>
                 <ImageUploader
                     style={{
                         "--cell-size": '150px',
@@ -91,33 +88,16 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                     upload={onUploadCharacterAvatar}
                     onDelete={onDeleteAvatar}
                 />
-
-                <List mode={"card"} style={{margin: "10px"}} >
-                    <List.Item description={"Имя"} key={"name"}>
-                        <InlineEdit
-                            value={characterData?.name}
-                            onChange={(val) => changeBaseAttributeValue("name", val, characterData)}
-                        />
+                <List style={{margin: "0px", "--font-size": "12px", "--header-font-size": "10px", "--border-top": "none", "--border-bottom": "none"}}>
+                    <List.Item title={"Имя"} key={"name"}>
+                        {characterData?.name}
                     </List.Item>
-                    <List.Item description={"Краткое описание"} key={"description"}>
-                        <InlineEdit
-                            value={characterData?.description}
-                            onChange={(val) => changeBaseAttributeValue("description", val, characterData)}
-                        />
+                    <List.Item title={"Краткое описание"} key={"description"}>
+                        {characterData?.description}
                     </List.Item>
                 </List>
-                <SafeArea position={"top"}/>
             </Space>
-            </div>
-            <List style={{marginTop: '170px'}}>
-                <List.Item title={"Назад"}
-                           arrow={false}
-                           prefix={<LeftOutline />}
-                           clickable={true}
-                           onClick={() => navigate("/characters")}
-                           key={"back"}
-                >
-                </List.Item>
+            <List style={{"--font-size": "14px"}}>
                 <List.Item title={"Имя"} key={"name"}>
                     <InlineEdit
                         value={characterData?.name}
@@ -181,11 +161,12 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                 )
                 }
             </List>
-        </Card>
         <Popup
             visible={popupPropDictVisible}
             style={{overflowY: "scroll"}}
-            bodyStyle={{overflow: "auto", maxHeight: "100dvh"}}
+            showCloseButton={true}
+            onClose={() => setPopupPropDictVisible(false)}
+            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
             onMaskClick={() => setPopupPropDictVisible(false)}
         >
             <Grid columns={1} gap={1} style={{margin: '10px'}}>
@@ -197,7 +178,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                         appendDictAttribute(dictAttribute, characterData)
                         setPopupPropDictVisible(false)
                     }}
-                />
+                 bookId={props.bookId}/>
             </Grid>
         </Popup>
         </>
