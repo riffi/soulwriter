@@ -28,7 +28,7 @@ export const Layout = () => {
     )
 
     return (
-        <>
+        <div className={styled.container}>
             <div className={styled.header}>
                 <NavBar
                     onBack={() => navigate(-1)}
@@ -50,6 +50,6 @@ export const Layout = () => {
             <div className={styled.mainMenu}>
                 <MainMenu route = { route }/>
             </div>
-        </>
+        </div>
     )
 }

@@ -1,28 +1,46 @@
+.container{
+  background-color: #383838;
+  width: 100dvw;
+  height: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
 .outlet{
+  background-color: white;
   position: fixed;
   top: 45px;
   padding-top: 10px;
   height: calc(100dvh - 95px);
   width: 99%;
   overflow: auto;
+  max-width: 1000px;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
 
 .header{
   position: fixed;
   top: 0;
-  left: 0;
   height: 45px;
   width: 100%;
   background-color: var(--adm-color-nav);
   color: white;
+  max-width: 1000px;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
 
 
 .mainMenu{
   position: fixed;
   bottom: 0;
-  height: 50px;
+  height: 48px;
   width: 100%;
+  max-width: 1000px;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
 
 .bookButton{
