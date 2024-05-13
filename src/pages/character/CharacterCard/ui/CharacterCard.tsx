@@ -3,7 +3,6 @@ import {CharacterViewForm} from "../../../../widgets/CharacterViewForm/ui/Charac
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store.ts";
 import {NeedSelectBook} from "../../../../features/NeedSelectBook";
-import React from "react";
 
 export const CharacterCard = () => {
     const [searchParams] = useSearchParams();

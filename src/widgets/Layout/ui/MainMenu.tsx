@@ -13,7 +13,6 @@ export const MainMenu = (props: IMainMenuProps) => {
 
     return (
             <TabBar onChange={navigateTo}  activeKey={props?.route?.route} style={{backgroundColor: 'white'}}>
-                <TabBar.Item key="/general" icon={<AppstoreOutline/>} title={"Основное"}/>
                 <TabBar.Item key="/scenes" icon={<FileOutline/>} title={"Сцены"}/>
                 <TabBar.Item key="/characters" icon={<UserOutline/>} title={"Персонажи"}/>
                 <TabBar.Item key="/worlds" icon={<GlobalOutline/>} title={"Миры"}/>

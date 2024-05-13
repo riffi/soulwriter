@@ -4,7 +4,7 @@ import {CharacterGroupManager} from "../../../widgets/CharacterGroupManager/ui/C
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
 import {NeedSelectBook} from "../../../features/NeedSelectBook";
-import React from "react";
+import {GeneralSettings} from "../../../features/GeneralSettings/ui/GeneralSettings.tsx";
 
 export const Settings = () => {
     const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
@@ -13,18 +13,25 @@ export const Settings = () => {
 
     return (
         <>
-            <Tabs tabIndex={0}>
+            <Tabs tabIndex={0}  style={{"--title-font-size": "14px"}}>
                 <Tabs.Tab
                     key={"characterAttributeDict"}
-                    title={"Атрибуты"}
+                    title={"Атрибуты персонажей"}
                 >
                     <CharacterAttributeManager/>
                 </Tabs.Tab>
                 <Tabs.Tab
                     tabIndex={1}
                     key={"characterGroupDict"}
-                    title={"Группы"}>
-                    <CharacterGroupManager/>
+                    title={"Группы персонажей"}>
+                    <CharacterGroupManager bookId={currentBook.id}/>
+                </Tabs.Tab>
+
+                <Tabs.Tab
+                    tabIndex={1}
+                    key={"generalSettings"}
+                    title={"Основное"}>
+                    <GeneralSettings/>
                 </Tabs.Tab>
             </Tabs>
         </>

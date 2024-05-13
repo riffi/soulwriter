@@ -1,14 +1,12 @@
-import {importDB, exportDB, importInto, peakImportFile} from "dexie-export-import";
-import {Button, Space} from "antd-mobile";
-import {db, DbAdapter} from "../../../entities/Db/model/Db.ts";
 import React, {useRef} from "react";
+import {exportDB} from "dexie-export-import";
+import {db, DbAdapter} from "../../../entities/Db/model/Db.ts";
 import Dexie from "dexie";
-import {useNavigate} from "react-router-dom";
+import {Button, Space} from "antd-mobile";
 
-export const General = () => {
+export const GeneralSettings = () => {
 
     const fileRef = useRef<HTMLInputElement>()
-    const navigate = useNavigate()
 
     const exportBase = async () => {
         //

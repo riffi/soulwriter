@@ -1,6 +1,5 @@
-import {AutoCenter, Button, Space} from "antd-mobile";
+import {AutoCenter, Button} from "antd-mobile";
 import {ContentOutline} from "antd-mobile-icons";
-import React from "react";
 import {useNavigate} from "react-router-dom";
 
 export const NeedSelectBook = () => {

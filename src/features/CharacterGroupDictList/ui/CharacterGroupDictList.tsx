@@ -39,7 +39,7 @@ export const CharacterGroupDictList = (props: ICharacterGroupDictListProps) => {
                                     onChange={(val) => props.onChangeCallback?.({
                                         id: group.id,
                                         title: val ? val : '',
-                                        bookId: props.book.id
+                                        bookId: props.bookId
                                     })}
                                 />
                             </>
