@@ -1,4 +1,4 @@
-import {Button, Divider, Grid, Input, Popup} from "antd-mobile";
+import {Button, Grid, Input, Popup} from "antd-mobile";
 import {useCharacterAttributeManager} from "../model/useCharacterAttributeManager.ts";
 import {useState} from "react";
 import {CharacterAttributeDictList} from "../../../features/CharacterAttributeDictList";
@@ -22,12 +22,12 @@ export const CharacterAttributeManager = () => {
     const [popupAddAttributeVisible, setPopupAddAttributeVisible] = useState<boolean>(false)
     const [newAttributeTitle, setNewAttributeTitle] = useState<string>("")
 
-    if (!currentBook) return
+    if (!currentBook || !currentBook.id) return
 
     return (
         <>
         <CharacterAttributeDictList
-            book = {currentBook}
+            bookId={currentBook.id}
             attributeList={characterAttributeDict}
             addButtonEnabled={true}
             onChangeCallback={onChangeAttribute}

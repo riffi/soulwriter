@@ -1,3 +1,4 @@
 export interface ICharacterViewFormProps{
-    id?: number
+    id: number,
+    bookId: number
 }

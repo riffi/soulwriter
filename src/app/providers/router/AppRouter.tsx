@@ -1,7 +1,6 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Layout} from "../../../widgets/Layout";
 import {Characters} from "../../../pages/character/Characters";
-import {General} from "../../../pages/General";
 import {Scenes} from "../../../pages/Scenes";
 import {CharacterNew} from "../../../pages/character/CharacterNew";
 import {CharacterCard} from "../../../pages/character/CharacterCard";
@@ -15,9 +14,8 @@ export const AppRouter = () => {
         <BrowserRouter>
             <Routes>
                 <Route path={"/"} element = {<Layout />}>
-                    <Route index element = {<Navigate to={"/general"} />} />
+                    <Route index element = {<Navigate to={"/characters"} />} />
                     <Route key={"/characters"} path={"/characters"} element={<Characters/>} />
-                    <Route key={"/general"} path={"/general"} element={<General/>} />
                     <Route key={"/scenes"} path={"/scenes"} element={<Scenes/>} />
                     <Route key={"/worlds"} path={"/worlds"} element={<Worlds/>} />
                     <Route key={"/settings"} path={"/settings"} element={<Settings/>} />

@@ -7,16 +7,12 @@ import {InlineEdit} from "../../../shared/ui/InlineEdit";
 
 export const CharacterAttributeDictList = (props: ICharacterAttributeDictListProps) => {
     return (
-    <List header={
-        <>
-            <UserContactOutline/> Атрибуты персонажей
-        </>
-    }  mode='card' >
+    <List style={{"--border-top": "none", "--border-bottom": "none", "--padding-left": "0px", "--font-size": "14px"}}>
         {props.attributeList?.map(characterAttribute =>(
             <SwipeAction
                 closeOnAction={true}
                 key={characterAttribute.id}
-                onAction = {action => {
+                onAction = {() => {
                     props.onDeleteCallBack?.(characterAttribute.id)
                 }}
                 rightActions={[
@@ -45,7 +41,7 @@ export const CharacterAttributeDictList = (props: ICharacterAttributeDictListPro
                             onChange={(val) => props.onChangeCallback?.({
                                 id: characterAttribute.id,
                                 title: val ? val : '',
-                                bookId: props.book.id
+                                bookId: props.bookId
                             })}
                         />
                     </>

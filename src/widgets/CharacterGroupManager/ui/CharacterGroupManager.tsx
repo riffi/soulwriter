@@ -4,8 +4,9 @@ import {useCharacterGroupManager} from "../model/useCharacterGroupManager.ts";
 import {CharacterGroupDictList} from "../../../features/CharacterGroupDictList";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
+import {ICharacterGroupManagerProps} from "../model/types.ts";
 
-export const CharacterGroupManager = () => {
+export const CharacterGroupManager = (props: ICharacterGroupManagerProps) => {
 
     const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
 
@@ -19,7 +20,7 @@ export const CharacterGroupManager = () => {
     return (
         <>
             <CharacterGroupDictList
-                book={currentBook}
+                bookId={props.bookId}
                 groupList={characterGroups}
                 addButtonEnabled={true}
                 onChangeCallback={onChangeGroup}
