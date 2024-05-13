@@ -112,8 +112,8 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                 </List.Item>
                 <List.Item title={"Группа"} key={"groupId"}>
                     <InlineSelector items={selectorGroupsItems}
-                                    onChange={(val) => changeBaseAttributeValue("groupId", val, characterData)}
-                                    selectedItemValue={characterData?.groupId}
+                                    onChange={(val) => changeBaseAttributeValue("groupId", Number(val), characterData)}
+                                    selectedItemValue={String(characterData?.groupId)}
                     />
                 </List.Item>
                 <List.Item title={"Пол"} key={"sex"}>

@@ -11,7 +11,10 @@ export const useCharacterViewForm = (characterId: number, bookId: number) => {
         .where("bookId")
         .equals(bookId)
         .toArray(), [characterData])
-    const characterGroups = useLiveQuery(() => db.characterGroups.toArray())
+    const characterGroups = useLiveQuery(() => db.characterGroups
+        .where("bookId")
+        .equals(bookId)
+        .toArray())
 
     const changeBaseAttributeValue = (attributeName: string, newValue: string, character?: ICharacter) => {
         if (character){
