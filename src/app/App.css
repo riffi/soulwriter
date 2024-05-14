@@ -18,3 +18,8 @@
     helvetica, segoe ui, arial, roboto, 'PingFang SC', 'miui',
     'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
 }
+
+input::-webkit-input-placeholder{
+    text-indent: 30%;
+    font-size: 16px;
+}

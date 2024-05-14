@@ -2,6 +2,7 @@ import Dexie, {Table, Version} from 'dexie'
 import {ICharacter, ICharacterDictAttribute, ICharacterGroup} from "../../Character";
 import {IWorld} from "../../World";
 import {IBook} from "../../Book";
+import {IScene} from "../../Scene";
 
 
 export class DbAdapter extends Dexie {
@@ -11,6 +12,7 @@ export class DbAdapter extends Dexie {
     characterAttributeDict!: Table<ICharacterDictAttribute>
     worlds!: Table<IWorld>
     books!: Table<IBook>
+    scenes!: Table<IScene>
 
     static currentDbSchema: { [tableName: string]: string | null } =  {
         characters: '++id, groupId, name, description, sex, bookId',
@@ -18,13 +20,12 @@ export class DbAdapter extends Dexie {
         characterAttributeDict: '++id, title, bookId',
         worlds: '++id, title, bookId',
         books: '++id, title, description, author',
+        scenes: '++id, title, bookId, sortOrderId'
     }
 
-    static currentVersion = 5
+    static currentVersion = 6
 
     constructor() {
-        const DBDeleteRequest = window.indexedDB.deleteDatabase("writer");
-
         super('soulwriter');
         this.version(DbAdapter.currentVersion).stores(DbAdapter.currentDbSchema)
 

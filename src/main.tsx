@@ -1,7 +1,9 @@
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {App} from './app'
 import { registerSW } from 'virtual:pwa-register';
+
 
 // add this to prompt for a refresh
 const updateSW = registerSW({
