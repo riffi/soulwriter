@@ -61,7 +61,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                     }}
                     maxCount={1}
                     camera={true}
-                    value={characterData?.avatar != '' ? [{url: characterData?.avatar, thumbnailUrl: characterData?.avatar}]: avatarList}
+                    value={(characterData?.avatar !== undefined && characterData?.avatar != '') ? [{url: characterData?.avatar, thumbnailUrl: characterData?.avatar}]: avatarList}
                     onChange={setAvatarList}
                     upload={onUploadCharacterAvatar}
                     onDelete={onDeleteAvatar}
