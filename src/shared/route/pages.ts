@@ -7,6 +7,7 @@ export const pagesRoutes: PageRoute[] = [
     {route: '/characters', title: 'Персонажи'},
     {route: '/general', title: 'Персонажи'},
     {route: '/scenes', title: 'Сцены'},
+    {route: '/scene/card', title: 'Карточка сцены'},
     {route: '/worlds', title: 'Миры'},
     {route: '/settings', title: 'Настройки'},
     {route: '/character/new', title: 'Новый персонаж'},
