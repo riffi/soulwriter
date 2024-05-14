@@ -31,6 +31,8 @@ export const useCharacterAddForm = (characterGroupId: number) => {
         db.characters.add(characterData).then(() => navigate("/characters"))
     }
 
+
+
     return {
         getInitialValues,
         onSubmitNewCharacter

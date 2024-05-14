@@ -1,8 +1,8 @@
-import {useIndexedDB} from "react-indexed-db-hook";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {ICharacter, ICharacterDictAttribute} from "../../../entities/Character";
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "../../../entities/Db/model/Db";
+import {ImageUploadItem} from "antd-mobile";
+import {toBase64} from "../lib/imageUtils.ts";
 
 export const useCharacterViewForm = (characterId: number, bookId: number) => {
 
@@ -64,6 +64,20 @@ export const useCharacterViewForm = (characterId: number, bookId: number) => {
         db.characters.update(characterId, {...character})
     }
 
+    const onUploadCharacterAvatar = async (file: File): Promise<ImageUploadItem> => {
+        toBase64(file, 512, 512).then((base64: string) => {
+            changeBaseAttributeValue("avatar", base64, characterData)
+        })
+        return {
+            url: URL.createObjectURL(file),
+        }
+    }
+
+    const onDeleteAvatar =  (item: ImageUploadItem):  boolean | void | Promise<boolean> => {
+        changeBaseAttributeValue("avatar", '', characterData)
+        return true
+    }
+
     return {
         characterData,
         characterGroups,
@@ -71,6 +85,8 @@ export const useCharacterViewForm = (characterId: number, bookId: number) => {
         appendDictAttribute,
         changeDictAttributeValue,
         changeBaseAttributeValue,
-        deleteDictAttributeValue
+        deleteDictAttributeValue,
+        onUploadCharacterAvatar,
+        onDeleteAvatar
     }
 }

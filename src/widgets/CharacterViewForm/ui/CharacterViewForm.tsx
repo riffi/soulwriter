@@ -2,23 +2,20 @@ import {ICharacterViewFormProps} from "../model/type.ts";
 import {
     AutoCenter,
     Button,
-    Card,
     Grid,
     ImageUploader,
     ImageUploadItem,
     List,
-    Popup, SafeArea,
+    Popup,
     Space,
     SwipeAction
 } from "antd-mobile";
 import {useCharacterViewForm} from "../model/useCharacterViewForm.ts";
-import { LeftOutline, AddCircleOutline, EditFill } from 'antd-mobile-icons'
-import {useNavigate} from "react-router-dom";
-import React, {useState} from "react";
+import { AddCircleOutline} from 'antd-mobile-icons'
+import {useState} from "react";
 import {CharacterAttributeDictList} from "../../../features/CharacterAttributeDictList";
 import {InlineEdit} from "../../../shared/ui/InlineEdit";
 import {IInlineSelectorItem, InlineSelector} from "../../../shared/ui/InlineSelector";
-import {ICharacterGroup} from "../../../entities/Character";
 export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     const {characterData,
         characterAttributeDict,
@@ -26,9 +23,11 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
         characterGroups,
         changeBaseAttributeValue,
         changeDictAttributeValue,
-        deleteDictAttributeValue
+        deleteDictAttributeValue,
+        onUploadCharacterAvatar,
+        onDeleteAvatar
     } = useCharacterViewForm(props.id, props.bookId)
-    const navigate = useNavigate()
+
     const [popupPropDictVisible, setPopupPropDictVisible] = useState<boolean>(false)
 
     const [avatarList, setAvatarList] = useState<ImageUploadItem[]>([])
@@ -49,27 +48,6 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     if (characterGroups){
          selectorGroupsItems = characterGroups?.map((group)=> {return {value: String(group.id), label: group.title}})
     }
-
-    const onUploadCharacterAvatar = async (file: File): Promise<ImageUploadItem> => {
-        toBase64(file).then((base64: string) => {
-            changeBaseAttributeValue("avatar", base64, characterData)
-        })
-        return {
-            url: URL.createObjectURL(file),
-        }
-    }
-
-    const onDeleteAvatar =  (item: ImageUploadItem):  boolean | void | Promise<boolean> => {
-        changeBaseAttributeValue("avatar", '', characterData)
-        return true
-    }
-
-    const toBase64 = (file: File) => new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(String(reader.result));
-        reader.onerror = reject;
-    });
 
 
     return (
