@@ -1,5 +1,5 @@
 import {TabBar} from "antd-mobile";
-import {AppstoreOutline, FileOutline, UserOutline, SetOutline, GlobalOutline} from "antd-mobile-icons";
+import {UnorderedListOutline, FileOutline, UserOutline, SetOutline, GlobalOutline} from "antd-mobile-icons";
 import {useNavigate} from "react-router-dom";
 import {IMainMenuProps} from "../model/types.ts";
 
@@ -16,6 +16,7 @@ export const MainMenu = (props: IMainMenuProps) => {
                 <TabBar.Item key="/scenes" icon={<FileOutline/>} title={"Сцены"}/>
                 <TabBar.Item key="/characters" icon={<UserOutline/>} title={"Персонажи"}/>
                 <TabBar.Item key="/worlds" icon={<GlobalOutline/>} title={"Миры"}/>
+                <TabBar.Item key="/dictionaries" icon={<UnorderedListOutline/>} title={"Справочники"}/>
                 <TabBar.Item key="/settings" icon={<SetOutline/>} title={"Настройки"}/>
             </TabBar>
     );

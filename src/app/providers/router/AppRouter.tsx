@@ -9,6 +9,7 @@ import {WorldCard} from "../../../pages/world/WorldCard";
 import {Books} from "../../../pages/book/Books/ui/Books.tsx";
 import {Scenes} from "../../../pages/scene/Scenes/ui/Scenes.tsx";
 import {SceneCard} from "../../../pages/scene/SceneCard";
+import {Dictionaries} from "../../../pages/Dictionaries/ui/Dictionaries.tsx";
 
 export const AppRouter = () => {
     return (
@@ -21,6 +22,7 @@ export const AppRouter = () => {
                     <Route key={"/scene/card"} path={"/scene/card"} element={<SceneCard/>} />
                     <Route key={"/worlds"} path={"/worlds"} element={<Worlds/>} />
                     <Route key={"/settings"} path={"/settings"} element={<Settings/>} />
+                    <Route key={"/dictionaries"} path={"/dictionaries"} element={<Dictionaries/>} />
                     <Route key={"/character/new"} path={"/character/new"} element={<CharacterNew/>} />
                     <Route key={"/character/card"} path={"/character/card"} element={<CharacterCard/>} />
                     <Route key={"/world/card"} path={"/world/card"} element={<WorldCard/>} />
