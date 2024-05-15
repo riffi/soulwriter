@@ -1,6 +1,5 @@
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "../../../entities/Db/model/Db";
-import {ICharacterManagerProps} from "./types.ts";
 
 export const useCharactersManager= (bookId: number) => {
 

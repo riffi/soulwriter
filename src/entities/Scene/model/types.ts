@@ -6,3 +6,10 @@ export interface IScene{
     bookId: number
     sortOrderId: number
 }
+
+
+export interface ISceneCharacters{
+    sceneId: number
+    characterId: number
+    description: string
+}

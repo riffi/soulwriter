@@ -1,18 +1,23 @@
 import {AutoCenter, Button, Image, List} from "antd-mobile";
 import {AddCircleOutline} from "antd-mobile-icons";
 import { useCharactersByGroup} from '../model/useCharactersByGroup.ts'
-import {NavLink, useNavigate} from "react-router-dom";
-import {ICharactersByGroupProps} from "../type/type.ts";
+import {NavLink} from "react-router-dom";
+import {ICharactersByGroupProps} from "../model/types.ts";
 
 
 export const CharactersByGroup = (props: ICharactersByGroupProps) => {
-    const navigate = useNavigate()
     const {characterList} = useCharactersByGroup(props.characterGroupId)
     if (!characterList) return
+
+    let filteredCharacterList = [...characterList]
+    if (props.excludeCharacterIds){
+        filteredCharacterList = characterList.filter((char) => props.excludeCharacterIds?.indexOf(char.id) === -1)
+    }
+
     return (
         <>
         <List style={{"--border-top": "none", "--border-bottom": "none", "--padding-left": "0px", "--font-size": "14px"}}>
-            {characterList?.map(character =>(
+            {filteredCharacterList?.map(character =>(
                         <List.Item
                             key={character.name}
                             prefix={
@@ -26,7 +31,7 @@ export const CharactersByGroup = (props: ICharactersByGroupProps) => {
                             }
                             description={character.description}
                             clickable
-                            onClick = {() => navigate(`/character/card?id=${character.id}`)}
+                            onClick = {() => props.onClick(character)}
                         >
 
                             {character.name}

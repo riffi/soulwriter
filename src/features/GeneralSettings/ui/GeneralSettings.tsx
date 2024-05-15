@@ -3,6 +3,7 @@ import {exportDB} from "dexie-export-import";
 import {db, DbAdapter} from "../../../entities/Db/model/Db.ts";
 import Dexie from "dexie";
 import {Button, Space} from "antd-mobile";
+import moment from "moment";
 
 export const GeneralSettings = () => {
 
@@ -17,7 +18,10 @@ export const GeneralSettings = () => {
         const url = window.URL.createObjectURL(blob);
         const tempLink = document.createElement('a');
         tempLink.href = url;
-        tempLink.setAttribute('download', 'exported.json');
+
+        const date = moment();
+        const dateStr = date.format("YYYY-MM-DD_hh-mm-ss")
+        tempLink.setAttribute('download', `soulwriter-${dateStr}.json`);
         tempLink.click();
     }
 
