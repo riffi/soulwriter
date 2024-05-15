@@ -1,6 +1,6 @@
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {MainMenu} from "./MainMenu.tsx";
-import styled from './Layout.module.scss'
+import styled from './LayoutBase.module.scss'
 import {useEffect, useState} from "react";
 import {NavBar, Tag} from "antd-mobile";
 import {PageRoute, pagesRoutes} from "../../../shared/route/pages.ts";
@@ -8,7 +8,7 @@ import { ContentOutline } from 'antd-mobile-icons'
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
 
-export const Layout = () => {
+export const LayoutBase = () => {
     const navigate = useNavigate();
     const [navbarTitle, setNavbarTitle] = useState<string>('')
     const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)

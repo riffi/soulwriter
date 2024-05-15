@@ -6,9 +6,4 @@ export interface IInlineEditProps{
     prefix?: ReactNode
 }
 
-export enum ViewMode{
-    READ = 'READ',
-    WRITE = 'WRITE'
-}
-
 

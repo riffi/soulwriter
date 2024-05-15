@@ -1,7 +1,8 @@
-import {IInlineEditProps, ViewMode} from "../model/type.ts";
+import {IInlineEditProps} from "../model/type.ts";
 import {EditFill} from "antd-mobile-icons";
-import React, {useRef, useState} from "react";
+import {useState} from "react";
 import {Input} from "antd-mobile";
+import {ViewMode} from "../../../model/types.ts";
 
 export const InlineEdit = (props: IInlineEditProps) => {
     const [mode, setMode] = useState<ViewMode>(ViewMode.READ)

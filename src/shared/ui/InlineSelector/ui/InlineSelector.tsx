@@ -1,7 +1,8 @@
-import {IInlineSelectorProps, ViewMode} from "../model/type.ts";
+import {IInlineSelectorProps} from "../model/type.ts";
 import React, {useState} from "react";
 import {EditFill} from "antd-mobile-icons";
 import {Input, Selector} from "antd-mobile";
+import {ViewMode} from "../../../model/types.ts";
 
 export const InlineSelector = (props: IInlineSelectorProps) => {
     const [mode, setMode] = useState<ViewMode>(ViewMode.READ)
