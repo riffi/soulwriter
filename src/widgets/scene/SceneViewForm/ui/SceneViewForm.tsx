@@ -120,7 +120,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                 >
                     <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>
                         <TeamFill
-                            style={{fontSize: "20px"}}
+                            style={{fontSize: "20px", color: '#546c72'}}
                         />
                         <div>
                             {`Персонажи (${characterCount})`}
@@ -138,7 +138,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                 >
                     <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>
                         <CollectMoneyOutline
-                            style={{fontSize: "20px"}}
+                            style={{fontSize: "20px", color: '#546c72'}}
                         />
                         <div>
                             {`Синонимы`}
