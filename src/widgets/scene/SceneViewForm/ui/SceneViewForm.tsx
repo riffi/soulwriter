@@ -2,15 +2,22 @@ import {ISceneViewFormProps} from "../model/types.ts";
 import {useSceneViewForm} from "../model/useSceneViewForm.ts";
 import {Button, Card, List, NavBar, Popup, Space, TabBar} from "antd-mobile";
 import {InlineEdit} from "../../../../shared/ui/InlineEdit";
-import React, {useMemo, useRef, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 import JoditEditor from 'jodit-react';
-import {FillinOutline, FileOutline, RightOutline, UnorderedListOutline, TeamFill} from "antd-mobile-icons";
+import {FillinOutline,
+    FileOutline,
+    RightOutline,
+    UnorderedListOutline,
+    TeamFill,
+    CollectMoneyOutline
+} from "antd-mobile-icons";
 import {useDebouncedCallback} from "use-debounce";
 import {useNavigate} from "react-router-dom";
 import styled from './SceneViewForm.module.scss'
 import {ViewMode} from "../../../../shared/model/types.ts";
 import {SceneCharacters} from "../../../../features/SceneCharacters";
-import {ArrowLeft} from "antd-mobile/es/components/calendar/arrow-left";
+import {getWindowSelectionText} from "../lib/selectionUtils.ts";
+import {SynonymSearch} from "../../../../features/SynonymSearch";
 
 
 export const SceneViewForm = (props: ISceneViewFormProps) => {
@@ -24,6 +31,8 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
     const navigate = useNavigate()
 
     const [sceneUsersPopupVisible, setSceneUsersPopupVisible] = useState<boolean>(false)
+    const [synonymSearchPopupVisible, setSynonymSearchPopupVisible] = useState<boolean>(false)
+    const [selectedText, setSelectedText] = useState<string>("")
 
     const [mode, setMode] = useState<ViewMode>(ViewMode.READ)
 
@@ -118,6 +127,24 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                         </div>
                     </Space>
                 </Button>
+                <Button
+                    onClick={() => {
+                        const selectedText = getWindowSelectionText()
+                        const cleanSelectedText = selectedText.toLowerCase().trim()
+                        setSelectedText(cleanSelectedText)
+                        setSynonymSearchPopupVisible(true)
+                    }}
+                    fill={"none"}
+                >
+                    <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>
+                        <CollectMoneyOutline
+                            style={{fontSize: "20px"}}
+                        />
+                        <div>
+                            {`Синонимы`}
+                        </div>
+                    </Space>
+                </Button>
             </NavBar>
 
         </div>
@@ -142,6 +169,16 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
             tabIndex={1}
         >
             <SceneCharacters bookId={props.bookId} sceneId={props.sceneId}/>
+        </Popup>
+        <Popup
+            visible={synonymSearchPopupVisible}
+            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+            showCloseButton={true}
+            onClose={() => setSynonymSearchPopupVisible(false)}
+            onMaskClick={() => setSynonymSearchPopupVisible(false)}
+            tabIndex={2}
+        >
+            <SynonymSearch text={selectedText}/>
         </Popup>
     </>
     )
