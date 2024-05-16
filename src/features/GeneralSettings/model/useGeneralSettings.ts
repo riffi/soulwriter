@@ -2,7 +2,6 @@ import {exportDB} from "dexie-export-import";
 import {db, DbAdapter} from "../../../entities/Db/model/Db.ts";
 import moment from "moment/moment";
 import Dexie from "dexie";
-import * as fs from "fs";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
