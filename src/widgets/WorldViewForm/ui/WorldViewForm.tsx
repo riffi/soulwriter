@@ -3,6 +3,8 @@ import {useWorldViewForm} from "../model/useWorldViewForm.ts";
 import {List} from "antd-mobile";
 import {InlineEdit} from "../../../shared/ui/InlineEdit";
 import {InlineTextArea} from "../../../shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
+import {BookItemList} from "../../../features/BookItemList";
+import {BookItemGroupList} from "../../../features/BookItemList/ui/BookItemGroupList.tsx";
 
 export const WorldViewForm = (props: IWorldViewFormProps) => {
     const {
@@ -11,6 +13,7 @@ export const WorldViewForm = (props: IWorldViewFormProps) => {
     } = useWorldViewForm(props.worldId, props.bookId)
 
     return (
+        <>
         <List style={{"--border-top": "none", "--border-bottom": "none", "--font-size": "14px"}}>
             <List.Item title={"Название"} key={"name"}>
                 <InlineEdit
@@ -25,5 +28,14 @@ export const WorldViewForm = (props: IWorldViewFormProps) => {
                 />
             </List.Item>
         </List>
+
+        <BookItemGroupList
+            parentId={-1}
+            worldId={props.worldId}
+            bookId={props.bookId}
+            header={"Описание мира"}
+        />
+
+        </>
     )
 }

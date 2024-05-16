@@ -15,4 +15,5 @@ export const pagesRoutes: PageRoute[] = [
     {route: '/character/card', title: 'Карточка персонажа'},
     {route: '/world/card', title: 'Мир'},
     {route: '/books', title: 'Книжечки'},
+    {route: '/book-item/card', title: 'Описание'},
 ]

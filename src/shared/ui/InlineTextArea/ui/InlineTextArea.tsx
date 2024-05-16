@@ -25,7 +25,7 @@ export const InlineTextArea = (props: IInlineTextAreaProps) => {
                     setMode(ViewMode.WRITE)
                 }
                 }/>
-                <div  style={{"whiteSpace": "pre-line"}}>
+                <div  style={{"whiteSpace": "pre-line", minHeight: "30px"}}>
                     {props.prefix} {props.value}
                 </div>
                 </div>
