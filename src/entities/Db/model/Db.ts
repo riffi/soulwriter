@@ -25,7 +25,7 @@ export class DbAdapter extends Dexie {
         books: '++id, title, description, author',
         scenes: '++id, title, bookId, sortOrderId',
         sceneCharacters: '++id, sceneId, characterId',
-        bookItems: '++id, bookId, parentId, isGroup, worldId'
+        bookItems: '++id, bookId, parentId, worldId'
     }
 
     static currentVersion = 6

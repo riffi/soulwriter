@@ -18,3 +18,14 @@
     helvetica, segoe ui, arial, roboto, 'PingFang SC', 'miui',
     'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
 }
+
+.adm-list {
+    --border-top: none !important;
+    --border-bottom: none !important;
+    --font-size: 14px !important;
+}
+
+.adm-tabs{
+    --title-font-size: 14px !important;
+}
+

@@ -13,7 +13,7 @@ export const SceneManager = (props: SceneManagerProps) => {
 
     return (
         <Card>
-            <List style={{"--border-top": "none", "--border-bottom": "none", "--padding-left": "0px", "--font-size": "14px"}}>
+            <List style={{"--padding-left": "0px"}}>
                 {sceneList?.map(scene =>(
                     <List.Item
                         key={scene.id}

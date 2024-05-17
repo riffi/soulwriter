@@ -5,7 +5,5 @@ export interface IBookItem{
     description: string
     parentId: number
     name: string
-    isGroup: boolean
     worldId: number
-    childrenHeader: string
 }

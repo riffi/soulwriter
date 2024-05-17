@@ -75,7 +75,7 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                     </List.Item>
                 </List>
             </Space>
-            <List style={{"--font-size": "14px"}}>
+            <List>
                 <List.Item title={"Имя"} key={"name"}>
                     <InlineEdit
                         value={characterData?.name}

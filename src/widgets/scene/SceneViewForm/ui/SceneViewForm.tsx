@@ -150,7 +150,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         </div>
         <div className={styled.body}>
             <Card>
-                <List style={{"--border-top": "none", "--border-bottom": "none", "--padding-left": "0px", "--font-size": "14px"}}>
+                <List style={{"--padding-left": "0px"}}>
                     <List.Item title={"Название"} key={"title"}>
                         <InlineEdit
                             value={scene?.title}

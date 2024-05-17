@@ -1,9 +1,9 @@
 import {IBookItemListProps} from "../model/types.ts";
 import {useBookItemList} from "../model/useBookItemList.ts";
-import {AutoCenter, Button, Grid, Input, List, Popup, Selector, Tabs} from "antd-mobile";
+import {AutoCenter, Button, Ellipsis, Grid, Input, List, Popup, Selector} from "antd-mobile";
 import {AddCircleOutline} from "antd-mobile-icons";
 import styled from "../../../widgets/CharacterAttributeManager/ui/CharacterAttributeManager.module.scss";
-import React, {useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 export const BookItemList = (props: IBookItemListProps) => {
@@ -14,21 +14,22 @@ export const BookItemList = (props: IBookItemListProps) => {
     const [popupAddItemVisible, setPopupAddItemVisible] = useState<boolean>(false)
     const [newItemTitle, setNewItemTitle] = useState<string>("")
     const [newItemName, setNewItemName] = useState<string>("")
-    const [newChildrenHeader, setNewChildrenHeader] = useState<string>("")
-    const [newIsGroup, setNewIsGroup] = useState<boolean>(true)
 
     const navigate = useNavigate()
 
 
     return (
         <>
-        <List
-            header={props.header}
-            style={{"--border-top": "none", "--border-bottom": "none"}}
-        >
+        <List>
             {bookItemList?.map((bookItem) =>
                 <List.Item
                     title={bookItem.name}
+                    description={
+                        <Ellipsis
+                            direction={"end"}
+                            content={bookItem.description}
+                        />
+                    }
                     key={bookItem.id}
                     clickable={true}
                     onClick={() => navigate(`/book-item/card?id=${bookItem.id}`)}
@@ -42,7 +43,6 @@ export const BookItemList = (props: IBookItemListProps) => {
                         setPopupAddItemVisible(true)
                         setNewItemTitle("")
                         setNewItemName("")
-                        setNewChildrenHeader("")
                     }}>
                         <AddCircleOutline />
 
@@ -56,14 +56,6 @@ export const BookItemList = (props: IBookItemListProps) => {
         >
             <Grid columns={1} gap={1} style={{margin: '10px'}}>
                 <h3>Добавить элемент</h3>
-                <Selector
-                    options={[
-                        {label: 'Группа', value: "t"},
-                        {label: 'Элемент', value: "f"}
-                    ]}
-                    defaultValue={["t"]}
-                    onChange={(val) => setNewIsGroup(val[0] === 't')}
-                />
                 <Input
                     className={styled.margined}
                     placeholder='Тип'
@@ -80,17 +72,9 @@ export const BookItemList = (props: IBookItemListProps) => {
                         setNewItemTitle(val)
                     }}
                 />
-                <Input
-                    className={styled.margined}
-                    placeholder='Название внутренних частей'
-                    value={newChildrenHeader}
-                    onChange={val => {
-                        setNewChildrenHeader(val)
-                    }}
-                />
 
                 <Button onClick={() => {
-                    onSaveNewItem(newItemTitle, newItemName, newChildrenHeader, newIsGroup)
+                    onSaveNewItem(newItemTitle, newItemName)
                     setPopupAddItemVisible(false)
                 }}>Сохранить</Button>
             </Grid>

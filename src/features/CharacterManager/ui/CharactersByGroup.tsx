@@ -16,7 +16,7 @@ export const CharactersByGroup = (props: ICharactersByGroupProps) => {
 
     return (
         <>
-        <List style={{"--border-top": "none", "--border-bottom": "none", "--padding-left": "0px", "--font-size": "14px"}}>
+        <List style={{"--padding-left": "0px"}}>
             {filteredCharacterList?.map(character =>(
                         <List.Item
                             key={character.name}
