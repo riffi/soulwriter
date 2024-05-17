@@ -4,6 +4,6 @@ export interface IBookItem{
     title: string
     description: string
     parentId: number
-    name: string
+    type: string
     worldId: number
 }

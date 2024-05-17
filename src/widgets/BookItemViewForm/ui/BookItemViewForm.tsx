@@ -7,13 +7,14 @@ import {CloseCircleOutline, DownOutline, RightOutline, UpOutline} from 'antd-mob
 import {BookItemList} from "../../../features/BookItemList";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {BookItemBreadcrumbs} from "../../../features/BookItemBreadcrumbs";
 
 export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const {
         bookItem,
         changeBaseAttributeValue,
+        onDeleteBookItemQuery,
         childCount,
-        breadcrumbs,
         world
     } = useBookItemViewForm(props.bookId, props.bookItemId)
 
@@ -29,36 +30,18 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
 
     return (
         <>
-            <Space direction={"horizontal"} wrap={true} style={{padding: '5px 10px'}}>
-                <Tag
-                    key={'world'}
-                    style={{cursor: 'pointer'}}
-                    color={"primary"}
-                    onClick={() => navigate(`/world/card?id=${world.id}`)}
-                >
-                    Мир: {world?.title}
-                </Tag>
-                {breadcrumbs?.map((breadcrumb) =>
-                    <>
-                    <RightOutline key={'arrow' + breadcrumb.id} style={{color: '#AAAAAA', marginRight: '5px'}}/>
-                    <Tag
-                        color='primary'
-                        fill='solid'
-                        key={breadcrumb.id}
-                        style={{cursor: 'pointer'}}
-                        onClick={() => navigate(`/book-item/card?id=${breadcrumb.id}`)}
-                    >
-                        {breadcrumb.name}: {breadcrumb.title}
-                    </Tag>
-                    </>
-                )}
-                <RightOutline key={'arrowLast'} style={{color: '#AAAAAA', marginRight: '5px'}}/>
-            </Space>
+            <BookItemBreadcrumbs bookItem={bookItem} world={world}/>
             <List>
-                <List.Item title={bookItem.name} key={"name"}>
+                <List.Item title={"Название"} key={"title"}>
                     <InlineEdit
                         value={bookItem?.title}
                         onChange={(val) => changeBaseAttributeValue("title", val, bookItem)}
+                    />
+                </List.Item>
+                <List.Item title={"Тип"} key={"type"}>
+                    <InlineEdit
+                        value={bookItem?.type}
+                        onChange={(val) => changeBaseAttributeValue("type", val, bookItem)}
                     />
                 </List.Item>
                 {!showDetails &&
@@ -129,8 +112,13 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                         </Tabs.Tab>
                         <Tabs.Tab title={"Действия"} key={"actions"}>
                             <Space>
-                                <Button color={"danger"} size={"mini"}><CloseCircleOutline/> Удалить</Button>
-                                <Button color={"success"} size={"mini"}><CloseCircleOutline/> Добавить детали</Button>
+                                <Button
+                                    color={"danger"}
+                                    size={"mini"}
+                                    onClick={() => onDeleteBookItemQuery(bookItem)}
+                                >
+                                    <CloseCircleOutline/> Удалить
+                                </Button>
                             </Space>
                         </Tabs.Tab>
                     </Tabs>

@@ -11,13 +11,13 @@ export const useBookItemList = (parentId: number, worldId: number, bookId: numbe
     )
 
     const onSaveNewItem = (newItemTitle: string,
-                           newItemName: string
+                           newItemType: string
     ) => {
         db.bookItems.add({
             bookId: bookId,
             worldId: worldId,
             parentId: parentId,
-            name: newItemName,
+            type: newItemType,
             title: newItemTitle,
             description: '',
         })

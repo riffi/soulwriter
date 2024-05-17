@@ -13,7 +13,7 @@ export const BookItemList = (props: IBookItemListProps) => {
     } = useBookItemList(props.parentId, props.worldId, props.bookId)
     const [popupAddItemVisible, setPopupAddItemVisible] = useState<boolean>(false)
     const [newItemTitle, setNewItemTitle] = useState<string>("")
-    const [newItemName, setNewItemName] = useState<string>("")
+    const [newItemType, setNewItemType] = useState<string>("")
 
     const navigate = useNavigate()
 
@@ -23,7 +23,7 @@ export const BookItemList = (props: IBookItemListProps) => {
         <List>
             {bookItemList?.map((bookItem) =>
                 <List.Item
-                    title={bookItem.name}
+                    title={bookItem.type}
                     description={
                         <Ellipsis
                             direction={"end"}
@@ -42,7 +42,7 @@ export const BookItemList = (props: IBookItemListProps) => {
                     <Button size='large' fill={'none'}  onClick={() => {
                         setPopupAddItemVisible(true)
                         setNewItemTitle("")
-                        setNewItemName("")
+                        setNewItemType("")
                     }}>
                         <AddCircleOutline />
 
@@ -59,9 +59,9 @@ export const BookItemList = (props: IBookItemListProps) => {
                 <Input
                     className={styled.margined}
                     placeholder='Тип'
-                    value={newItemName}
+                    value={newItemType}
                     onChange={val => {
-                        setNewItemName(val)
+                        setNewItemType(val)
                     }}
                 />
                 <Input
@@ -73,8 +73,10 @@ export const BookItemList = (props: IBookItemListProps) => {
                     }}
                 />
 
-                <Button onClick={() => {
-                    onSaveNewItem(newItemTitle, newItemName)
+                <Button
+                    color={"primary"}
+                    onClick={() => {
+                    onSaveNewItem(newItemTitle, newItemType)
                     setPopupAddItemVisible(false)
                 }}>Сохранить</Button>
             </Grid>

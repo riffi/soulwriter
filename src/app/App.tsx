@@ -7,20 +7,23 @@ import {persistStore} from "redux-persist";
 import {PersistGate} from "redux-persist/integration/react";
 
 const queryClient = new QueryClient()
-
+import { ConfigProvider } from "antd-mobile";
+import ruRU from "antd-mobile/es/locales/ru-RU";
 
 export const App = () => {
 
   const persistor = persistStore(store, );
 
   return (
-    <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <AppRouter/>
-            </PersistGate>
-        </Provider>
-    </QueryClientProvider>
+      <ConfigProvider locale={ruRU}>
+          <QueryClientProvider client={queryClient}>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <AppRouter/>
+                </PersistGate>
+            </Provider>
+          </QueryClientProvider>
+      </ConfigProvider>
   )
 }
 
