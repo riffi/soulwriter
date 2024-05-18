@@ -7,7 +7,7 @@ import {InlineEdit} from "../../../shared/ui/InlineEdit";
 
 export const CharacterAttributeDictList = (props: ICharacterAttributeDictListProps) => {
     return (
-    <List style={{"--border-top": "none", "--border-bottom": "none", "--padding-left": "0px", "--font-size": "14px"}}>
+    <List style={{"--padding-left": "0px"}}>
         {props.attributeList?.map(characterAttribute =>(
             <SwipeAction
                 closeOnAction={true}

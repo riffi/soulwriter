@@ -3,6 +3,7 @@ import {ICharacter, ICharacterDictAttribute, ICharacterGroup} from "../../Charac
 import {IWorld} from "../../World";
 import {IBook} from "../../Book";
 import {IScene, ISceneCharacters} from "../../Scene";
+import {IBookItem} from "../../BookItem";
 
 
 export class DbAdapter extends Dexie {
@@ -14,6 +15,7 @@ export class DbAdapter extends Dexie {
     books!: Table<IBook>
     scenes!: Table<IScene>
     sceneCharacters!: Table<ISceneCharacters>
+    bookItems!: Table<IBookItem>
 
     static currentDbSchema: { [tableName: string]: string | null } =  {
         characters: '++id, groupId, name, description, sex, bookId',
@@ -22,7 +24,8 @@ export class DbAdapter extends Dexie {
         worlds: '++id, title, bookId',
         books: '++id, title, description, author',
         scenes: '++id, title, bookId, sortOrderId',
-        sceneCharacters: '++id, sceneId, characterId'
+        sceneCharacters: '++id, sceneId, characterId',
+        bookItems: '++id, bookId, parentId, worldId, type'
     }
 
     static currentVersion = 6

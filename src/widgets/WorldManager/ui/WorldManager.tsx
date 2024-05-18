@@ -18,11 +18,12 @@ export const WorldManager = () => {
 
     return (
         <>
-        <List header={<><GlobalOutline /> Миры </>}>
+        <List>
             {worldList?.map((world) =>
                 <List.Item
                     prefix={<GlobalOutline />}
                     description={world.description}
+                    key={world.id}
                     onClick = {() => navigate(`/world/card?id=${world.id}`)}
                 >
                     {world.title}

@@ -10,6 +10,7 @@ import {Scenes} from "../../../pages/scene/Scenes/ui/Scenes.tsx";
 import {SceneCard} from "../../../pages/scene/SceneCard";
 import {Dictionaries} from "../../../pages/Dictionaries/ui/Dictionaries.tsx";
 import {LayoutBase} from "../../../widgets/LayoutBase";
+import {BookItemCard} from "../../../pages/bookItem/BookItemCard";
 
 export const AppRouter = () => {
     return (
@@ -25,6 +26,7 @@ export const AppRouter = () => {
                     <Route key={"/character/new"} path={"/character/new"} element={<CharacterNew/>} />
                     <Route key={"/character/card"} path={"/character/card"} element={<CharacterCard/>} />
                     <Route key={"/world/card"} path={"/world/card"} element={<WorldCard/>} />
+                    <Route key={"/book-item/card"} path={"/book-item/card"} element={<BookItemCard/>} />
                     <Route key={"/books"} path={"/books"} element={<Books/>} />
                 </Route>
                 <Route key={"/scene/card"} path={"/scene/card"} element={<SceneCard/>} />

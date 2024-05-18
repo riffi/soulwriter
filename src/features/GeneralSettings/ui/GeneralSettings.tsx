@@ -1,46 +1,36 @@
-import React, {useRef} from "react";
-import {exportDB} from "dexie-export-import";
-import {db, DbAdapter} from "../../../entities/Db/model/Db.ts";
-import Dexie from "dexie";
-import {Button, Space} from "antd-mobile";
-import moment from "moment";
+import {useRef} from "react";
+import {Button, List, Space} from "antd-mobile";
+import {useGeneralSettings} from "../model/useGeneralSettings.ts";
 
 export const GeneralSettings = () => {
 
     const fileRef = useRef<HTMLInputElement>()
 
-    const exportBase = async () => {
-        //
-        // Export to Blob
-        //
-        const blob = await exportDB(db, {prettyJson: true});
-        console.log(blob)
-        const url = window.URL.createObjectURL(blob);
-        const tempLink = document.createElement('a');
-        tempLink.href = url;
+    const {exportBase,
+        importBase,
+        exportDocx
+    } = useGeneralSettings()
 
-        const date = moment();
-        const dateStr = date.format("YYYY-MM-DD_hh-mm-ss")
-        tempLink.setAttribute('download', `soulwriter-${dateStr}.json`);
-        tempLink.click();
-    }
 
-    const importBase = async () => {
+    const importDB = () => {
         const file: File | undefined = fileRef.current?.files?.[0]
-        await db.delete()
-
-        const  db2 = new Dexie("soulwriter");
-        db2.version(DbAdapter.currentVersion).stores(DbAdapter.currentDbSchema)
-        await db2.import(file)
-        window.location.replace('/books')
-
+        importBase(file)
     }
 
     return (
-        <Space direction={"vertical"}>
-            <Button onClick={exportBase}>Экспорт</Button>
-            <input ref={fileRef} type="file"/>
-            <Button onClick={importBase}>Импорт</Button>
-        </Space>
+        <List>
+            <List.Item title={"Экспорт"} key={"export"}>
+                <Space>
+                    <Button onClick={exportBase}>Выгрузить json</Button>
+                    <Button onClick={exportDocx}>Выгрузить docx</Button>
+                </Space>
+            </List.Item>
+            <List.Item title={"Импорт"} key={"import"}>
+                <input ref={fileRef} type="file" accept={"application/json"}/>
+                <Button onClick={importDB} style={{marginTop: '10px'}}>
+                    Импорт json
+                </Button>
+            </List.Item>
+        </List>
     )
 }
