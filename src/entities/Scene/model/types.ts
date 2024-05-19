@@ -13,3 +13,9 @@ export interface ISceneCharacters{
     characterId: number
     description: string
 }
+
+
+
+export interface ISceneLink{
+
+}

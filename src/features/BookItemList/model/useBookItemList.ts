@@ -1,11 +1,11 @@
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "../../../entities/Db/model/Db.ts";
 
-export const useBookItemList = (parentId: number, worldId: number, bookId: number) => {
+export const useBookItemList = (parentId: number, bookId: number) => {
 
     const bookItemList = useLiveQuery(() => db.bookItems
-        .where("worldId")
-        .equals(worldId)
+        .where("bookId")
+        .equals(bookId)
         .and((bookItem) => bookItem.parentId === parentId)
         .toArray(), [parentId]
     )
@@ -15,7 +15,6 @@ export const useBookItemList = (parentId: number, worldId: number, bookId: numbe
     ) => {
         db.bookItems.add({
             bookId: bookId,
-            worldId: worldId,
             parentId: parentId,
             type: newItemType,
             title: newItemTitle,

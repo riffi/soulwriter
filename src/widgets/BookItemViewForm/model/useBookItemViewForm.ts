@@ -15,17 +15,6 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
 
     const navigate = useNavigate()
 
-    const world = useLiveQuery(
-        () => {
-            if (bookItem?.worldId){
-                return db.worlds.get(bookItem?.worldId)
-            }
-            else{
-                return undefined
-            }
-        },
-        [bookItem?.worldId]
-    )
 
     const childCount = useLiveQuery(() => db.bookItems
         .where("parentId")
@@ -50,6 +39,10 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
         db.bookItems.delete(bookItem.id)
     }
 
+    const moveBookItem = async (bookItem: IBookItem, toBookItemId: number) => {
+        db.bookItems.update(bookItem.id, {...bookItem, parentId: toBookItemId})
+    }
+
     const onDeleteBookItemQuery = async (bookItem: IBookItem) => {
         Dialog.alert({
             title: `Удалить ${bookItem.title} ?`,
@@ -67,7 +60,40 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
                         navigate(`/book-item/card?id=${bookItem?.parentId}`)
                     }
                     else{
-                        navigate(`/world/card?id=${world?.id}`)
+                        navigate(`/worlds`)
+                    }
+
+                }).catch((error) => {
+                    Dialog.alert({
+                        title: 'Ошибка',
+                        content: error.message,
+                        closeOnMaskClick: true,
+                    })
+                })
+
+            }
+        })
+    }
+
+
+    const onMoveBookItemQuery = async (bookItem: IBookItem, toBookItemId: number) => {
+        Dialog.alert({
+            title: `Переместить`,
+            content: `${bookItem.type} ${bookItem.title} ?`,
+            closeOnMaskClick: true,
+            onConfirm: () => {
+                db.transaction('rw', db.bookItems, async () => {
+                    await moveBookItem(bookItem, toBookItemId)
+                }).then(() => {
+                    Toast.show({
+                        content: `Описание ${bookItem.title} перенесено`,
+                        position: 'bottom',
+                    })
+                    if (toBookItemId != -1){
+                        navigate(`/book-item/card?id=${toBookItemId}`)
+                    }
+                    else{
+                        navigate(`/worlds`)
                     }
 
                 }).catch((error) => {
@@ -85,8 +111,9 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
     return {
         bookItem,
         childCount,
-        world,
         onDeleteBookItemQuery,
-        changeBaseAttributeValue
+        changeBaseAttributeValue,
+        onMoveBookItemQuery
+
     }
 }
