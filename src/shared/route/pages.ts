@@ -8,7 +8,7 @@ export const pagesRoutes: PageRoute[] = [
     {route: '/general', title: 'Персонажи'},
     {route: '/scenes', title: 'Сцены'},
     {route: '/scene/card', title: 'Карточка сцены'},
-    {route: '/worlds', title: 'Описания'},
+    {route: '/worlds', title: 'База знаний'},
     {route: '/settings', title: 'Настройки'},
     {route: '/dictionaries', title: 'Справочники'},
     {route: '/character/new', title: 'Новый персонаж'},

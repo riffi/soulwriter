@@ -5,4 +5,5 @@ export interface BookItemSelectorProps{
     title?: string
     actionTitle?: string
     onSelect: (bookItemId: number) => void
+    selectedId?: number
 }

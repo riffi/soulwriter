@@ -28,17 +28,6 @@ export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
             }
         >
             <List>
-                <List.Item key={"type"} title={"Тип связи"}>
-                    <Input
-                        placeholder={"Тип"}
-                        value={sceneLink.type}
-                        onChange={(val) => {
-                            setSceneLink((oldData) => {
-                                return {...oldData, type: val}
-                            })
-                        }}
-                    />
-                </List.Item>
 
                 <List.Item key={"title"} title={"Название связи"}>
                     <Input
@@ -96,7 +85,8 @@ export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
         >
             <BookItemSelector
                 bookId={props.bookId}
-                parentBookItemId={-1}
+                parentBookItemId={props.sceneLink.bookItemData? props.sceneLink.bookItemData.parentId  : -1}
+                selectedId={props.sceneLink.bookItemId}
                 onSelect={(bookItemId) => {
                     setSceneLink((oldData) => {
                         return {...oldData, bookItemId: bookItemId}

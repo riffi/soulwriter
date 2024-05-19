@@ -23,7 +23,6 @@ export interface ISceneLink{
     sceneId: number
     bookId: number
     bookItemId?: number
-    type: string
     title: string
     bookItemData?: IBookItem
 }
