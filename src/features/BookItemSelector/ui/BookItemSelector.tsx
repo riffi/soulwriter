@@ -54,7 +54,7 @@ export const BookItemSelector = (props:BookItemSelectorProps) => {
                             content={bookItem.description}
                         />
                     }
-                    title={bookItem.title}
+                    title={bookItem.type}
                     clickable={bookItem?.childCount ? bookItem?.childCount > 0 : false}
                     onClick={
                         () => {

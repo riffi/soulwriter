@@ -31,12 +31,12 @@
 
 @media screen and (min-width: 1000px) {
     .adm-popup-body{
-        max-width: 780px !important;
-        left: 50% !important;
-        margin-left: -400px;
-        padding: 10px;
-        box-shadow: -2px 7px 9px 5px rgba(0, 0, 0, 0.2);
-        border-radius: 5px 5px 0px 0px;
+        /*max-width: 1024px !important;*/
+        /*left: 50% !important;*/
+        /*margin-left: -400px;*/
+        /*padding: 10px;*/
+        /*box-shadow: -2px 7px 9px 5px rgba(0, 0, 0, 0.2);*/
+        /*border-radius: 5px 5px 0px 0px;*/
         /*transform: translate(-50%, 0%) !important;*/
     }
 }
