@@ -141,7 +141,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                             style={{fontSize: "20px", color: '#546c72'}}
                         />
                         <div>
-                            {`Связи (${sceneLinkCount})\``}
+                            {`Упоминания (${sceneLinkCount})\``}
                         </div>
                     </Space>
                 </Button>
@@ -182,6 +182,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         <Popup
             visible={sceneUsersPopupVisible}
             showCloseButton={true}
+            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
             onClose={() => setSceneUsersPopupVisible(false)}
             onMaskClick={() => setSceneUsersPopupVisible(false)}
             tabIndex={1}
@@ -191,6 +192,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         <Popup
             visible={sceneLinksPopupVisible}
             showCloseButton={true}
+            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
             onClose={() => setSceneLinksPopupVisible(false)}
             onMaskClick={() => setSceneLinksPopupVisible(false)}
             tabIndex={2}

@@ -1,11 +1,10 @@
 import {ISceneLinksProps} from "../model/types.ts";
-import {AutoCenter, Button, FloatingPanel, List} from "antd-mobile";
+import {AutoCenter, Button, FloatingPanel, List, Popup} from "antd-mobile";
 import {useSceneLinks} from "../model/useSceneLinks.ts";
-import {AddCircleOutline, CloseOutline} from "antd-mobile-icons";
+import {AddCircleOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import {ISceneLink} from "../../../entities/Scene";
 import {EditSceneLinkForm} from "./EditSceneLinkForm.tsx";
-import {IBookItem} from "../../../entities/BookItem";
 
 export const SceneLinks = (props: ISceneLinksProps) => {
 
@@ -13,7 +12,6 @@ export const SceneLinks = (props: ISceneLinksProps) => {
         sceneId: props.sceneId,
         bookId: props.bookId,
         title: '',
-        type: '',
     }
 
     const {sceneLinkList,
@@ -26,31 +24,21 @@ export const SceneLinks = (props: ISceneLinksProps) => {
 
     const anchors = [400, window.innerHeight * 0.2, window.innerHeight * 0.8]
 
-    const getBookItemDescription = (bookItem?: IBookItem) => {
-        if (!bookItem) return ''
-        if (bookItem.type){
-            return  `${bookItem.type}: ${bookItem.title}`
-        }
-        else{
-            return  `${bookItem.title}`
-        }
-    }
 
     return (
         <>
-        <List header={"Связи сцены"}>
+        <List header={"Упоминания"}>
             {sceneLinkList?.map((sceneLink) =>
                 <List.Item
                     key={sceneLink.id}
-                    title={sceneLink.type}
                     clickable={true}
-                    description={!sceneLink.title ? '' :getBookItemDescription(sceneLink.bookItemData) }
+                    description={`${sceneLink.bookItemData?.type} : ${sceneLink.bookItemData?.title}`}
                     onClick={() => {
                         setCurrentLink(sceneLink)
                         setLinkAppendPopupVisible(true)
                     }}
                 >
-                    {sceneLink.title ? sceneLink.title : getBookItemDescription(sceneLink.bookItemData)}
+                    {sceneLink?.title}
                 </List.Item>
             )}
             <List.Item title={""} key={"add"}>
@@ -67,9 +55,7 @@ export const SceneLinks = (props: ISceneLinksProps) => {
         </List>
 
             {linkAppendPopupVisible &&
-                <FloatingPanel
-                    anchors={anchors}
-                >
+                <Popup visible={true}>
                    <EditSceneLinkForm
                        onCancel={() => setLinkAppendPopupVisible(false)}
                        sceneLink={currentLink}
@@ -84,7 +70,7 @@ export const SceneLinks = (props: ISceneLinksProps) => {
                            onDeleteLink(link)
                        }}
                    />
-                </FloatingPanel>
+                </Popup>
             }
 
         </>

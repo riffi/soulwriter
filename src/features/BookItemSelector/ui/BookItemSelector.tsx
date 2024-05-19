@@ -8,7 +8,7 @@ import {BookItemBreadcrumbs} from "../../BookItemBreadcrumbs";
 export const BookItemSelector = (props:BookItemSelectorProps) => {
 
     const [parentBookItemId, setParentBookItemId] = useState<number>(props.parentBookItemId)
-    const [selectedId, setSelectedId] = useState<number>()
+    const [selectedId, setSelectedId] = useState<number>(props.selectedId)
 
 
     const {
