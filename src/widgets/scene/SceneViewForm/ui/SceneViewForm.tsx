@@ -1,6 +1,6 @@
 import {ISceneViewFormProps} from "../model/types.ts";
 import {useSceneViewForm} from "../model/useSceneViewForm.ts";
-import {Button, Card, List, NavBar, Popup, Space, TabBar} from "antd-mobile";
+import {Button, Card, List, NavBar, Popup, Space} from "antd-mobile";
 import {InlineEdit} from "../../../../shared/ui/InlineEdit";
 import {useMemo, useRef, useState} from "react";
 import JoditEditor from 'jodit-react';
@@ -9,7 +9,8 @@ import {FillinOutline,
     RightOutline,
     UnorderedListOutline,
     TeamFill,
-    CollectMoneyOutline
+    CollectMoneyOutline,
+    LinkOutline
 } from "antd-mobile-icons";
 import {useDebouncedCallback} from "use-debounce";
 import {useNavigate} from "react-router-dom";
@@ -18,6 +19,7 @@ import {ViewMode} from "../../../../shared/model/types.ts";
 import {SceneCharacters} from "../../../../features/SceneCharacters";
 import {getWindowSelectionText} from "../lib/selectionUtils.ts";
 import {SynonymSearch} from "../../../../features/SynonymSearch";
+import {SceneLinks} from "../../../../features/SceneLinks";
 
 
 export const SceneViewForm = (props: ISceneViewFormProps) => {
@@ -25,6 +27,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         nextScene,
         prevScene,
         characterCount,
+        sceneLinkCount,
         changeAttributeValue
     } = useSceneViewForm(props.bookId, props.sceneId)
 
@@ -32,6 +35,8 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
 
     const [sceneUsersPopupVisible, setSceneUsersPopupVisible] = useState<boolean>(false)
     const [synonymSearchPopupVisible, setSynonymSearchPopupVisible] = useState<boolean>(false)
+    const [sceneLinksPopupVisible, setSceneLinksPopupVisible] = useState<boolean>(false)
+
     const [selectedText, setSelectedText] = useState<string>("")
 
     const [mode, setMode] = useState<ViewMode>(ViewMode.READ)
@@ -128,6 +133,19 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                     </Space>
                 </Button>
                 <Button
+                    onClick={() => setSceneLinksPopupVisible(true)}
+                    fill={"none"}
+                >
+                    <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>
+                        <LinkOutline
+                            style={{fontSize: "20px", color: '#546c72'}}
+                        />
+                        <div>
+                            {`Связи (${sceneLinkCount})\``}
+                        </div>
+                    </Space>
+                </Button>
+                <Button
                     onClick={() => {
                         const selectedText = getWindowSelectionText()
                         const cleanSelectedText = selectedText.toLowerCase().trim()
@@ -171,12 +189,21 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
             <SceneCharacters bookId={props.bookId} sceneId={props.sceneId}/>
         </Popup>
         <Popup
+            visible={sceneLinksPopupVisible}
+            showCloseButton={true}
+            onClose={() => setSceneLinksPopupVisible(false)}
+            onMaskClick={() => setSceneLinksPopupVisible(false)}
+            tabIndex={2}
+        >
+            <SceneLinks bookId={props.bookId} sceneId={props.sceneId}/>
+        </Popup>
+        <Popup
             visible={synonymSearchPopupVisible}
             bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
             showCloseButton={true}
             onClose={() => setSynonymSearchPopupVisible(false)}
             onMaskClick={() => setSynonymSearchPopupVisible(false)}
-            tabIndex={2}
+            tabIndex={3}
         >
             <SynonymSearch text={selectedText}/>
         </Popup>

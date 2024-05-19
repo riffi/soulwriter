@@ -5,5 +5,5 @@ export interface IBookItem{
     description: string
     parentId: number
     type: string
-    worldId: number
+    childCount?: number
 }

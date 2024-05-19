@@ -2,39 +2,44 @@ import {IBookItemBreadcrumbsProps} from "../model/types.ts";
 import {useBookItemBreadcrumbs} from "../model/useBookItemBreadcrumbs.ts";
 import {Space, Tag} from "antd-mobile";
 import {RightOutline} from "antd-mobile-icons";
-import {useNavigate} from "react-router-dom";
 
 export const BookItemBreadcrumbs = (props: IBookItemBreadcrumbsProps) => {
 
-    const {breadcrumbs} = useBookItemBreadcrumbs(props.bookItem)
+    const {breadcrumbs} = useBookItemBreadcrumbs(props.bookItemId)
 
-    const navigate = useNavigate()
 
     return (
         <>
             <Space direction={"horizontal"} wrap={true} style={{padding: '5px 10px'}}>
+                <>
                 <Tag
-                    key={'world'}
+                    key={'top-level'}
                     style={{cursor: 'pointer'}}
                     color={"primary"}
-                    onClick={() => navigate(`/world/card?id=${props.world?.id}`)}
+                    onClick={() => {
+                        props.onClickTop?.()
+                    }}
                 >
-                    {props.world?.title}
+                    {"Описания"}
                 </Tag>
+                <RightOutline key={'arrow-world'} style={{color: '#AAAAAA', marginLeft: '5px'}}/>
+                </>
                 {breadcrumbs?.map((breadcrumb) =>
                     <div key={breadcrumb.id}>
-                        <RightOutline key={'arrow' + breadcrumb.id} style={{color: '#AAAAAA', marginRight: '5px'}}/>
+
                         <Tag
                             color='primary'
                             fill='solid'
                             style={{cursor: 'pointer'}}
-                            onClick={() => navigate(`/book-item/card?id=${breadcrumb.id}`)}
+                            onClick={() => {
+                                props.onClickItem(breadcrumb)
+                            }}
                         >
                             {breadcrumb?.type ? breadcrumb.type + ': ' : ''}{breadcrumb.title}
                         </Tag>
+                        <RightOutline key={'arrow' + breadcrumb.id} style={{color: '#AAAAAA', marginLeft: '5px'}}/>
                     </div>
                 )}
-                <RightOutline key={'arrowLast'} style={{color: '#AAAAAA', marginRight: '5px'}}/>
             </Space>
         </>
     )

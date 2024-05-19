@@ -1,24 +1,26 @@
 import {IBookItemViewFormProps} from "../model/types.ts";
 import {useBookItemViewForm} from "../model/useBookItemViewForm.ts";
-import {AutoCenter, Button, Footer, List, Space, Tabs, Tag} from "antd-mobile";
+import {AutoCenter, Button, Footer, List, Popup, Space, Tabs, Tag} from "antd-mobile";
 import {InlineEdit} from "../../../shared/ui/InlineEdit";
 import {InlineTextArea} from "../../../shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
-import {CloseCircleOutline, DownOutline, RightOutline, UpOutline} from 'antd-mobile-icons'
+import {CloseCircleOutline, DownOutline, SendOutline, UpOutline} from 'antd-mobile-icons'
 import {BookItemList} from "../../../features/BookItemList";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {BookItemBreadcrumbs} from "../../../features/BookItemBreadcrumbs";
+import {BookItemSelector} from "../../../features/BookItemSelector";
 
 export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const {
         bookItem,
         changeBaseAttributeValue,
         onDeleteBookItemQuery,
+        onMoveBookItemQuery,
         childCount,
-        world
     } = useBookItemViewForm(props.bookId, props.bookItemId)
 
     const [showDetails, setShowDetails] = useState<boolean>()
+    const [popupTransferVisible, setPopupTransferVisible] = useState<boolean>(false)
 
     const navigate = useNavigate()
 
@@ -30,7 +32,11 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
 
     return (
         <>
-            <BookItemBreadcrumbs bookItem={bookItem} world={world}/>
+            <BookItemBreadcrumbs
+                bookItemId={bookItem.parentId}
+                onClickItem={(bookItem) => navigate(`/book-item/card?id=${bookItem.id}`)}
+                onClickTop={() => navigate('/worlds')}
+            />
             <List>
                 <List.Item title={"Название"} key={"title"}>
                     <InlineEdit
@@ -95,7 +101,6 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                         >
                             <BookItemList
                                 parentId={bookItem?.id}
-                                worldId={bookItem?.worldId}
                                 bookId={props.bookId}
                                 header={"Описание мира"}
                             />
@@ -113,6 +118,16 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                         <Tabs.Tab title={"Действия"} key={"actions"}>
                             <Space>
                                 <Button
+                                    color={"primary"}
+                                    size={"mini"}
+                                    onClick={() => {
+                                        setPopupTransferVisible(true)
+                                    }}
+                                >
+                                    <SendOutline /> Переместить
+                                </Button>
+
+                                <Button
                                     color={"danger"}
                                     size={"mini"}
                                     onClick={() => onDeleteBookItemQuery(bookItem)}
@@ -125,7 +140,23 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
 
                 </>
             }
-
+            <Popup
+                visible={popupTransferVisible}
+                onMaskClick={() => setPopupTransferVisible(false)}
+                showCloseButton={true}
+                onClose={() => setPopupTransferVisible(false)}
+            >
+                <BookItemSelector
+                    bookId={props.bookId}
+                    title={`Переместить ${bookItem?.type}: ${bookItem?.title} в`}
+                    actionTitle={'Переместить'}
+                    parentBookItemId={-1}
+                    onSelect={(id) => {
+                        setPopupTransferVisible(false)
+                        onMoveBookItemQuery(bookItem, id)}
+                }
+                />
+            </Popup>
 
         </>
     )
