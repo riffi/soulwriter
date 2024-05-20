@@ -20,6 +20,7 @@ export const SceneManager = (props: SceneManagerProps) => {
         <Card>
             <Button
                 size={"small"}
+                style={{marginBottom: '10px'}}
                 color={(mode === SceneManagerMode.REORDER) ?  'warning' : 'default'}
                 onClick={() => {
                     if (mode === SceneManagerMode.BASIC){

@@ -5,6 +5,7 @@ import {AddCircleOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import {ISceneLink} from "../../../entities/Scene";
 import {EditSceneLinkForm} from "./EditSceneLinkForm.tsx";
+import {IconBlock} from "../../../shared/ui/IconBlock";
 
 export const SceneLinks = (props: ISceneLinksProps) => {
 
@@ -32,6 +33,12 @@ export const SceneLinks = (props: ISceneLinksProps) => {
                 <List.Item
                     key={sceneLink.id}
                     clickable={true}
+                    prefix={
+                        <IconBlock
+                            iconName={sceneLink.bookItemData?.iconName}
+                            style={{fontSize: '28px'}}
+                        />
+                    }
                     description={`${sceneLink.bookItemData?.type} : ${sceneLink.bookItemData?.title}`}
                     onClick={() => {
                         setCurrentLink(sceneLink)
