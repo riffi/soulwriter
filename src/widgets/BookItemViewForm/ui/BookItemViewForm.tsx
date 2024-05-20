@@ -11,6 +11,7 @@ import {BookItemBreadcrumbs} from "../../../features/BookItemBreadcrumbs";
 import {BookItemSelector} from "../../../features/BookItemSelector";
 import {IconBlock} from "../../../shared/ui/IconBlock";
 import {IconSelector} from "../../../shared/ui/IconSelector";
+import {BookItemLinks} from "../../../features/BookItemLinks";
 
 export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const {
@@ -19,6 +20,7 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
         onDeleteBookItemQuery,
         onMoveBookItemQuery,
         childCount,
+        mentionCount
     } = useBookItemViewForm(props.bookId, props.bookItemId)
 
     const [showDetails, setShowDetails] = useState<boolean>()
@@ -29,8 +31,13 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-       setShowDetails(showDetails =>  childCount? childCount > 0 : false)
-    }, [props.bookItemId, childCount])
+
+       setShowDetails(showDetails =>  {
+           const childrenC = childCount? childCount : 0
+           const mentionC = mentionCount? mentionCount : 0
+           return (childrenC + mentionC) > 0
+       })
+    }, [props.bookItemId, childCount, mentionCount])
 
     if (!bookItem) return
 
@@ -146,6 +153,11 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                                     />
                                 </List.Item>
                             </List>
+                        </Tabs.Tab>
+                        <Tabs.Tab title={"Упоминания"} key={"mentions"}>
+                            {bookItem?.id && <BookItemLinks
+                                bookItemId={bookItem.id}
+                            />}
                         </Tabs.Tab>
                         <Tabs.Tab title={"Действия"} key={"actions"}>
                             <Space>

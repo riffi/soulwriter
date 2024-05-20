@@ -23,6 +23,13 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
         , [bookItemId]
     )
 
+    const mentionCount = useLiveQuery(() => db.sceneLinks
+        .where("bookItemId")
+        .equals(bookItemId)
+        .count()
+        , [bookItemId]
+    )
+
 
     const changeBaseAttributeValue = (attributeName: string, newValue: string, bookItem?: IBookItem) => {
         if (bookItem){
@@ -111,6 +118,7 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
     return {
         bookItem,
         childCount,
+        mentionCount,
         onDeleteBookItemQuery,
         changeBaseAttributeValue,
         onMoveBookItemQuery
