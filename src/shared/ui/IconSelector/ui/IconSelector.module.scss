@@ -1,0 +1,14 @@
+.selectorContainer{
+  --gap: 0;
+  --gap-horizontal: var(--gap);
+  --gap-vertical: var(--gap);
+  display: grid;
+  grid-gap: 10px;
+  grid-column-gap: var(--gap-horizontal);
+  -webkit-column-gap: var(--gap-horizontal);
+  column-gap: var(--gap-horizontal);
+  grid-row-gap: var(--gap-vertical);
+  row-gap: var(--gap-vertical);
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  align-items: stretch;
+}

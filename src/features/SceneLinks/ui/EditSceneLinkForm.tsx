@@ -5,6 +5,7 @@ import {useState} from "react";
 import {ISceneLink} from "../../../entities/Scene";
 import {BookItemSelector} from "../../BookItemSelector";
 import {useSceneLinks} from "../model/useSceneLinks.ts";
+import {IconSelector} from "../../../shared/ui/IconSelector";
 
 export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
 
@@ -52,6 +53,7 @@ export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
                         Выбрать
                     </Button>
                 </List.Item>
+
                 <List.Item>
                     <Space>
                         <Button
@@ -95,6 +97,7 @@ export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
                 }}
             />
         </Popup>
+
     </>
     )
 }

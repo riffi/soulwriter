@@ -1,6 +1,6 @@
 import {IBookItemViewFormProps} from "../model/types.ts";
 import {useBookItemViewForm} from "../model/useBookItemViewForm.ts";
-import {AutoCenter, Button, Footer, List, Popup, Space, Tabs, Tag} from "antd-mobile";
+import {AutoCenter, Button, List, Popup, Space, Tabs} from "antd-mobile";
 import {InlineEdit} from "../../../shared/ui/InlineEdit";
 import {InlineTextArea} from "../../../shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
 import {CloseCircleOutline, DownOutline, SendOutline, UpOutline} from 'antd-mobile-icons'
@@ -9,6 +9,8 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {BookItemBreadcrumbs} from "../../../features/BookItemBreadcrumbs";
 import {BookItemSelector} from "../../../features/BookItemSelector";
+import {IconBlock} from "../../../shared/ui/IconBlock";
+import {IconSelector} from "../../../shared/ui/IconSelector";
 
 export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const {
@@ -21,6 +23,8 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
 
     const [showDetails, setShowDetails] = useState<boolean>()
     const [popupTransferVisible, setPopupTransferVisible] = useState<boolean>(false)
+    const [iconSelectorPopupVisible, setIconSelectorPopupVisible] = useState<boolean>(false)
+
 
     const navigate = useNavigate()
 
@@ -44,11 +48,24 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                         onChange={(val) => changeBaseAttributeValue("title", val, bookItem)}
                     />
                 </List.Item>
-                <List.Item title={"Тип"} key={"type"}>
+                {!showDetails && <List.Item title={"Тип"} key={"type"}>
                     <InlineEdit
                         value={bookItem?.type}
                         onChange={(val) => changeBaseAttributeValue("type", val, bookItem)}
                     />
+                </List.Item>
+                }
+                <List.Item key={"iconName"} title={"Иконка"} prefix={
+                    <IconBlock iconName={bookItem?.iconName} style={{fontSize: '32px', marginRight: '10px'}}/>
+                }>
+
+                    <Button
+                        size={"mini"}
+
+                        onClick={() => setIconSelectorPopupVisible(true)}
+                    >
+                        Выбрать
+                    </Button>
                 </List.Item>
                 {!showDetails &&
                     <List.Item title={"Описание"} key={"description"}>
@@ -107,6 +124,12 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                         </Tabs.Tab>
                         <Tabs.Tab title={"Описание"} key={"description"}>
                             <List>
+                                <List.Item title={"Тип"} key={"type"}>
+                                    <InlineEdit
+                                        value={bookItem?.type}
+                                        onChange={(val) => changeBaseAttributeValue("type", val, bookItem)}
+                                    />
+                                </List.Item>
                                 <List.Item title={"Описание"} key={"description"}>
                                     <InlineTextArea
                                         value={bookItem?.description}
@@ -155,6 +178,19 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                         setPopupTransferVisible(false)
                         onMoveBookItemQuery(bookItem, id)}
                 }
+                />
+            </Popup>
+
+            <Popup
+                visible={iconSelectorPopupVisible}
+                onMaskClick={() => setIconSelectorPopupVisible(false)}
+                bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+            >
+                <IconSelector
+                    onSelect={(iconName) => {
+                        changeBaseAttributeValue("iconName", iconName, bookItem)
+                        setIconSelectorPopupVisible(false)
+                    }}
                 />
             </Popup>
 
