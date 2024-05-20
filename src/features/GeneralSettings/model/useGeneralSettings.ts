@@ -5,6 +5,7 @@ import Dexie from "dexie";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
+import {makeCleanTextFromHtml} from "../../../shared/lib/HtmlUtils.ts";
 
 const downloadBlob = (blob: Blob, fileName: string) => {
     const url = window.URL.createObjectURL(blob);
@@ -63,9 +64,7 @@ export const useGeneralSettings = () => {
             const parts = scene.body.split("<p>")
             parts.forEach((part) => {
                 if (part != ''){
-                    const  div = document.createElement("div");
-                    div.innerHTML = part;
-                    const cleanText = div.textContent || div.innerText || "";
+                    const cleanText = makeCleanTextFromHtml(part)
                     const p=  new Paragraph({
                         text: cleanText,
                         style: 'simple',

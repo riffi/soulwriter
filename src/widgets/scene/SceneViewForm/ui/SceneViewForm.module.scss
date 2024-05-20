@@ -19,7 +19,7 @@ $large: 900px;
   position: fixed;
   top: 90px;
   padding-top: 10px;
-  height: calc(100dvh - 95px);
+  height: calc(100dvh - 135px);
   width: 100%;
   overflow: auto;
   max-width: 1000px;
@@ -30,3 +30,19 @@ $large: 900px;
     padding-right: 20px;
   }
 }
+
+.footer{
+  position: fixed;
+  bottom: 0;
+  height: 35px;
+  width: 100%;
+  max-width: 1000px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  @media screen and (min-width: $large) {
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: white;
+  }
+}
+

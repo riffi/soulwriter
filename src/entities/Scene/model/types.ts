@@ -7,6 +7,7 @@ export interface IScene{
     body: string
     bookId: number
     sortOrderId: number
+    symbolCount?: number
 }
 
 
