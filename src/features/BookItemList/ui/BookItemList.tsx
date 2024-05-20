@@ -5,6 +5,7 @@ import {AddCircleOutline} from "antd-mobile-icons";
 import styled from "../../../widgets/CharacterAttributeManager/ui/CharacterAttributeManager.module.scss";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {IconBlock} from "../../../shared/ui/IconBlock";
 
 export const BookItemList = (props: IBookItemListProps) => {
 
@@ -29,6 +30,9 @@ export const BookItemList = (props: IBookItemListProps) => {
                             direction={"end"}
                             content={bookItem.description}
                         />
+                    }
+                    prefix={
+                        <IconBlock iconName={bookItem?.iconName} style={{fontSize: '35px'}}/>
                     }
                     key={bookItem.id}
                     clickable={true}

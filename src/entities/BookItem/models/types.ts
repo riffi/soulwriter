@@ -6,4 +6,5 @@ export interface IBookItem{
     parentId: number
     type: string
     childCount?: number
+    iconName?: string
 }
