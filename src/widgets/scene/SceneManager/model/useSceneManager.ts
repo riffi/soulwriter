@@ -1,6 +1,8 @@
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "../../../../entities/Db/model/Db.ts";
 import {useNavigate} from "react-router-dom";
+import {IScene} from "../../../../entities/Scene";
+import {ISceneShiftDirection} from "./types.ts";
 
 export const useSceneManager = (bookId: number) => {
 
@@ -9,8 +11,26 @@ export const useSceneManager = (bookId: number) => {
     const sceneList = useLiveQuery(() => db.scenes
         .where("bookId")
         .equals(bookId)
-        .toArray(), [bookId])
+        .sortBy("sortOrderId")
+        , [bookId])
 
+
+    const shiftScene = (sceneToShift: IScene, direction: ISceneShiftDirection) => {
+        const scenes: IScene[] = [...sceneList]
+        let newSortOrderId = sceneToShift.sortOrderId
+        if (direction === ISceneShiftDirection.DOWN){
+             newSortOrderId = sceneToShift.sortOrderId + 1
+        }
+        else{
+            newSortOrderId = sceneToShift.sortOrderId - 1
+        }
+
+        scenes.splice(sceneToShift.sortOrderId - 1, 1)
+        scenes.splice(newSortOrderId - 1, 0, sceneToShift)
+        scenes.forEach((scene, index) => {
+            db.scenes.update(scene.id, {sortOrderId: index + 1})
+        })
+    }
 
     const onCreateNewScene = async () => {
         const count = await db.scenes
@@ -31,6 +51,7 @@ export const useSceneManager = (bookId: number) => {
 
     return {
         sceneList,
+        shiftScene,
         onCreateNewScene
     }
 
