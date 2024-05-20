@@ -2,7 +2,7 @@ import {ISceneCharactersProps} from "../model/types.ts";
 import {AutoCenter, Button, Card, Dropdown, FloatingPanel, Image, List, Popup} from "antd-mobile";
 import {useSceneCharacters} from "../model/useSceneCharacters.ts";
 import {AddCircleOutline, CloseOutline} from "antd-mobile-icons";
-import React, {useState} from "react";
+import {useState} from "react";
 import {CharacterManager} from "../../CharacterManager";
 
 export const SceneCharacters = (props: ISceneCharactersProps) => {
@@ -55,8 +55,9 @@ export const SceneCharacters = (props: ISceneCharactersProps) => {
             </List.Item>
         </List>
             {charPopupVisible &&
-                <FloatingPanel
-                    anchors={anchors}
+                <Popup
+                    visible={true}
+                    bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
                 >
                     <Card
                         title={"Добавление персонажа"}
@@ -78,7 +79,7 @@ export const SceneCharacters = (props: ISceneCharactersProps) => {
                             })
                         }}/>
                     </Card>
-                </FloatingPanel>
+                </Popup>
             }
         </>
     )
