@@ -1,8 +1,9 @@
 import {BookItemSelectorProps} from "../model/types.ts";
-import {AutoCenter, Button, Checkbox, Ellipsis, List} from "antd-mobile";
+import {AutoCenter, Button, Checkbox, Ellipsis, List, Space} from "antd-mobile";
 import {useBookItemSelector} from "../model/useBookItemSelector.ts";
 import {useEffect, useState} from "react";
 import {BookItemBreadcrumbs} from "../../BookItemBreadcrumbs";
+import {IconBlock} from "../../../shared/ui/IconBlock";
 
 
 export const BookItemSelector = (props:BookItemSelectorProps) => {
@@ -37,6 +38,8 @@ export const BookItemSelector = (props:BookItemSelectorProps) => {
                 <List.Item
                     key={bookItem.id}
                     prefix={
+                    <>
+                        <Space direction={"horizontal"}>
                         <Checkbox
                             block
 
@@ -46,6 +49,12 @@ export const BookItemSelector = (props:BookItemSelectorProps) => {
                                 e.stopPropagation()
                             }}
                         ></Checkbox>
+                        <IconBlock
+                            iconName={bookItem?.iconName}
+                            style={{fontSize: '22px'}}
+                        />
+                        </Space>
+                    </>
                     }
 
                     description={

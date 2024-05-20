@@ -3,7 +3,7 @@ import {useBookItemViewForm} from "../model/useBookItemViewForm.ts";
 import {AutoCenter, Button, List, Popup, Space, Tabs} from "antd-mobile";
 import {InlineEdit} from "../../../shared/ui/InlineEdit";
 import {InlineTextArea} from "../../../shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
-import {CloseCircleOutline, DownOutline, SendOutline, UpOutline} from 'antd-mobile-icons'
+import {CloseCircleOutline, DownOutline, SendOutline, UpOutline, PictureOutline} from 'antd-mobile-icons'
 import {BookItemList} from "../../../features/BookItemList";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -11,6 +11,7 @@ import {BookItemBreadcrumbs} from "../../../features/BookItemBreadcrumbs";
 import {BookItemSelector} from "../../../features/BookItemSelector";
 import {IconBlock} from "../../../shared/ui/IconBlock";
 import {IconSelector} from "../../../shared/ui/IconSelector";
+import {BookItemLinks} from "../../../features/BookItemLinks";
 
 export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const {
@@ -19,6 +20,7 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
         onDeleteBookItemQuery,
         onMoveBookItemQuery,
         childCount,
+        mentionCount
     } = useBookItemViewForm(props.bookId, props.bookItemId)
 
     const [showDetails, setShowDetails] = useState<boolean>()
@@ -29,8 +31,13 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-       setShowDetails(showDetails =>  childCount? childCount > 0 : false)
-    }, [props.bookItemId, childCount])
+
+       setShowDetails(showDetails =>  {
+           const childrenC = childCount? childCount : 0
+           const mentionC = mentionCount? mentionCount : 0
+           return (childrenC + mentionC) > 0
+       })
+    }, [props.bookItemId, childCount, mentionCount])
 
     if (!bookItem) return
 
@@ -42,7 +49,28 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                 onClickTop={() => navigate('/worlds')}
             />
             <List>
-                <List.Item title={"Название"} key={"title"}>
+                <List.Item
+                    title={bookItem?.type ? bookItem?.type : "Название"}
+                    key={"title"}
+                    prefix={<>
+                            {!bookItem?.iconName &&
+                                <Button
+                                    size={"middle"}
+                                    color={"default"}
+                                    style={{}}
+                                    onClick={() => setIconSelectorPopupVisible(true)}
+                                >
+                                    <PictureOutline  style={{fontSize: '22px'}}/>
+                                </Button>
+                            }
+                            <IconBlock
+                                iconName={bookItem?.iconName}
+                                style={{fontSize: '32px', marginRight: '10px'}}
+                                onClick={() => setIconSelectorPopupVisible(true)}
+                            />
+                            </>
+                    }
+                >
                     <InlineEdit
                         value={bookItem?.title}
                         onChange={(val) => changeBaseAttributeValue("title", val, bookItem)}
@@ -55,18 +83,6 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                     />
                 </List.Item>
                 }
-                <List.Item key={"iconName"} title={"Иконка"} prefix={
-                    <IconBlock iconName={bookItem?.iconName} style={{fontSize: '32px', marginRight: '10px'}}/>
-                }>
-
-                    <Button
-                        size={"mini"}
-
-                        onClick={() => setIconSelectorPopupVisible(true)}
-                    >
-                        Выбрать
-                    </Button>
-                </List.Item>
                 {!showDetails &&
                     <List.Item title={"Описание"} key={"description"}>
                         <InlineTextArea
@@ -122,7 +138,7 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                                 header={"Описание мира"}
                             />
                         </Tabs.Tab>
-                        <Tabs.Tab title={"Описание"} key={"description"}>
+                        <Tabs.Tab title={"Параметры"} key={"description"}>
                             <List>
                                 <List.Item title={"Тип"} key={"type"}>
                                     <InlineEdit
@@ -137,6 +153,11 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                                     />
                                 </List.Item>
                             </List>
+                        </Tabs.Tab>
+                        <Tabs.Tab title={"Упоминания"} key={"mentions"}>
+                            {bookItem?.id && <BookItemLinks
+                                bookItemId={bookItem.id}
+                            />}
                         </Tabs.Tab>
                         <Tabs.Tab title={"Действия"} key={"actions"}>
                             <Space>

@@ -1,6 +1,6 @@
 import {ISceneViewFormProps} from "../model/types.ts";
 import {useSceneViewForm} from "../model/useSceneViewForm.ts";
-import {Button, Card, List, NavBar, Popup, Space} from "antd-mobile";
+import {AutoCenter, Button, Card, List, NavBar, Popup, Space} from "antd-mobile";
 import {InlineEdit} from "../../../../shared/ui/InlineEdit";
 import {useMemo, useRef, useState} from "react";
 import JoditEditor from 'jodit-react';
@@ -20,6 +20,8 @@ import {SceneCharacters} from "../../../../features/SceneCharacters";
 import {getWindowSelectionText} from "../lib/selectionUtils.ts";
 import {SynonymSearch} from "../../../../features/SynonymSearch";
 import {SceneLinks} from "../../../../features/SceneLinks";
+import {calcSymbolCount} from "../../../../shared/lib/TextMetrics.ts";
+import {makeCleanTextFromHtml} from "../../../../shared/lib/HtmlUtils.ts";
 
 
 export const SceneViewForm = (props: ISceneViewFormProps) => {
@@ -28,7 +30,8 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         prevScene,
         characterCount,
         sceneLinkCount,
-        changeAttributeValue
+        changeAttributeValue,
+        updateSymbolCount
     } = useSceneViewForm(props.bookId, props.sceneId)
 
     const navigate = useNavigate()
@@ -41,10 +44,13 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
 
     const [mode, setMode] = useState<ViewMode>(ViewMode.READ)
 
+
+
     const debouncedBodyCallback = useDebouncedCallback(
         // function
         (value) => {
             changeAttributeValue("body", value, scene)
+            updateSymbolCount( calcSymbolCount(makeCleanTextFromHtml(value)))
         },
         // delay in ms
         500
@@ -145,24 +151,24 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                         </div>
                     </Space>
                 </Button>
-                <Button
-                    onClick={() => {
-                        const selectedText = getWindowSelectionText()
-                        const cleanSelectedText = selectedText.toLowerCase().trim()
-                        setSelectedText(cleanSelectedText)
-                        setSynonymSearchPopupVisible(true)
-                    }}
-                    fill={"none"}
-                >
-                    <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>
-                        <CollectMoneyOutline
-                            style={{fontSize: "20px", color: '#546c72'}}
-                        />
-                        <div>
-                            {`Синонимы`}
-                        </div>
-                    </Space>
-                </Button>
+                {/*<Button*/}
+                {/*    onClick={() => {*/}
+                {/*        const selectedText = getWindowSelectionText()*/}
+                {/*        const cleanSelectedText = selectedText.toLowerCase().trim()*/}
+                {/*        setSelectedText(cleanSelectedText)*/}
+                {/*        setSynonymSearchPopupVisible(true)*/}
+                {/*    }}*/}
+                {/*    fill={"none"}*/}
+                {/*>*/}
+                {/*    <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>*/}
+                {/*        <CollectMoneyOutline*/}
+                {/*            style={{fontSize: "20px", color: '#546c72'}}*/}
+                {/*        />*/}
+                {/*        <div>*/}
+                {/*            {`Синонимы`}*/}
+                {/*        </div>*/}
+                {/*    </Space>*/}
+                {/*</Button>*/}
             </NavBar>
 
         </div>
@@ -178,6 +184,11 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                 </List>
             </Card>
             {memoizedEditor}
+        </div>
+        <div className={styled.footer}>
+            <AutoCenter style={{marginTop: '10px', color: '#888888'}}>
+                символов: {scene?.symbolCount}
+            </AutoCenter>
         </div>
         <Popup
             visible={sceneUsersPopupVisible}

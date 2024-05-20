@@ -7,6 +7,7 @@ export interface IScene{
     body: string
     bookId: number
     sortOrderId: number
+    symbolCount?: number
 }
 
 
@@ -25,4 +26,5 @@ export interface ISceneLink{
     bookItemId?: number
     title: string
     bookItemData?: IBookItem
+    sceneData?: IScene
 }

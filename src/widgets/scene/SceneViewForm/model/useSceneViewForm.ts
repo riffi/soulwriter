@@ -47,12 +47,19 @@ export const useSceneViewForm = (bookId: number, sceneId: number) =>{
         }
     }
 
+    const updateSymbolCount = (count: number) => {
+        if (scene){
+            db.scenes.update(sceneId, {symbolCount: count})
+        }
+    }
+
     return {
         scene,
         nextScene,
         prevScene,
         characterCount,
         sceneLinkCount,
-        changeAttributeValue
+        changeAttributeValue,
+        updateSymbolCount
     }
 }
