@@ -50,7 +50,7 @@ export const SceneLinks = (props: ISceneLinksProps) => {
                             <EditSOutline />
                         </Button>
                     }
-                    description={`${sceneLink.bookItemData?.type} : ${sceneLink.bookItemData?.title}`}
+                    description={`${sceneLink.bookItemData?.type ? sceneLink.bookItemData?.type + ': ' : ''}${sceneLink.bookItemData?.title}`}
                     onClick={() => {
                         navigate(`/book-item/card?id=${sceneLink.bookItemId}`)
                     }}
