@@ -96,7 +96,12 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                 onBack={() => navigate('/scenes')}
                 back={<UnorderedListOutline  style={{fontSize: "22px"}} />}
                 backArrow={false}
-                style={{padding: "0px 10px", backgroundColor: 'var(--adm-color-nav)', color: 'white'}}
+                style={{
+                    padding: "0px 10px",
+                    backgroundColor: 'var(--adm-color-nav)',
+                    color: 'white',
+                    fontSize: '14px'
+                }}
                 right={
                     <>
                         {mode === ViewMode.READ && <FillinOutline
@@ -151,24 +156,6 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                         </div>
                     </Space>
                 </Button>
-                {/*<Button*/}
-                {/*    onClick={() => {*/}
-                {/*        const selectedText = getWindowSelectionText()*/}
-                {/*        const cleanSelectedText = selectedText.toLowerCase().trim()*/}
-                {/*        setSelectedText(cleanSelectedText)*/}
-                {/*        setSynonymSearchPopupVisible(true)*/}
-                {/*    }}*/}
-                {/*    fill={"none"}*/}
-                {/*>*/}
-                {/*    <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>*/}
-                {/*        <CollectMoneyOutline*/}
-                {/*            style={{fontSize: "20px", color: '#546c72'}}*/}
-                {/*        />*/}
-                {/*        <div>*/}
-                {/*            {`Синонимы`}*/}
-                {/*        </div>*/}
-                {/*    </Space>*/}
-                {/*</Button>*/}
             </NavBar>
 
         </div>

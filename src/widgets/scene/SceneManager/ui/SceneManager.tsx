@@ -1,12 +1,13 @@
 import {ISceneShiftDirection, SceneManagerMode, SceneManagerProps} from "../model/types.ts";
 import {useSceneManager} from "../model/useSceneManager.ts";
-import {AutoCenter, Button, Card, List, Space} from "antd-mobile";
+import {AutoCenter, Button, Card, List, ProgressBar, Space} from "antd-mobile";
 import {useNavigate} from "react-router-dom";
 import {AddCircleOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
 import {useState} from "react";
 
 export const SceneManager = (props: SceneManagerProps) => {
     const navigate = useNavigate()
+
 
     const [mode, setMode] = useState<SceneManagerMode>(SceneManagerMode.BASIC)
     const [blinkItemId, setBlinkItemId] = useState<number>()
@@ -17,9 +18,27 @@ export const SceneManager = (props: SceneManagerProps) => {
         bookSymbolCount
     } = useSceneManager(props.bookId)
 
+    // @Todo - перенести в настройки
+    const targetSymbolCount = 400000
+
+    const symbolTotalPercentage = Math.round(bookSymbolCount / targetSymbolCount * 100)
+
     return (
         <Card>
-            <Space justify={"center"} direction={"horizontal"}>
+            <ProgressBar
+                percent={symbolTotalPercentage}
+                text={`Cимволов\n${bookSymbolCount} / ${targetSymbolCount}\n${symbolTotalPercentage}%`}
+                style={{
+                    'fontSize': '12px',
+                    '--text-width': '100px',
+                    "whiteSpace": "pre-line"
+                }}
+            />
+            <Space
+                justify={"center"}
+                direction={"horizontal"}
+                style={{marginTop: '10px'}}
+            >
                 <Button
                     size={"small"}
                     style={{marginBottom: '10px'}}
@@ -36,9 +55,9 @@ export const SceneManager = (props: SceneManagerProps) => {
                 >
                     <FingerdownOutline /> Переставить
                 </Button>
-                <div style={{marginTop: '7px', marginLeft: '10px', color: '#999999'}}>
-                    Всего символов: {bookSymbolCount}
-                </div>
+                {/*<div style={{marginTop: '7px', marginLeft: '10px', color: '#999999'}}>*/}
+                {/*    Всего символов: {bookSymbolCount}*/}
+                {/*</div>*/}
             </Space>
             <List style={{"--padding-left": "0px"}}>
                 {sceneList?.map(scene =>(
