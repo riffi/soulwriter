@@ -1,7 +1,6 @@
 import {ISceneParamsProps} from "../model/types.ts";
 import {List} from "antd-mobile";
 import {useSceneParams} from "../model/useSceneParams.ts";
-import {InlineEdit} from "../../../shared/ui/InlineEdit";
 import {InlineStepper} from "../../../shared/ui/InlineStepper";
 
 export const SceneParams = (props: ISceneParamsProps) => {

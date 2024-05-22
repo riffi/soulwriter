@@ -43,7 +43,11 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
         if (children.length > 0){
             children.forEach((child) => deleteBookItem(child))
         }
-        db.bookItems.delete(bookItem.id)
+        const bookItemId = bookItem.id
+        if (bookItemId){
+            await db.sceneLinks.where("bookItemId").equals(bookItemId).delete()
+            await db.bookItems.delete(bookItem.id)
+        }
     }
 
     const moveBookItem = async (bookItem: IBookItem, toBookItemId: number) => {
@@ -53,9 +57,10 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
     const onDeleteBookItemQuery = async (bookItem: IBookItem) => {
         Dialog.alert({
             title: `Удалить ${bookItem.title} ?`,
+            content: 'Внимание, будут удалены все детали и их связи!',
             closeOnMaskClick: true,
             onConfirm: () => {
-                db.transaction('rw', db.bookItems, async () => {
+                db.transaction('rw', db.bookItems, db.sceneLinks, async () => {
                     await deleteBookItem(bookItem)
                 }).then(() => {
                     Toast.show({
@@ -67,7 +72,7 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
                         navigate(`/book-item/card?id=${bookItem?.parentId}`)
                     }
                     else{
-                        navigate(`/worlds`)
+                        navigate(`/book-items`)
                     }
 
                 }).catch((error) => {
@@ -100,7 +105,7 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
                         navigate(`/book-item/card?id=${toBookItemId}`)
                     }
                     else{
-                        navigate(`/worlds`)
+                        navigate(`/book-items`)
                     }
 
                 }).catch((error) => {

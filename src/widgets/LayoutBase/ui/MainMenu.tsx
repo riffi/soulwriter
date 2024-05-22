@@ -15,7 +15,7 @@ export const MainMenu = (props: IMainMenuProps) => {
             <TabBar onChange={navigateTo}  activeKey={props?.route?.route} style={{backgroundColor: 'white'}}>
                 <TabBar.Item key="/scenes" icon={<FileOutline/>} title={"Сцены"}/>
                 <TabBar.Item key="/characters" icon={<UserOutline/>} title={"Персонажи"}/>
-                <TabBar.Item key="/worlds" icon={<GlobalOutline/>} title={"База знаний"}/>
+                <TabBar.Item key="/book-items" icon={<GlobalOutline/>} title={"База знаний"}/>
                 <TabBar.Item key="/dictionaries" icon={<UnorderedListOutline/>} title={"Справочники"}/>
                 <TabBar.Item key="/settings" icon={<SetOutline/>} title={"Настройки"}/>
             </TabBar>

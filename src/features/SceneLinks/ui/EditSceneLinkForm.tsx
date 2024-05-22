@@ -81,8 +81,13 @@ export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
         <Popup
             visible={bookItemSelectorPopupVisible}
             onMaskClick={() => setBookItemSelectorPopupVisible(false)}
+            onClose={() => setBookItemSelectorPopupVisible(false)}
+            showCloseButton={true}
             bodyStyle={{
-                paddingBottom: '10px'
+                paddingBottom: '10px',
+                height: '100dvh',
+                overflow: 'auto'
+
             }}
         >
             <BookItemSelector

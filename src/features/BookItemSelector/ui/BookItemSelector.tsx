@@ -1,20 +1,23 @@
 import {BookItemSelectorProps} from "../model/types.ts";
-import {AutoCenter, Button, Checkbox, Ellipsis, List, Space} from "antd-mobile";
+import {AutoCenter, Button, Card, Checkbox, Ellipsis, List, SearchBar, Space} from "antd-mobile";
 import {useBookItemSelector} from "../model/useBookItemSelector.ts";
 import {useEffect, useState} from "react";
 import {BookItemBreadcrumbs} from "../../BookItemBreadcrumbs";
 import {IconBlock} from "../../../shared/ui/IconBlock";
+import {BookItemListMode} from "../../BookItemList";
 
 
 export const BookItemSelector = (props:BookItemSelectorProps) => {
 
     const [parentBookItemId, setParentBookItemId] = useState<number>(props.parentBookItemId)
     const [selectedId, setSelectedId] = useState<number>(props.selectedId)
+    const [searchStr, setSearchStr] = useState<string>("")
 
+    const mode: BookItemListMode = searchStr === '' ? BookItemListMode.CHILDREN : BookItemListMode.SEARCH
 
     const {
         bookItemList
-    } = useBookItemSelector(parentBookItemId, props.bookId)
+    } = useBookItemSelector(parentBookItemId, props.bookId, mode, searchStr)
 
     useEffect(() => {
 
@@ -26,13 +29,20 @@ export const BookItemSelector = (props:BookItemSelectorProps) => {
     }
 
     return (
-        <>
-        <h3>{props.title}</h3>
-        <BookItemBreadcrumbs
+        <Card>
+        <SearchBar
+            placeholder={"Поиск"}
+            clearable={true}
+            style={{marginTop: "25px", marginBottom: '15px'}}
+            onChange={(val) => {
+                setSearchStr(val)
+            }}
+        />
+        {mode === BookItemListMode.CHILDREN && <BookItemBreadcrumbs
             bookItemId={parentBookItemId}
             onClickItem={(bookItem) => setParentBookItemId(bookItem?.id)}
             onClickTop={() => setParentBookItemId(-1)}
-        />
+        />}
         <List>
             {bookItemList?.map((bookItem) =>
                 <List.Item
@@ -85,6 +95,6 @@ export const BookItemSelector = (props:BookItemSelectorProps) => {
                 {props.actionTitle ? props.actionTitle : 'Выбрать'}
             </Button>
         </AutoCenter>
-        </>
+        </Card>
     )
 }

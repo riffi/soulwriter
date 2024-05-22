@@ -3,8 +3,8 @@ import {useBookItemViewForm} from "../model/useBookItemViewForm.ts";
 import {AutoCenter, Button, List, Popup, Space, Tabs} from "antd-mobile";
 import {InlineEdit} from "../../../shared/ui/InlineEdit";
 import {InlineTextArea} from "../../../shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
-import {CloseCircleOutline, DownOutline, SendOutline, UpOutline, PictureOutline} from 'antd-mobile-icons'
-import {BookItemList} from "../../../features/BookItemList";
+import {CloseCircleOutline, DownOutline, PictureOutline, SendOutline, UpOutline} from 'antd-mobile-icons'
+import {BookItemList, BookItemListMode} from "../../../features/BookItemList";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {BookItemBreadcrumbs} from "../../../features/BookItemBreadcrumbs";
@@ -46,7 +46,7 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
             <BookItemBreadcrumbs
                 bookItemId={bookItem.parentId}
                 onClickItem={(bookItem) => navigate(`/book-item/card?id=${bookItem.id}`)}
-                onClickTop={() => navigate('/worlds')}
+                onClickTop={() => navigate('/book-items')}
             />
             <List>
                 <List.Item
@@ -136,9 +136,10 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                                 parentId={bookItem?.id}
                                 bookId={props.bookId}
                                 header={"Описание мира"}
+                                mode={BookItemListMode.CHILDREN}
                             />
                         </Tabs.Tab>
-                        <Tabs.Tab title={"Параметры"} key={"description"}>
+                        <Tabs.Tab title={"Свойства"} key={"description"}>
                             <List>
                                 <List.Item title={"Тип"} key={"type"}>
                                     <InlineEdit

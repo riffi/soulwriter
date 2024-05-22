@@ -20,6 +20,7 @@ import {SceneLinks} from "../../../../features/SceneLinks";
 import {calcSymbolCount} from "../../../../shared/lib/TextMetrics.ts";
 import {makeCleanTextFromHtml} from "../../../../shared/lib/HtmlUtils.ts";
 import {SceneParams} from "../../../../features/SceneParams";
+import {SceneDescription} from "../../../../features/SceneDescription";
 
 
 export const SceneViewForm = (props: ISceneViewFormProps) => {
@@ -177,7 +178,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         </div>
         <div className={styled.footer}>
             <AutoCenter style={{marginTop: '10px', color: '#888888'}}>
-                символов: {scene?.symbolCount}
+                {scene && <SceneDescription scene={scene}/>}
             </AutoCenter>
         </div>
         <Popup
