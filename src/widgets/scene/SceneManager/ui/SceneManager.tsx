@@ -1,10 +1,12 @@
 import {ISceneShiftDirection, SceneManagerMode, SceneManagerProps} from "../model/types.ts";
 import {useSceneManager} from "../model/useSceneManager.ts";
-import {AutoCenter, Button, Card, List, ProgressBar, Space} from "antd-mobile";
+import {AutoCenter, Button, Card, Collapse, Divider, List, ProgressBar, SearchBar, Space} from "antd-mobile";
 import {useNavigate} from "react-router-dom";
 import {AddCircleOutline, DownOutline, FingerdownOutline, UpOutline, HistogramOutline, CalendarOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import {IScene} from "../../../../entities/Scene";
+import {SceneDescription} from "../../../../features/SceneDescription";
+import {useDebounce} from "use-debounce";
 
 export const SceneManager = (props: SceneManagerProps) => {
     const navigate = useNavigate()
@@ -22,30 +24,21 @@ export const SceneManager = (props: SceneManagerProps) => {
     // @Todo - перенести в настройки
     const targetSymbolCount = 400000
 
+    const [searchStr, setSearchStr] = useState<string>("")
+
+
+    const [filteredSceneList] = useDebounce(sceneList?.filter((scene) => {
+        return searchStr === '' || scene.body.toLowerCase().indexOf(searchStr.toLowerCase()) !== -1
+    }), 500)
+
+    const scenes = searchStr === '' ? sceneList : filteredSceneList
+
     const symbolTotalPercentage = Math.round(bookSymbolCount / targetSymbolCount * 100)
 
-    const getSceneDescription = (scene: IScene) => {
-        return (
-            <>
-                <Space>
-                    <div>
-                        <HistogramOutline /> {scene.symbolCount}
-                    </div>
-                    {(scene.dayStart || scene.dayEnd) && <div>
-                        <CalendarOutline /> {(scene.dayStart === scene.dayEnd) && <>
-                            день: {scene.dayStart? scene.dayStart : ' '}
-                            </>}
-                        {(scene.dayStart !== scene.dayEnd) && <>
-                            дни: {scene.dayStart? scene.dayStart : ' '} - {scene.dayEnd? scene.dayEnd : ' '}
-                            </>}
-                    </div>}
-                </Space>
-            </>
-        )
-    }
-
     return (
-        <Card>
+        <Card
+            bodyStyle={{paddingTop: "0px"}}
+        >
             <ProgressBar
                 percent={symbolTotalPercentage}
                 text={`Cимволов\n${bookSymbolCount} / ${targetSymbolCount}\n${symbolTotalPercentage}%`}
@@ -55,34 +48,51 @@ export const SceneManager = (props: SceneManagerProps) => {
                     "whiteSpace": "pre-line"
                 }}
             />
-            <Space
-                justify={"center"}
-                direction={"horizontal"}
-                style={{marginTop: '10px'}}
-            >
-                <Button
-                    size={"small"}
-                    style={{marginBottom: '10px'}}
-                    color={(mode === SceneManagerMode.REORDER) ?  'warning' : 'default'}
-                    onClick={() => {
-                        if (mode === SceneManagerMode.BASIC){
-                            setMode(SceneManagerMode.REORDER)
-                        }
-                        else{
-                            setMode(SceneManagerMode.BASIC)
-                        }
-
-                    }}
+            <Collapse defaultActiveKey={null} accordion={true}  style={{color: '#999999'}}>
+                <Collapse.Panel key='1' title='Фильтры'>
+                    <SearchBar
+                        placeholder={"Поиск"}
+                        clearable={true}
+                        onChange={(val) => {
+                            setSearchStr(val)
+                        }}
+                    />
+                </Collapse.Panel>
+                <Collapse.Panel key='2' title='Действия'>
+                <Space
+                    justify={"center"}
+                    direction={"horizontal"}
+                    style={{marginTop: '10px'}}
                 >
-                    <FingerdownOutline /> Переставить
-                </Button>
-            </Space>
-            <List style={{"--padding-left": "0px"}}>
-                {sceneList?.map(scene =>(
+                    <Button
+                        size={"small"}
+                        style={{marginBottom: '10px'}}
+                        color={(mode === SceneManagerMode.REORDER) ?  'warning' : 'default'}
+                        onClick={() => {
+                            if (mode === SceneManagerMode.BASIC){
+                                setMode(SceneManagerMode.REORDER)
+                            }
+                            else{
+                                setMode(SceneManagerMode.BASIC)
+                            }
+
+                        }}
+                    >
+                        <FingerdownOutline /> Переставить
+                    </Button>
+                </Space>
+                </Collapse.Panel>
+            </Collapse>
+
+
+            <List style={{"--padding-left": "0px"}} header={"Сцены"}>
+                {scenes?.map(scene =>(
                     <List.Item
                         className={blinkItemId === scene.id ? "blink" : ''}
                         key={scene.id}
-                        description={getSceneDescription(scene)}
+                        description={
+                            <SceneDescription scene={scene}/>
+                        }
                         prefix={scene.sortOrderId}
                         style={{"whiteSpace": "pre-line"}}
                         extra={mode === SceneManagerMode.REORDER &&

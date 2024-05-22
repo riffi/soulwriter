@@ -1,6 +1,6 @@
 import {IBookItemListProps} from "../model/types.ts";
 import {useBookItemList} from "../model/useBookItemList.ts";
-import {AutoCenter, Button, Ellipsis, Grid, Input, List, Popup, Selector} from "antd-mobile";
+import {AutoCenter, Button, Ellipsis, Grid, Input, List, Popup} from "antd-mobile";
 import {AddCircleOutline} from "antd-mobile-icons";
 import styled from "../../../widgets/CharacterAttributeManager/ui/CharacterAttributeManager.module.scss";
 import {useState} from "react";
@@ -11,7 +11,7 @@ export const BookItemList = (props: IBookItemListProps) => {
 
     const {bookItemList,
         onSaveNewItem
-    } = useBookItemList(props.parentId, props.bookId)
+    } = useBookItemList(props.parentId, props.bookId, props.mode, props.searchStr)
     const [popupAddItemVisible, setPopupAddItemVisible] = useState<boolean>(false)
     const [newItemTitle, setNewItemTitle] = useState<string>("")
     const [newItemType, setNewItemType] = useState<string>("")

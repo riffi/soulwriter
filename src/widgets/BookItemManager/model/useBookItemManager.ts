@@ -3,7 +3,7 @@ import {db} from "../../../entities/Db/model/Db.ts";
 import {IWorld} from "../../../entities/World";
 import {IBook} from "../../../entities/Book";
 
-export const useWorldManager = (book: IBook) => {
+export const useBookItemManager = (book: IBook) => {
     const worldList = useLiveQuery(() => db.worlds
         .where("bookId")
         .equals(book.id)
