@@ -62,7 +62,7 @@ export const SceneCharacters = (props: ISceneCharactersProps) => {
             {charPopupVisible &&
                 <Popup
                     visible={true}
-                    bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+                    bodyStyle={{overflow: "auto", height: "90dvh"}}
                 >
                     <Card
                         title={"Добавление персонажа"}

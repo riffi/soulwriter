@@ -206,7 +206,7 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
             <Popup
                 visible={iconSelectorPopupVisible}
                 onMaskClick={() => setIconSelectorPopupVisible(false)}
-                bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+                bodyStyle={{overflow: "auto", height: "90dvh"}}
             >
                 <IconSelector
                     onSelect={(iconName) => {
