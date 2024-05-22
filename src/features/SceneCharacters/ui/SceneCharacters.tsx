@@ -4,6 +4,7 @@ import {useSceneCharacters} from "../model/useSceneCharacters.ts";
 import {AddCircleOutline, CloseOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import {CharacterManager} from "../../CharacterManager";
+import {useNavigate} from "react-router-dom";
 
 export const SceneCharacters = (props: ISceneCharactersProps) => {
     const {sceneCharacters,
@@ -15,7 +16,7 @@ export const SceneCharacters = (props: ISceneCharactersProps) => {
     } = useSceneCharacters(props.sceneId,props.bookId)
 
     const [charPopupVisible, setCharPopupVisible] = useState<boolean>(false)
-    const anchors = [400, window.innerHeight * 0.2, window.innerHeight * 0.8]
+    const navigate = useNavigate()
 
     const sceneCharactersFull = getSceneCharactersFull()
 
@@ -26,8 +27,12 @@ export const SceneCharacters = (props: ISceneCharactersProps) => {
                 <List.Item
                     key={sceneCharacter?.id}
                     description={sceneCharacter.description}
+                    onClick={() => navigate(`/character/card?id=${sceneCharacter.id}`)}
                     extra={
-                        <Button fill={"none"} onClick={() => onRemoveCharacterFromScene(sceneCharacter)}>
+                        <Button fill={"none"} onClick={(e) => {
+                            e.stopPropagation()
+                            onRemoveCharacterFromScene(sceneCharacter)
+                        }}>
                             <CloseOutline />
                         </Button>}
                     prefix={
