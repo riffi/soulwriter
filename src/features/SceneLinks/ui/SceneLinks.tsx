@@ -1,11 +1,12 @@
 import {ISceneLinksProps} from "../model/types.ts";
-import {AutoCenter, Button, FloatingPanel, List, Popup} from "antd-mobile";
+import {AutoCenter, Button, List, Popup} from "antd-mobile";
 import {useSceneLinks} from "../model/useSceneLinks.ts";
-import {AddCircleOutline} from "antd-mobile-icons";
+import {AddCircleOutline, EditSOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import {ISceneLink} from "../../../entities/Scene";
 import {EditSceneLinkForm} from "./EditSceneLinkForm.tsx";
 import {IconBlock} from "../../../shared/ui/IconBlock";
+import {useNavigate} from "react-router-dom";
 
 export const SceneLinks = (props: ISceneLinksProps) => {
 
@@ -22,8 +23,7 @@ export const SceneLinks = (props: ISceneLinksProps) => {
 
     const [linkAppendPopupVisible, setLinkAppendPopupVisible] = useState<boolean>(false)
     const [currentLink, setCurrentLink] = useState<ISceneLink>(newLinkInitialVals)
-
-    const anchors = [400, window.innerHeight * 0.2, window.innerHeight * 0.8]
+    const navigate = useNavigate()
 
 
     return (
@@ -39,10 +39,20 @@ export const SceneLinks = (props: ISceneLinksProps) => {
                             style={{fontSize: '28px'}}
                         />
                     }
-                    description={`${sceneLink.bookItemData?.type} : ${sceneLink.bookItemData?.title}`}
+                    extra={
+                        <Button fill={"none"}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    setCurrentLink(sceneLink)
+                                    setLinkAppendPopupVisible(true)
+                                }}
+                        >
+                            <EditSOutline />
+                        </Button>
+                    }
+                    description={`${sceneLink.bookItemData?.type ? sceneLink.bookItemData?.type + ': ' : ''}${sceneLink.bookItemData?.title}`}
                     onClick={() => {
-                        setCurrentLink(sceneLink)
-                        setLinkAppendPopupVisible(true)
+                        navigate(`/book-item/card?id=${sceneLink.bookItemId}`)
                     }}
                 >
                     {sceneLink?.title}

@@ -24,7 +24,7 @@ export class DbAdapter extends Dexie {
         characterAttributeDict: '++id, title, bookId',
         worlds: '++id, title, bookId',
         books: '++id, title, description, author',
-        scenes: '++id, title, bookId, sortOrderId',
+        scenes: '++id, title, bookId, sortOrderId, dayStart, dayEnd',
         sceneCharacters: '++id, sceneId, characterId',
         bookItems: '++id, bookId, parentId, worldId, type',
         sceneLinks: '++id, sceneId, bookId, bookItemId, type'

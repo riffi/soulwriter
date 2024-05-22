@@ -8,6 +8,8 @@ export interface IScene{
     bookId: number
     sortOrderId: number
     symbolCount?: number
+    dayStart?: number
+    dayEnd?: number
 }
 
 

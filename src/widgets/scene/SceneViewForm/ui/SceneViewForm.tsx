@@ -1,27 +1,25 @@
 import {ISceneViewFormProps} from "../model/types.ts";
 import {useSceneViewForm} from "../model/useSceneViewForm.ts";
-import {AutoCenter, Button, Card, List, NavBar, Popup, Space} from "antd-mobile";
+import {AutoCenter, Card, List, NavBar, Popup, TabBar} from "antd-mobile";
 import {InlineEdit} from "../../../../shared/ui/InlineEdit";
 import {useMemo, useRef, useState} from "react";
 import JoditEditor from 'jodit-react';
 import {FillinOutline,
-    FileOutline,
     RightOutline,
     UnorderedListOutline,
     TeamFill,
-    CollectMoneyOutline,
-    LinkOutline
+    FileOutline,
+    LinkOutline,
 } from "antd-mobile-icons";
 import {useDebouncedCallback} from "use-debounce";
 import {useNavigate} from "react-router-dom";
 import styled from './SceneViewForm.module.scss'
 import {ViewMode} from "../../../../shared/model/types.ts";
 import {SceneCharacters} from "../../../../features/SceneCharacters";
-import {getWindowSelectionText} from "../lib/selectionUtils.ts";
-import {SynonymSearch} from "../../../../features/SynonymSearch";
 import {SceneLinks} from "../../../../features/SceneLinks";
 import {calcSymbolCount} from "../../../../shared/lib/TextMetrics.ts";
 import {makeCleanTextFromHtml} from "../../../../shared/lib/HtmlUtils.ts";
+import {SceneParams} from "../../../../features/SceneParams";
 
 
 export const SceneViewForm = (props: ISceneViewFormProps) => {
@@ -37,10 +35,8 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
     const navigate = useNavigate()
 
     const [sceneUsersPopupVisible, setSceneUsersPopupVisible] = useState<boolean>(false)
-    const [synonymSearchPopupVisible, setSynonymSearchPopupVisible] = useState<boolean>(false)
     const [sceneLinksPopupVisible, setSceneLinksPopupVisible] = useState<boolean>(false)
-
-    const [selectedText, setSelectedText] = useState<string>("")
+    const [sceneParamsPopupVisible, setSceneParamsPopupVisible] = useState<boolean>(false)
 
     const [mode, setMode] = useState<ViewMode>(ViewMode.READ)
 
@@ -89,6 +85,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         }
     }
 
+
     return (
         <>
         <div className={styled.header}>
@@ -96,7 +93,12 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                 onBack={() => navigate('/scenes')}
                 back={<UnorderedListOutline  style={{fontSize: "22px"}} />}
                 backArrow={false}
-                style={{padding: "0px 10px", backgroundColor: 'var(--adm-color-nav)', color: 'white'}}
+                style={{
+                    padding: "0px 10px",
+                    backgroundColor: 'var(--adm-color-nav)',
+                    color: 'white',
+                    fontSize: '14px'
+                }}
                 right={
                     <>
                         {mode === ViewMode.READ && <FillinOutline
@@ -125,50 +127,38 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                 </>
             }
             >
-                <Button
-                    onClick={() => setSceneUsersPopupVisible(true)}
-                    fill={"none"}
+                <TabBar onChange={(key) => {
+                        if (key == "characters"){
+                            setSceneUsersPopupVisible(true)
+                        }
+                        else if (key == "links"){
+                            setSceneLinksPopupVisible(true)
+                        }
+                        else if (key == "params"){
+                            setSceneParamsPopupVisible(true)
+                        }
+                    }}
+                    activeKey={null}
+
                 >
-                    <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>
-                        <TeamFill
-                            style={{fontSize: "20px", color: '#546c72'}}
-                        />
-                        <div>
-                            {`Персонажи (${characterCount})`}
-                        </div>
-                    </Space>
-                </Button>
-                <Button
-                    onClick={() => setSceneLinksPopupVisible(true)}
-                    fill={"none"}
-                >
-                    <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>
-                        <LinkOutline
-                            style={{fontSize: "20px", color: '#546c72'}}
-                        />
-                        <div>
-                            {`Упоминания (${sceneLinkCount})\``}
-                        </div>
-                    </Space>
-                </Button>
-                {/*<Button*/}
-                {/*    onClick={() => {*/}
-                {/*        const selectedText = getWindowSelectionText()*/}
-                {/*        const cleanSelectedText = selectedText.toLowerCase().trim()*/}
-                {/*        setSelectedText(cleanSelectedText)*/}
-                {/*        setSynonymSearchPopupVisible(true)*/}
-                {/*    }}*/}
-                {/*    fill={"none"}*/}
-                {/*>*/}
-                {/*    <Space direction={"vertical"} style={{fontSize: "10px", "--gap": "0px"}} align={"center"} wrap={false}>*/}
-                {/*        <CollectMoneyOutline*/}
-                {/*            style={{fontSize: "20px", color: '#546c72'}}*/}
-                {/*        />*/}
-                {/*        <div>*/}
-                {/*            {`Синонимы`}*/}
-                {/*        </div>*/}
-                {/*    </Space>*/}
-                {/*</Button>*/}
+                    <TabBar.Item
+                        key={"characters"}
+                        icon={<TeamFill/>}
+                        title={`Персонажи (${characterCount})`}
+                    />
+                    <TabBar.Item
+                        key={"links"}
+                        icon={<LinkOutline/>}
+                        title={`Упоминания (${sceneLinkCount})`}
+
+                    />
+                    <TabBar.Item
+                        key={"params"}
+                        icon={<FileOutline />}
+                        title={`Параметры`}
+
+                    />
+                </TabBar>
             </NavBar>
 
         </div>
@@ -211,14 +201,14 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
             <SceneLinks bookId={props.bookId} sceneId={props.sceneId}/>
         </Popup>
         <Popup
-            visible={synonymSearchPopupVisible}
-            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+            visible={sceneParamsPopupVisible}
             showCloseButton={true}
-            onClose={() => setSynonymSearchPopupVisible(false)}
-            onMaskClick={() => setSynonymSearchPopupVisible(false)}
+            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+            onClose={() => setSceneParamsPopupVisible(false)}
+            onMaskClick={() => setSceneParamsPopupVisible(false)}
             tabIndex={3}
         >
-            <SynonymSearch text={selectedText}/>
+            <SceneParams sceneId={props.sceneId}/>
         </Popup>
     </>
     )

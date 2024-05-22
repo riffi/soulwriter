@@ -40,7 +40,7 @@ export const useSceneViewForm = (bookId: number, sceneId: number) =>{
     )
 
 
-    const changeAttributeValue = (attributeName: string, newValue: string, scene?: IScene) => {
+    const changeAttributeValue = (attributeName: string, newValue: number, scene?: IScene) => {
         if (scene){
             scene[attributeName] = newValue
             db.scenes.update(sceneId, {...scene})
