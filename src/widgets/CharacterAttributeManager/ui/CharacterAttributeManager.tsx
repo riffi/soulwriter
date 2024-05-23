@@ -1,67 +1,84 @@
-import {Button, Grid, Input, Popup} from "antd-mobile";
+import {Button, Grid, Input, Popup, TabBar} from "antd-mobile";
 import {useCharacterAttributeManager} from "../model/useCharacterAttributeManager.ts";
 import {useState} from "react";
 import {CharacterAttributeDictList} from "@features/CharacterAttributeDictList";
 
 import styled from "./CharacterAttributeManager.module.scss";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../store.ts";
+import {EyeOutline, UserContactOutline} from "antd-mobile-icons";
+import {CharacterAttributeDataType, CharacterAttributeSection, ICharacterDictAttribute} from "@entities/Character";
+import {ICharacterAttributeManagerProps} from "@widgets/CharacterAttributeManager/model/types.ts";
+import {CharacterDictAttributeEditForm} from "@features/CharacterDictAttributeEditForm";
 
-export const CharacterAttributeManager = () => {
-
-    const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
-
-
+export const CharacterAttributeManager = (props: ICharacterAttributeManagerProps) => {
 
     const {characterAttributeDict,
         onSaveNewAttribute,
         onChangeAttribute,
+        onSaveAttribute,
         onDeleteAttribute
-    } = useCharacterAttributeManager(currentBook)
+    } = useCharacterAttributeManager(props.bookId)
 
     const [popupAddAttributeVisible, setPopupAddAttributeVisible] = useState<boolean>(false)
     const [newAttributeTitle, setNewAttributeTitle] = useState<string>("")
+    const [currentTab, setCurrentTab] = useState<CharacterAttributeSection>(CharacterAttributeSection.APPEARANCE)
 
-    if (!currentBook || !currentBook.id) return
 
+    const newAttrInitialVars = {
+        bookId: props.bookId,
+        title: '',
+        section: currentTab,
+        dataType: CharacterAttributeDataType.STRING
+    }
+   const [currentAttr, setCurrentAttr] = useState<ICharacterDictAttribute>(newAttrInitialVars)
+
+
+
+    const characterAttributeDictSection = characterAttributeDict?.filter((attr) => {
+        return (attr.section === currentTab) || (!attr.section && currentTab === CharacterAttributeSection.APPEARANCE)
+    })
     return (
         <>
+        <TabBar
+            defaultActiveKey={currentTab}
+            onChange={(key) => {
+                setCurrentTab(key)
+            }}
+        >
+            <TabBar.Item
+                key={CharacterAttributeSection.APPEARANCE}
+                icon={<UserContactOutline/>}
+                title={`Внешность`}
+            />
+            <TabBar.Item
+                key={CharacterAttributeSection.TEMPER}
+                icon={<EyeOutline/>}
+                title={`Личность`}
+            />
+        </TabBar>
         <CharacterAttributeDictList
-            bookId={currentBook.id}
-            attributeList={characterAttributeDict}
+            bookId={props.bookId}
+            attributeList={characterAttributeDictSection}
+            onEditCallback={(attr) => {
+                setCurrentAttr(attr)
+                setPopupAddAttributeVisible(true)
+            }}
             addButtonEnabled={true}
-            onChangeCallback={onChangeAttribute}
             onDeleteCallBack={onDeleteAttribute}
             addButtonCallback={() => {
                 setPopupAddAttributeVisible(true)
-                setNewAttributeTitle("")
+                setCurrentAttr(newAttrInitialVars)
             }} />
 
         <Popup
             visible={popupAddAttributeVisible}
             onMaskClick={() => setPopupAddAttributeVisible(false)}
+            showCloseButton={true}
+            onClose={() => setPopupAddAttributeVisible(false)}
         >
-            <Grid columns={1} gap={1} style={{margin: '10px'}}>
-                <h3>Добавить атрибут</h3>
-                <Input
-                    className={styled.margined}
-                    placeholder='Название атрибута'
-                    value={newAttributeTitle}
-                    onChange={val => {
-                        setNewAttributeTitle(val)
-                    }}
-                    onKeyUp={(event) => {
-                        if (event.key === 'Enter') {
-                            onSaveNewAttribute(newAttributeTitle)
-                            setPopupAddAttributeVisible(false)
-                        }
-                    }}
-                />
-                <Button onClick={() => {
-                    onSaveNewAttribute(newAttributeTitle)
-                    setPopupAddAttributeVisible(false)
-                }}>Сохранить</Button>
-            </Grid>
+            <CharacterDictAttributeEditForm
+                attribute={currentAttr}
+                onSubmit={onSaveAttribute}
+            />
         </Popup>
         </>
     )

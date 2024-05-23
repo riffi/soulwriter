@@ -6,6 +6,6 @@ export interface ICharacterAttributeDictListProps{
     addButtonEnabled: boolean,
     addButtonCallback?: () => void
     onClickCallback?: (attribute: ICharacterDictAttribute) => void
-    onChangeCallback?: (attribute: ICharacterDictAttribute) => void
+    onEditCallback?: (attribute: ICharacterDictAttribute) => void
     onDeleteCallBack?: (id: number) => void
 }

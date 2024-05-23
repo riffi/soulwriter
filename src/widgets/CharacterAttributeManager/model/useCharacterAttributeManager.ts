@@ -2,21 +2,29 @@ import {ICharacterDictAttribute} from "@entities/Character";
 import {db} from "@entities/Db/model/Db.ts";
 import {useLiveQuery} from "dexie-react-hooks";
 import {Dialog} from "antd-mobile";
-import {IBook} from "@entities/Book";
 
-export const useCharacterAttributeManager = (book?: IBook) => {
+export const useCharacterAttributeManager = (bookId: number) => {
 
     const characterAttributeDict = useLiveQuery(() => db.characterAttributeDict
         .where("bookId")
-        .equals(book?.id)
+        .equals(bookId)
         .toArray())
 
     const onSaveNewAttribute = (title: string) => {
         const characterDistAttribute: ICharacterDictAttribute = {
-            bookId: book?.id,
+            bookId: bookId,
             title
         }
         db.characterAttributeDict.add(characterDistAttribute)
+    }
+
+    const onSaveAttribute = async (attrData: ICharacterDictAttribute) => {
+        if (!attrData.id){
+            db.characterAttributeDict.add(attrData)
+        }
+        else{
+            db.characterAttributeDict.update(attrData.id, {...attrData})
+        }
     }
 
     const onChangeAttribute = (newAttributeData: ICharacterDictAttribute) => {
@@ -49,6 +57,7 @@ export const useCharacterAttributeManager = (book?: IBook) => {
         characterAttributeDict,
         onSaveNewAttribute,
         onChangeAttribute,
-        onDeleteAttribute
+        onDeleteAttribute,
+        onSaveAttribute
     }
 }
