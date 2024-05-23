@@ -29,7 +29,7 @@ export const CharacterAttributeDictList = (props: ICharacterAttributeDictListPro
                         fill={"none"}
                         onClick={(e) => {
                             e.stopPropagation()
-                            props.onEditCallback(characterAttribute)
+                            props.onEditCallback?.(characterAttribute)
                         }}
                     >
                         <EditFill/>

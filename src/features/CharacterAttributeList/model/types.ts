@@ -1,11 +1,10 @@
-import {ICharacterDictAttributeWithValue} from "@entities/Character";
+import {CharacterAttributeSection, ICharacter, ICharacterDictAttribute} from "@entities/Character";
 
 export interface ICharacterAttributeListProps{
-    bookId: number,
-    attributeList?: ICharacterDictAttributeWithValue[]
-    addButtonEnabled: boolean,
-    addButtonCallback?: () => void
-    onClickCallback?: (attribute: ICharacterDictAttributeWithValue) => void
-    onChangeCallback?: (val: string) => void
-    onDeleteCallBack?: (id: number) => void
+    bookId: number
+    character: ICharacter
+    section: CharacterAttributeSection
+    appendCallBack: (attr: ICharacterDictAttribute) => void
+    deleteCallback: (attr: ICharacterDictAttribute) => void
+    changeAttributeValueCallback: (attr: ICharacterDictAttribute, value: string) => void
 }

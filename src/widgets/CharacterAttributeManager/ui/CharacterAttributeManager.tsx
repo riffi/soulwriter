@@ -1,9 +1,7 @@
-import {Button, Grid, Input, Popup, TabBar} from "antd-mobile";
+import {Popup, TabBar} from "antd-mobile";
 import {useCharacterAttributeManager} from "../model/useCharacterAttributeManager.ts";
 import {useState} from "react";
 import {CharacterAttributeDictList} from "@features/CharacterAttributeDictList";
-
-import styled from "./CharacterAttributeManager.module.scss";
 import {EyeOutline, UserContactOutline} from "antd-mobile-icons";
 import {CharacterAttributeDataType, CharacterAttributeSection, ICharacterDictAttribute} from "@entities/Character";
 import {ICharacterAttributeManagerProps} from "@widgets/CharacterAttributeManager/model/types.ts";
@@ -59,7 +57,14 @@ export const CharacterAttributeManager = (props: ICharacterAttributeManagerProps
             bookId={props.bookId}
             attributeList={characterAttributeDictSection}
             onEditCallback={(attr) => {
-                setCurrentAttr(attr)
+
+                setCurrentAttr(
+                    {
+                        section: currentTab,
+                        dataType: CharacterAttributeDataType.STRING,
+                        ...attr
+                    }
+                )
                 setPopupAddAttributeVisible(true)
             }}
             addButtonEnabled={true}
@@ -69,7 +74,7 @@ export const CharacterAttributeManager = (props: ICharacterAttributeManagerProps
                 setCurrentAttr(newAttrInitialVars)
             }} />
 
-        <Popup
+        {popupAddAttributeVisible && <Popup
             visible={popupAddAttributeVisible}
             onMaskClick={() => setPopupAddAttributeVisible(false)}
             showCloseButton={true}
@@ -77,9 +82,12 @@ export const CharacterAttributeManager = (props: ICharacterAttributeManagerProps
         >
             <CharacterDictAttributeEditForm
                 attribute={currentAttr}
-                onSubmit={onSaveAttribute}
+                onSubmit={(attr) =>{
+                    onSaveAttribute(attr)
+                    setPopupAddAttributeVisible(false)
+                }}
             />
-        </Popup>
+        </Popup>}
         </>
     )
 }

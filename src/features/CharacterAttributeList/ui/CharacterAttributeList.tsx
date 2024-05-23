@@ -1,58 +1,108 @@
 import {ICharacterAttributeListProps} from "@features/CharacterAttributeList/model/types.ts";
-import {AutoCenter, Button, List, SwipeAction} from "antd-mobile";
-import {AddCircleOutline, TeamOutline, UserContactOutline} from "antd-mobile-icons";
+import {AutoCenter, Button, Grid, List, Popup, SwipeAction} from "antd-mobile";
+import {AddCircleOutline} from "antd-mobile-icons";
 import {InlineEdit} from "@shared/ui/InlineEdit";
+import {CharacterAttributeDictList} from "@features/CharacterAttributeDictList";
+import {useState} from "react";
+import {useCharacterAttributeList} from "@features/CharacterAttributeList/model/useCharacterAttributeList.ts";
+import {CharacterAttributeDataType, ICharacterDictAttributeWithValue} from "@entities/Character";
+import {InlineTextArea} from "@shared/ui/InlineTextArea";
 
 export const CharacterAttributeList = (props: ICharacterAttributeListProps) => {
+    const [popupPropDictVisible, setPopupPropDictVisible] = useState<boolean>(false)
+    const {characterAttributeDict} = useCharacterAttributeList(props.bookId, props.character, props.section)
+
+    const notUsedDictAttributesList = characterAttributeDict?.filter(
+        (dictAttr) => {
+            const existingAttr = props.character.dictAttributes?.find(
+                (charAttr) => charAttr.id === dictAttr.id
+            )
+            return !existingAttr
+        }
+    )
+
+    const fullAttributes = props.character.dictAttributes?.filter(
+        (attr) => {
+
+            const dictAttr = characterAttributeDict?.find(
+                (a) => attr.id === a.id
+            )
+            return dictAttr !== undefined
+        }
+    )
+        .map((attr) => {
+            if (attr){
+                const dictAttr = characterAttributeDict?.find(
+                    (a) => attr.id === a.id
+                )
+                const fullData: ICharacterDictAttributeWithValue = {...dictAttr, value: attr.value}
+                return fullData
+            }
+        })
+
     return (
-        <List style={{"--padding-left": "0px"}}>
-            {props.attributeList?.map(characterAttribute =>(
-                <SwipeAction
-                    closeOnAction={true}
-                    key={characterAttribute.id}
-                    onAction = {() => {
-                        props.onDeleteCallBack?.(characterAttribute.id)
-                    }}
-                    rightActions={[
-                        {
-                            key: 'delete',
-                            text: 'X',
-                            color: 'danger',
-                        },
-                    ]}>
-                    <List.Item
-                        key={characterAttribute.id}
-                        clickable={props.onClickCallback !== undefined}
-                        onClick={props.onClickCallback !== undefined ? () => props.onClickCallback?.(characterAttribute) : undefined}
-                    >
-                        {!props.onChangeCallback &&
-                            <>
-                                <UserContactOutline/> {characterAttribute.title}
-                            </>
-                        }
-                        {props.onChangeCallback &&
-                            <>
+        <>
+       <List>
+           {fullAttributes.map(attribute => (
+                   <SwipeAction
+                       closeOnAction={true}
+                       key={attribute?.id}
+                       onAction = {action => {
+                           props.deleteCallback(attribute)
+                       }}
+                       rightActions={[
+                           {
+                               key: 'delete',
+                               text: 'X',
+                               color: 'danger',
+                           },
+                       ]}>
+                       <List.Item title={attribute?.title} key={attribute?.id}>
+                           {attribute?.dataType == CharacterAttributeDataType.STRING && <InlineEdit
+                               value={attribute.value}
+                               onChange={(val) => props.changeAttributeValueCallback(attribute, val)}
+                           />}
+                           {attribute?.dataType == CharacterAttributeDataType.MULTILINE && <InlineTextArea
+                               value={attribute.value}
+                               onChange={(val) => props.changeAttributeValueCallback(attribute, val)}
+                           />}
 
-                                <InlineEdit
-                                    value={characterAttribute.title}
-                                    prefix={<TeamOutline />}
-                                    onChange={props.onChangeCallback}
-                                />
-                            </>
-                        }
-                    </List.Item>
-                </SwipeAction>
-            ))}
-            {props.addButtonEnabled && <List.Item title={""}>
-                <AutoCenter>
-                    <Button size='large' fill={'none'}  onClick={() => {
-                        props.addButtonCallback?.()
-                    }}>
-                        <AddCircleOutline />
+                       </List.Item>
+                   </SwipeAction>
+               )
+           )}
 
-                    </Button>
-                </AutoCenter>
-            </List.Item>}
-        </List>
+           {notUsedDictAttributesList && notUsedDictAttributesList.length > 0 && (
+               <List.Item title={""}  key={"add"}>
+                   <AutoCenter>
+                       <Button onClick={() => setPopupPropDictVisible(true)} size='middle' fill={'none'}>
+                           <AddCircleOutline />
+                       </Button>
+                   </AutoCenter>
+               </List.Item>
+           )
+           }
+       </List>
+    <Popup
+        visible={popupPropDictVisible}
+        style={{overflowY: "scroll"}}
+        showCloseButton={true}
+        onClose={() => setPopupPropDictVisible(false)}
+        bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+        onMaskClick={() => setPopupPropDictVisible(false)}
+    >
+        <Grid columns={1} gap={1} style={{margin: '10px'}}>
+            <h3>Добавить атрибут</h3>
+            <CharacterAttributeDictList
+                attributeList={notUsedDictAttributesList}
+                addButtonEnabled={false}
+                onClickCallback={(dictAttribute) => {
+                    props.appendCallBack(dictAttribute)
+                    setPopupPropDictVisible(false)
+                }}
+                bookId={props.bookId}/>
+        </Grid>
+    </Popup>
+    </>
     )
 }
