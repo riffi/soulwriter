@@ -19,10 +19,9 @@ export const SceneManager = (props: SceneManagerProps) => {
         onCreateNewScene,
         shiftScene,
         bookSymbolCount
-    } = useSceneManager(props.bookId)
+    } = useSceneManager(props.book.id)
 
-    // @Todo - перенести в настройки
-    const targetSymbolCount = 400000
+    const targetSymbolCount = props.book?.targetSymbolCount ? props.book?.targetSymbolCount : '400000'
 
     const [searchStr, setSearchStr] = useState<string>("")
 

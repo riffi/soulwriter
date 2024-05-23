@@ -1,11 +1,12 @@
 import {useBookManager} from "../model/useBookManager.ts";
 import {AutoCenter, Button, Grid, Input, List, Popup} from "antd-mobile";
-import {AddCircleOutline, ContentOutline} from "antd-mobile-icons";
+import {AddCircleOutline, ContentOutline, EditSOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import {IBook} from "../../../entities/Book";
 import {RootState} from "../../../store";
-import {set} from '../../../features/BookContext/bookContextSlice'
+import {setCurrentBook} from '../../../features/BookContext/bookContextSlice'
+import {useNavigate} from "react-router-dom";
 
 export const BookManager = () => {
     const {bookList, onSaveNewBook } = useBookManager()
@@ -14,6 +15,7 @@ export const BookManager = () => {
 
     const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     return (
         <>
@@ -23,12 +25,23 @@ export const BookManager = () => {
                     prefix={
                         <ContentOutline style={{fontSize: "40px"}}/>
                     }
+                    extra={
+                        <Button fill={"none"}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    navigate(`/book/card?id=${book.id}`)
+                                }}
+                        >
+                            <EditSOutline />
+                        </Button>
+
+                    }
                     clickable={true}
                     description={book.description}
                     title={`Автор: ${book.author}`}
                     key={book.id}
                     style={(currentBook?.id === book.id)?{backgroundColor: '#F7F7F7'}:{}}
-                    onClick={() => dispatch(set(book))}
+                    onClick={() => dispatch(setCurrentBook(book))}
                 >
                     {book.title}
                 </List.Item>

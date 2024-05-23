@@ -31,6 +31,7 @@ export const InlineStepper = (props: IInlineStepperProps) => {
             {mode === ViewMode.WRITE &&
                 <Space direction={"horizontal"}>
                     <Stepper
+                        style={{ width: '120px' }}
                         defaultValue={val}
                         onChange={(val) => setVal(val)}
                     />

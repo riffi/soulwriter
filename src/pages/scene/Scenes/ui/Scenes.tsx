@@ -8,5 +8,5 @@ export const Scenes = () => {
 
     if (!currentBook ||!currentBook?.id) return <NeedSelectBook/>
 
-    return <SceneManager bookId={currentBook.id}/>
+    return <SceneManager book={currentBook}/>
 }
