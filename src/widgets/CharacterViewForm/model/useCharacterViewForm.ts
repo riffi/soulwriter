@@ -23,45 +23,45 @@ export const useCharacterViewForm = (characterId: number, bookId: number) => {
         }
     }
 
-    const changeDictAttributeValue = (dictAttributeId: number, newValue: string, character?: ICharacter) => {
-        if (character){
+    const changeAttributeValue = (dictAttribute: ICharacterDictAttribute, newValue: string) => {
+        if (characterData){
             // Создаем массив атрибутов, если он не определен
-            if (!character.dictAttributes) character.dictAttributes = []
+            if (!characterData.dictAttributes) characterData.dictAttributes = []
 
-            const dictAttribute = character.dictAttributes.find(
-                (attr) => attr.id === dictAttributeId
+            const charAttribute = characterData.dictAttributes.find(
+                (attr) => attr.id === dictAttribute?.id
             )
 
-            if (dictAttribute){
-                dictAttribute.value = newValue
-                db.characters.update(characterId, {...character})
+            if (charAttribute){
+                charAttribute.value = newValue
+                db.characters.update(characterId, {...characterData})
             }
 
         }
     }
 
-    const deleteDictAttributeValue = (dictAttributeId: number, character?: ICharacter) => {
-        if (character){
+    const deleteDictAttribute = (dictAttribute: ICharacterDictAttribute) => {
+        if (characterData){
             // Создаем массив атрибутов, если он не определен
-            if (!character.dictAttributes) character.dictAttributes = []
-            character.dictAttributes = character.dictAttributes.filter((attr) => attr.id != dictAttributeId)
-            db.characters.update(characterId, {...character})
+            if (!characterData.dictAttributes) characterData.dictAttributes = []
+            characterData.dictAttributes = characterData.dictAttributes.filter((attr) => attr.id != dictAttribute.id)
+            db.characters.update(characterId, {...characterData})
         }
     }
-    const appendDictAttribute = (dictAttribute: ICharacterDictAttribute, character?: ICharacter) => {
-        if (!character) return
+    const appendDictAttribute = (dictAttribute: ICharacterDictAttribute) => {
+        if (!characterData) return
 
-        if (!character.dictAttributes){
-            character.dictAttributes = []
+        if (!characterData.dictAttributes){
+            characterData.dictAttributes = []
         }
 
-        character.dictAttributes.push({
+        characterData.dictAttributes.push({
             id: dictAttribute.id,
             title: dictAttribute.title,
             value: '',
             bookId: bookId
         })
-        db.characters.update(characterId, {...character})
+        db.characters.update(characterId, {...characterData})
     }
 
     const onUploadCharacterAvatar = async (file: File): Promise<ImageUploadItem> => {
@@ -83,9 +83,9 @@ export const useCharacterViewForm = (characterId: number, bookId: number) => {
         characterGroups,
         characterAttributeDict,
         appendDictAttribute,
-        changeDictAttributeValue,
+        changeAttributeValue,
         changeBaseAttributeValue,
-        deleteDictAttributeValue,
+        deleteDictAttribute,
         onUploadCharacterAvatar,
         onDeleteAvatar
     }

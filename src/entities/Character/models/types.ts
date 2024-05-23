@@ -1,3 +1,12 @@
+export enum CharacterAttributeSection{
+    APPEARANCE = "APPEARANCE",
+    TEMPER = 'TEMPER'
+}
+
+export enum CharacterAttributeDataType{
+    STRING="STRING",
+    MULTILINE="MULTILINE"
+}
 export interface ICharacter {
     id: number
     avatar: string
@@ -12,7 +21,9 @@ export interface ICharacter {
 export interface ICharacterDictAttribute{
     id?: number,
     title: string,
-    bookId: number
+    bookId: number,
+    section?: CharacterAttributeSection,
+    dataType?: CharacterAttributeDataType
 }
 
 export interface ICharacterDictAttributeWithValue extends  ICharacterDictAttribute{

@@ -17,7 +17,7 @@ export const Dictionaries = () => {
                     key={"characterAttributeDict"}
                     title={"Атрибуты персонажей"}
                 >
-                    <CharacterAttributeManager/>
+                    <CharacterAttributeManager bookId={currentBook.id}/>
                 </Tabs.Tab>
                 <Tabs.Tab
                     tabIndex={1}
