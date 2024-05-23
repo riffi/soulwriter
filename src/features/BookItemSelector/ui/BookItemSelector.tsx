@@ -2,9 +2,9 @@ import {BookItemSelectorProps} from "../model/types.ts";
 import {AutoCenter, Button, Card, Checkbox, Ellipsis, List, SearchBar, Space} from "antd-mobile";
 import {useBookItemSelector} from "../model/useBookItemSelector.ts";
 import {useEffect, useState} from "react";
-import {BookItemBreadcrumbs} from "../../BookItemBreadcrumbs";
-import {IconBlock} from "../../../shared/ui/IconBlock";
-import {BookItemListMode} from "../../BookItemList";
+import {BookItemBreadcrumbs} from "@features/BookItemBreadcrumbs";
+import {IconBlock} from "@shared/ui/IconBlock";
+import {BookItemListMode} from "@features/BookItemList";
 
 
 export const BookItemSelector = (props:BookItemSelectorProps) => {

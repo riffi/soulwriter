@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Button, Grid, Input, Popup} from "antd-mobile";
 import {useCharacterGroupManager} from "../model/useCharacterGroupManager.ts";
-import {CharacterGroupDictList} from "../../../features/CharacterGroupDictList";
+import {CharacterGroupDictList} from "@features/CharacterGroupDictList";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
 import {ICharacterGroupManagerProps} from "../model/types.ts";

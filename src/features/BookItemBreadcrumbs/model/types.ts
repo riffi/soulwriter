@@ -1,4 +1,4 @@
-import {IBookItem} from "../../../entities/BookItem";
+import {IBookItem} from "@entities/BookItem";
 
 export interface IBookItemBreadcrumbsProps{
     bookItemId: number,

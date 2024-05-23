@@ -1,12 +1,9 @@
-import {db} from "../../../../entities/Db/model/Db.ts";
-import {dbSynonyms} from "../../../../entities/Db/model/Synonym.ts";
+import {db} from "@entities/Db/model/Db.ts";
 
 import {useLiveQuery} from "dexie-react-hooks";
-import {IScene} from "../../../../entities/Scene";
+import {IScene} from "@entities/Scene";
 
 export const useSceneViewForm = (bookId: number, sceneId: number) =>{
-
-    const s = useLiveQuery(() => dbSynonyms.dict.get(4))
 
     const scene = useLiveQuery(() => db.scenes
         .get(sceneId), [sceneId])

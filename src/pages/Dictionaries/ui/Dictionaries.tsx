@@ -1,9 +1,9 @@
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
-import {NeedSelectBook} from "../../../features/NeedSelectBook";
+import {NeedSelectBook} from "@features/NeedSelectBook";
 import {Tabs} from "antd-mobile";
-import {CharacterAttributeManager} from "../../../widgets/CharacterAttributeManager";
-import {CharacterGroupManager} from "../../../widgets/CharacterGroupManager";
+import {CharacterAttributeManager} from "@widgets/CharacterAttributeManager";
+import {CharacterGroupManager} from "@widgets/CharacterGroupManager";
 
 export const Dictionaries = () => {
     const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)

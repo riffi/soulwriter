@@ -1,5 +1,7 @@
+import {IBook} from "@entities/Book";
+
 export interface SceneManagerProps{
-    bookId: number
+    book: IBook
 }
 
 export enum SceneManagerMode{

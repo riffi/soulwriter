@@ -1,6 +1,6 @@
 import {useCharactersManager} from "../model/useCharacterManager.ts";
 import {Tabs} from "antd-mobile";
-import {ICharacterGroup} from "../../../entities/Character";
+import {ICharacterGroup} from "@entities/Character";
 import {ICharacterManagerProps} from "../model/types.ts";
 import {CharactersByGroup} from "./CharactersByGroup.tsx";
 

@@ -1,7 +1,7 @@
 import {ISceneViewFormProps} from "../model/types.ts";
 import {useSceneViewForm} from "../model/useSceneViewForm.ts";
 import {AutoCenter, Card, List, NavBar, Popup, TabBar} from "antd-mobile";
-import {InlineEdit} from "../../../../shared/ui/InlineEdit";
+import {InlineEdit} from "@shared/ui/InlineEdit";
 import {useMemo, useRef, useState} from "react";
 import JoditEditor from 'jodit-react';
 import {FillinOutline,
@@ -14,13 +14,13 @@ import {FillinOutline,
 import {useDebouncedCallback} from "use-debounce";
 import {useNavigate} from "react-router-dom";
 import styled from './SceneViewForm.module.scss'
-import {ViewMode} from "../../../../shared/model/types.ts";
-import {SceneCharacters} from "../../../../features/SceneCharacters";
-import {SceneLinks} from "../../../../features/SceneLinks";
-import {calcSymbolCount} from "../../../../shared/lib/TextMetrics.ts";
-import {makeCleanTextFromHtml} from "../../../../shared/lib/HtmlUtils.ts";
-import {SceneParams} from "../../../../features/SceneParams";
-import {SceneDescription} from "../../../../features/SceneDescription";
+import {ViewMode} from "@shared/model/types.ts";
+import {SceneCharacters} from "@features/SceneCharacters";
+import {SceneLinks} from "@features/SceneLinks";
+import {calcSymbolCount} from "@shared/lib/TextMetrics.ts";
+import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
+import {SceneParams} from "@features/SceneParams";
+import {SceneDescription} from "@features/SceneDescription";
 
 
 export const SceneViewForm = (props: ISceneViewFormProps) => {

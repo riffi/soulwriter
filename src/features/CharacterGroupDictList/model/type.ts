@@ -1,4 +1,4 @@
-import {ICharacterGroup} from "../../../entities/Character";
+import {ICharacterGroup} from "@entities/Character";
 
 export interface ICharacterGroupDictListProps{
     bookId: number

@@ -19,10 +19,19 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "baseUrl": "src",
     "types": [
       "vite-plugin-pwa/client",
       "node"
-    ]
+    ],
+    "paths": {
+      "@app/*": ["app/*"],
+      "@entities/*": ["entities/*"],
+      "@features/*": ["features/*"],
+      "@pages/*": ["pages/*"],
+      "@shared/*": ["shared/*"],
+      "@widgets/*": ["widgets/*"],
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

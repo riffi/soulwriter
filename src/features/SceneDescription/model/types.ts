@@ -1,4 +1,4 @@
-import {IScene} from "../../../entities/Scene";
+import {IScene} from "@entities/Scene";
 
 export interface ISceneDescription{
     scene: IScene

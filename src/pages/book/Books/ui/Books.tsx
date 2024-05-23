@@ -1,4 +1,4 @@
-import {BookManager} from "../../../../widgets/BookManager";
+import {BookManager} from "@widgets/BookManager";
 
 export const Books = () => {
     return (

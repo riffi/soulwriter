@@ -13,9 +13,9 @@ import {
 import {useCharacterViewForm} from "../model/useCharacterViewForm.ts";
 import { AddCircleOutline} from 'antd-mobile-icons'
 import {useState} from "react";
-import {CharacterAttributeDictList} from "../../../features/CharacterAttributeDictList";
-import {InlineEdit} from "../../../shared/ui/InlineEdit";
-import {IInlineSelectorItem, InlineSelector} from "../../../shared/ui/InlineSelector";
+import {CharacterAttributeDictList} from "@features/CharacterAttributeDictList";
+import {InlineEdit} from "@shared/ui/InlineEdit";
+import {IInlineSelectorItem, InlineSelector} from "@shared/ui/InlineSelector";
 export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     const {characterData,
         characterAttributeDict,

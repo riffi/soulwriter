@@ -1,4 +1,4 @@
-import {ISceneLink} from "../../../entities/Scene";
+import {ISceneLink} from "@entities/Scene";
 
 export interface ISceneLinksProps{
     bookId: number

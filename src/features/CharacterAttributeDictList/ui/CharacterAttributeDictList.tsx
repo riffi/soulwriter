@@ -1,7 +1,7 @@
 import {ICharacterAttributeDictListProps} from "../model/type"
 import {AutoCenter, Button, List, SwipeAction} from "antd-mobile"
 import {AddCircleOutline, TeamOutline, UserContactOutline} from "antd-mobile-icons"
-import {InlineEdit} from "../../../shared/ui/InlineEdit";
+import {InlineEdit} from "@shared/ui/InlineEdit";
 
 
 

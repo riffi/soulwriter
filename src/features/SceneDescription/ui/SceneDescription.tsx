@@ -1,7 +1,7 @@
 import {Space} from "antd-mobile";
 import {CalendarOutline, HistogramOutline} from "antd-mobile-icons";
 import {ISceneDescription} from "../model/types.ts";
-import {humanizeDayValue} from "../../../shared/lib/DateUtils.ts";
+import {humanizeDayValue} from "@shared/lib/DateUtils.ts";
 
 
 export const SceneDescription = (props: ISceneDescription) => {

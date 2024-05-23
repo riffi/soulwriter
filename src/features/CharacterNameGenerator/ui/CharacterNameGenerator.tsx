@@ -1,4 +1,4 @@
-import {Badge, Button, Space} from "antd-mobile";
+import {Button, Space} from "antd-mobile";
 import { PlayOutline } from 'antd-mobile-icons'
 import {useState} from "react";
 import parts from "../model/parts.json"

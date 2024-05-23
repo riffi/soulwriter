@@ -1,8 +1,8 @@
-import {ICharacterDictAttribute, ICharacterGroup} from "../../../entities/Character";
-import {db} from "../../../entities/Db/model/Db";
+import {ICharacterDictAttribute} from "@entities/Character";
+import {db} from "@entities/Db/model/Db.ts";
 import {useLiveQuery} from "dexie-react-hooks";
 import {Dialog} from "antd-mobile";
-import {IBook} from "../../../entities/Book";
+import {IBook} from "@entities/Book";
 
 export const useCharacterAttributeManager = (book?: IBook) => {
 

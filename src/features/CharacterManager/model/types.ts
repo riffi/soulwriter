@@ -1,4 +1,4 @@
-import {ICharacter} from "../../../entities/Character";
+import {ICharacter} from "@entities/Character";
 
 export interface ICharacterManagerProps {
     bookId: number

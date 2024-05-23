@@ -1,6 +1,5 @@
 import {useSearchParams} from "react-router-dom";
-import React from "react";
-import {CharacterAddForm} from "../../../../widgets/CharacterAddForm";
+import {CharacterAddForm} from "@widgets/CharacterAddForm";
 
 export const CharacterNew = () => {
 

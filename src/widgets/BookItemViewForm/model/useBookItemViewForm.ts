@@ -1,6 +1,6 @@
-import {db} from "../../../entities/Db/model/Db.ts";
+import {db} from "@entities/Db/model/Db.ts";
 import {useLiveQuery} from "dexie-react-hooks";
-import {IBookItem} from "../../../entities/BookItem";
+import {IBookItem} from "@entities/BookItem";
 import {Dialog, Toast} from "antd-mobile";
 import { setDefaultConfig } from 'antd-mobile'
 import ruRU from "antd-mobile/es/locales/ru-RU";

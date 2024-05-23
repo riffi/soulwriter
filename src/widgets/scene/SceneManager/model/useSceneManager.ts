@@ -1,7 +1,7 @@
 import {useLiveQuery} from "dexie-react-hooks";
-import {db} from "../../../../entities/Db/model/Db.ts";
+import {db} from "@entities/Db/model/Db.ts";
 import {useNavigate} from "react-router-dom";
-import {IScene} from "../../../../entities/Scene";
+import {IScene} from "@entities/Scene";
 import {ISceneShiftDirection} from "./types.ts";
 
 export const useSceneManager = (bookId: number) => {

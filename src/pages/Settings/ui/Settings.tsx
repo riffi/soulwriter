@@ -1,5 +1,5 @@
 import {Tabs} from "antd-mobile";
-import {GeneralSettings} from "../../../features/GeneralSettings/ui/GeneralSettings.tsx";
+import {GeneralSettings} from "@features/GeneralSettings/ui/GeneralSettings.tsx";
 
 export const Settings = () => {
 

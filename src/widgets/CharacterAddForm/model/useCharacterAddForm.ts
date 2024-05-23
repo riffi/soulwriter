@@ -1,7 +1,7 @@
 import {ICharacterNewFormValues} from "./type.ts";
-import {ICharacter} from "../../../entities/Character";
+import {ICharacter} from "@entities/Character";
 import {useNavigate} from "react-router-dom";
-import {db} from "../../../entities/Db/model/Db";
+import {db} from "@entities/Db/model/Db.ts";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
 

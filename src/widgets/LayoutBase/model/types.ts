@@ -1,4 +1,4 @@
-import {PageRoute} from "../../../shared/route/pages.ts";
+import {PageRoute} from "@shared/route/pages.ts";
 
 export interface IMainMenuProps{
     route?: PageRoute

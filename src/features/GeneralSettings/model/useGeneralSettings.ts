@@ -2,10 +2,10 @@ import {exportDB} from "dexie-export-import";
 import {db, DbAdapter} from "../../../entities/Db/model/Db.ts";
 import moment from "moment/moment";
 import Dexie from "dexie";
-import { Document, Packer, Paragraph, TextRun } from "docx";
+import { Document, Packer, Paragraph } from "docx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
-import {makeCleanTextFromHtml} from "../../../shared/lib/HtmlUtils.ts";
+import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
 
 const downloadBlob = (blob: Blob, fileName: string) => {
     const url = window.URL.createObjectURL(blob);
