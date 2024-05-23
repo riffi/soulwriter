@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
-import {BookItemList, BookItemListMode} from "../../../features/BookItemList";
+import {BookItemList, BookItemListMode} from "@features/BookItemList";
 import {useState} from "react";
 import {Card, SearchBar} from "antd-mobile";
 

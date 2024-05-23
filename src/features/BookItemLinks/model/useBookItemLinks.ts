@@ -1,5 +1,5 @@
 import {useLiveQuery} from "dexie-react-hooks";
-import {db} from "../../../entities/Db/model/Db.ts";
+import {db} from "@entities/Db/model/Db.ts";
 
 export const useBookItemLinks = (bookItemId: number) => {
 

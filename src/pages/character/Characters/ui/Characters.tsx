@@ -1,8 +1,8 @@
 import styled from './Characters.module.scss'
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store.ts";
-import {NeedSelectBook} from "../../../../features/NeedSelectBook";
-import {CharacterManager} from "../../../../features/CharacterManager";
+import {NeedSelectBook} from "@features/NeedSelectBook";
+import {CharacterManager} from "@features/CharacterManager";
 import {useNavigate} from "react-router-dom";
 export const Characters = () => {
 

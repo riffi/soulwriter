@@ -3,9 +3,9 @@ import {AutoCenter, Button, Grid, Input, List, Popup} from "antd-mobile";
 import {AddCircleOutline, ContentOutline, EditSOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import { useSelector, useDispatch } from 'react-redux'
-import {IBook} from "../../../entities/Book";
+import {IBook} from "@entities/Book";
 import {RootState} from "../../../store";
-import {setCurrentBook} from '../../../features/BookContext/bookContextSlice'
+import {setCurrentBook} from '@features/BookContext/bookContextSlice.ts'
 import {useNavigate} from "react-router-dom";
 
 export const BookManager = () => {

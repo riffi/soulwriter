@@ -1,7 +1,7 @@
 import {ICharacterGroupDictListProps} from "../model/type.ts";
 import {AutoCenter, Button, List, SwipeAction} from "antd-mobile";
 import {AddCircleOutline, TeamOutline} from "antd-mobile-icons";
-import {InlineEdit} from "../../../shared/ui/InlineEdit";
+import {InlineEdit} from "@shared/ui/InlineEdit";
 
 export const CharacterGroupDictList = (props: ICharacterGroupDictListProps) => {
     return (

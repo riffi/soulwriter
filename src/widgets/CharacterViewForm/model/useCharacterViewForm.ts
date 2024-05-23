@@ -1,7 +1,7 @@
-import {ICharacter, ICharacterDictAttribute} from "../../../entities/Character";
-import {useLiveQuery} from "dexie-react-hooks";
-import {db} from "../../../entities/Db/model/Db";
 import {ImageUploadItem} from "antd-mobile";
+import {useLiveQuery} from "dexie-react-hooks";
+import {db} from "@entities/Db/model/Db.ts";
+import {ICharacter, ICharacterDictAttribute} from "@entities/Character";
 import {toBase64} from "../lib/imageUtils.ts";
 
 export const useCharacterViewForm = (characterId: number, bookId: number) => {

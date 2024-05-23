@@ -1,5 +1,5 @@
 import {useSearchParams} from "react-router-dom";
-import {BookViewForm} from "../../../../widgets/BookVewForm/ui/BookViewForm.tsx";
+import {BookViewForm} from "@widgets/BookVewForm";
 
 export const BookCard = () => {
     const [searchParams] = useSearchParams();

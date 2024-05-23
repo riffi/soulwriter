@@ -1,7 +1,7 @@
 import {Button, Grid, Input, Popup} from "antd-mobile";
 import {useCharacterAttributeManager} from "../model/useCharacterAttributeManager.ts";
 import {useState} from "react";
-import {CharacterAttributeDictList} from "../../../features/CharacterAttributeDictList";
+import {CharacterAttributeDictList} from "@features/CharacterAttributeDictList";
 
 import styled from "./CharacterAttributeManager.module.scss";
 import {useSelector} from "react-redux";

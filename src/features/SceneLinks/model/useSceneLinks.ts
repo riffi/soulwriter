@@ -1,6 +1,6 @@
 import {useLiveQuery} from "dexie-react-hooks";
-import {db} from "../../../entities/Db/model/Db.ts";
-import {ISceneLink} from "../../../entities/Scene";
+import {db} from "@entities/Db/model/Db.ts";
+import {ISceneLink} from "@entities/Scene";
 import {Dialog, Toast} from "antd-mobile";
 
 export const useSceneLinks = (bookId: number, sceneId: number, newBookItemId?: number) => {

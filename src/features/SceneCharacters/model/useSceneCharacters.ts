@@ -1,7 +1,7 @@
 import {useLiveQuery} from "dexie-react-hooks";
-import {db} from "../../../entities/Db/model/Db.ts";
-import {ICharacter} from "../../../entities/Character";
-import {ISceneCharacters} from "../../../entities/Scene";
+import {db} from "@entities/Db/model/Db.ts";
+import {ICharacter} from "@entities/Character";
+import {ISceneCharacters} from "@entities/Scene";
 
 export const useSceneCharacters = (sceneId: number, bookId: number) => {
 

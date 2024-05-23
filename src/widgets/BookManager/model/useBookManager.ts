@@ -1,6 +1,6 @@
 import {useLiveQuery} from "dexie-react-hooks";
-import {db} from "../../../entities/Db/model/Db.ts";
-import {IBook} from "../../../entities/Book";
+import {db} from "@entities/Db/model/Db.ts";
+import {IBook} from "@entities/Book";
 
 export const useBookManager = () => {
     const bookList = useLiveQuery(() => db.books.toArray())

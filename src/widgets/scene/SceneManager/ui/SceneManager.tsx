@@ -1,11 +1,10 @@
 import {ISceneShiftDirection, SceneManagerMode, SceneManagerProps} from "../model/types.ts";
 import {useSceneManager} from "../model/useSceneManager.ts";
-import {AutoCenter, Button, Card, Collapse, Divider, List, ProgressBar, SearchBar, Space} from "antd-mobile";
+import {AutoCenter, Button, Card, Collapse, List, ProgressBar, SearchBar, Space} from "antd-mobile";
 import {useNavigate} from "react-router-dom";
-import {AddCircleOutline, DownOutline, FingerdownOutline, UpOutline, HistogramOutline, CalendarOutline} from "antd-mobile-icons";
+import {AddCircleOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
 import {useState} from "react";
-import {IScene} from "../../../../entities/Scene";
-import {SceneDescription} from "../../../../features/SceneDescription";
+import {SceneDescription} from "@features/SceneDescription";
 import {useDebounce} from "use-debounce";
 
 export const SceneManager = (props: SceneManagerProps) => {

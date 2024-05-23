@@ -2,10 +2,9 @@ import {Button, Card, Input, List, Popup, Space} from "antd-mobile";
 import {CloseOutline} from "antd-mobile-icons";
 import {IEditSceneLinkFormProps} from "../model/types.ts";
 import {useState} from "react";
-import {ISceneLink} from "../../../entities/Scene";
+import {ISceneLink} from "@entities/Scene";
 import {BookItemSelector} from "../../BookItemSelector";
 import {useSceneLinks} from "../model/useSceneLinks.ts";
-import {IconSelector} from "../../../shared/ui/IconSelector";
 
 export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
 

@@ -1,17 +1,17 @@
-import {IBookItemViewFormProps} from "../model/types.ts";
-import {useBookItemViewForm} from "../model/useBookItemViewForm.ts";
-import {AutoCenter, Button, List, Popup, Space, Tabs} from "antd-mobile";
-import {InlineEdit} from "../../../shared/ui/InlineEdit";
-import {InlineTextArea} from "../../../shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
-import {CloseCircleOutline, DownOutline, PictureOutline, SendOutline, UpOutline} from 'antd-mobile-icons'
-import {BookItemList, BookItemListMode} from "../../../features/BookItemList";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {BookItemBreadcrumbs} from "../../../features/BookItemBreadcrumbs";
-import {BookItemSelector} from "../../../features/BookItemSelector";
-import {IconBlock} from "../../../shared/ui/IconBlock";
-import {IconSelector} from "../../../shared/ui/IconSelector";
-import {BookItemLinks} from "../../../features/BookItemLinks";
+import {AutoCenter, Button, List, Popup, Space, Tabs} from "antd-mobile";
+import {CloseCircleOutline, DownOutline, PictureOutline, SendOutline, UpOutline} from 'antd-mobile-icons'
+import {InlineEdit} from "@shared/ui/InlineEdit";
+import {InlineTextArea} from "@shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
+import {IconBlock} from "@shared/ui/IconBlock";
+import {IconSelector} from "@shared/ui/IconSelector";
+import {BookItemList, BookItemListMode} from "@features/BookItemList";
+import {BookItemBreadcrumbs} from "@features/BookItemBreadcrumbs";
+import {BookItemSelector} from "@features/BookItemSelector";
+import {BookItemLinks} from "@features/BookItemLinks";
+import {useBookItemViewForm} from "../model/useBookItemViewForm.ts";
+import {IBookItemViewFormProps} from "../model/types.ts";
 
 export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const {

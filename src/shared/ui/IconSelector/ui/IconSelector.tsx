@@ -3,6 +3,7 @@ import {IconBlock} from "../../IconBlock";
 import {IIconSelectorProps} from "../model/types.ts";
 import {CapsuleTabs, Card, Grid, SearchBar} from "antd-mobile";
 import {useState} from "react";
+import gameIconsRU from "../data/gameIconsRU.json"
 
 
 interface ITabData{
@@ -15,9 +16,19 @@ export const IconSelector = (props: IIconSelectorProps) => {
     const [searchStr, setSearchStr] = useState<string>("")
     const [activeTabKey, setActiveTabKey] = useState<string>("0")
 
-    const filteredIcons = Object.keys(Icons).filter((iconName) =>
-        iconName.toLowerCase().indexOf(searchStr.toLowerCase()) !== -1
-    )
+    const isEngSearchStr =  (/^[a-zA-Z]+$/.test(searchStr))
+    let filteredIcons: string[] = []
+    if (isEngSearchStr || searchStr === ''){
+        filteredIcons = Object.keys(Icons).filter((iconName) => {
+                return iconName.toLowerCase().indexOf(searchStr.toLowerCase()) !== -1
+        })
+    }
+    else {
+        filteredIcons = Object.entries(gameIconsRU)
+            .filter(([key]) => key.indexOf(searchStr.toLowerCase()) !== -1)
+            .map(([key, value]) => value)
+    }
+
     const getTabs = (): ITabData[] => {
         const tabsArray: ITabData[] = []
         const pageSize = 100
@@ -35,10 +46,10 @@ export const IconSelector = (props: IIconSelectorProps) => {
 
     const tabs = getTabs()
     const iconGrid =  (tab: ITabData) => (
-        <Grid columns={3} gap={0} style={{width: '100%'}}>
+        <Grid columns={3} gap={0} style={{width: '100%'}} key={"grid"}>
             {filteredIcons.slice(tab.firstElement, tab.lastElement).map((iconName, index) => {
                 return (
-                    <>
+                    <div key={iconName}>
                         <Grid.Item style={{textAlign: 'center'}}>
 
                             <div>
@@ -49,9 +60,15 @@ export const IconSelector = (props: IIconSelectorProps) => {
                                     onClick={() => props.onSelect(iconName)}
                                 />
                             </div>
-                            {iconName}
+                            <div style={{
+                                wordBreak: "break-all",
+                                fontSize: "12px",
+                                padding: "0px 5px"
+                            }}>
+                                {iconName.replace(/^Gi/, "")}
+                            </div>
                         </Grid.Item>
-                    </>
+                    </div>
                 )
             })}
         </Grid>

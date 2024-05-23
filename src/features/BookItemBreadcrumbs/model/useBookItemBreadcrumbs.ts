@@ -1,5 +1,5 @@
-import {IBookItem} from "../../../entities/BookItem";
-import {db} from "../../../entities/Db/model/Db.ts";
+import {IBookItem} from "@entities/BookItem";
+import {db} from "@entities/Db/model/Db.ts";
 import {useLiveQuery} from "dexie-react-hooks";
 
 export const useBookItemBreadcrumbs = (bookItemId: number) => {

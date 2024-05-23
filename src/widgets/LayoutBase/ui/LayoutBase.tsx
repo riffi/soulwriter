@@ -3,7 +3,7 @@ import {MainMenu} from "./MainMenu.tsx";
 import styled from './LayoutBase.module.scss'
 import {useEffect, useState} from "react";
 import {NavBar, Tag} from "antd-mobile";
-import {PageRoute, pagesRoutes} from "../../../shared/route/pages.ts";
+import {PageRoute, pagesRoutes} from "@shared/route/pages.ts";
 import { ContentOutline } from 'antd-mobile-icons'
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";

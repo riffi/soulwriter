@@ -1,9 +1,9 @@
 import {IBookViewFormProps} from "../model/types.ts";
 import {Card, List} from "antd-mobile";
+import {InlineEdit} from "@shared/ui/InlineEdit";
+import {InlineTextArea} from "@shared/ui/InlineTextArea";
+import {InlineStepper} from "@shared/ui/InlineStepper";
 import {useBookViewForm} from "../model/useBookViewForm.ts";
-import {InlineEdit} from "../../../shared/ui/InlineEdit";
-import {InlineTextArea} from "../../../shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
-import {InlineStepper} from "../../../shared/ui/InlineStepper";
 
 export const BookViewForm = (props: IBookViewFormProps) => {
     const {

@@ -1,5 +1,5 @@
 import {ISceneCharactersProps} from "../model/types.ts";
-import {AutoCenter, Button, Card, Dropdown, FloatingPanel, Image, List, Popup} from "antd-mobile";
+import {AutoCenter, Button, Card, Image, List, Popup} from "antd-mobile";
 import {useSceneCharacters} from "../model/useSceneCharacters.ts";
 import {AddCircleOutline, CloseOutline} from "antd-mobile-icons";
 import {useState} from "react";
