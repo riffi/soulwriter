@@ -1,11 +1,11 @@
 import {Popup, TabBar} from "antd-mobile";
 import {useCharacterAttributeManager} from "../model/useCharacterAttributeManager.ts";
 import {useState} from "react";
-import {CharacterAttributeDictList} from "@features/CharacterAttributeDictList";
+import {CharacterAttributeDictList} from "@features/characterAttributeDict/CharacterAttributeDictList";
 import {EyeOutline, UserContactOutline} from "antd-mobile-icons";
 import {CharacterAttributeDataType, CharacterAttributeSection, ICharacterDictAttribute} from "@entities/Character";
 import {ICharacterAttributeManagerProps} from "@widgets/CharacterAttributeManager/model/types.ts";
-import {CharacterDictAttributeEditForm} from "@features/CharacterDictAttributeEditForm";
+import {CharacterDictAttributeEditForm} from "@features/characterAttributeDict/CharacterDictAttributeEditForm";
 
 export const CharacterAttributeManager = (props: ICharacterAttributeManagerProps) => {
 

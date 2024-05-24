@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
-import {NeedSelectBook} from "@features/NeedSelectBook";
+import {NeedSelectBook} from "@features/book/NeedSelectBook";
 import {Tabs} from "antd-mobile";
 import {CharacterAttributeManager} from "@widgets/CharacterAttributeManager";
 import {CharacterGroupManager} from "@widgets/CharacterGroupManager";

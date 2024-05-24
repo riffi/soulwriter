@@ -4,7 +4,7 @@ import {AutoCenter, Button, Card, Collapse, List, ProgressBar, SearchBar, Space}
 import {useNavigate} from "react-router-dom";
 import {AddCircleOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
 import {useState} from "react";
-import {SceneDescription} from "@features/SceneDescription";
+import {SceneDescription} from "@features/scene/SceneDesription";
 import {useDebounce} from "use-debounce";
 
 export const SceneManager = (props: SceneManagerProps) => {

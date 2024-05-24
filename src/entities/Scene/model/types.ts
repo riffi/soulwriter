@@ -1,4 +1,5 @@
 import {IBookItem} from "../../BookItem";
+import {ICharacterLink} from "@entities/Character";
 
 export interface IScene{
     id?: number
@@ -28,5 +29,6 @@ export interface ISceneLink{
     bookItemId?: number
     title: string
     bookItemData?: IBookItem
-    sceneData?: IScene
+    sceneData?: IScene,
+    characterLinks?: ICharacterLink[]
 }

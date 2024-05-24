@@ -1,3 +1,5 @@
+import {IBookItem} from "@entities/BookItem";
+
 export enum CharacterAttributeSection{
     APPEARANCE = "APPEARANCE",
     TEMPER = 'TEMPER'
@@ -34,6 +36,13 @@ export interface ICharacterGroup{
     id?: number
     title: string,
     bookId: number
+}
+
+export interface ICharacterLink{
+    id?: number
+    characterId: number
+    sceneLinkId: number,
+    character?: ICharacter
 }
 
 

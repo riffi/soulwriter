@@ -6,10 +6,10 @@ import {InlineEdit} from "@shared/ui/InlineEdit";
 import {InlineTextArea} from "@shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
 import {IconBlock} from "@shared/ui/IconBlock";
 import {IconSelector} from "@shared/ui/IconSelector";
-import {BookItemList, BookItemListMode} from "@features/BookItemList";
-import {BookItemBreadcrumbs} from "@features/BookItemBreadcrumbs";
-import {BookItemSelector} from "@features/BookItemSelector";
-import {BookItemLinks} from "@features/BookItemLinks";
+import {BookItemList, BookItemListMode} from "@features/bookItem/BookItemList";
+import {BookItemBreadcrumbs} from "@features/bookItem/BookItemBreadcrumbs";
+import {BookItemSelector} from "@features/bookItem/BookItemSelector";
+import {BookItemLinks} from "@features/bookItem/BookItemLinks";
 import {useBookItemViewForm} from "../model/useBookItemViewForm.ts";
 import {IBookItemViewFormProps} from "../model/types.ts";
 
@@ -32,7 +32,7 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
 
     useEffect(() => {
 
-       setShowDetails(showDetails =>  {
+       setShowDetails(() =>  {
            const childrenC = childCount? childCount : 0
            const mentionC = mentionCount? mentionCount : 0
            return (childrenC + mentionC) > 0

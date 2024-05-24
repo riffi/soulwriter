@@ -4,8 +4,9 @@ import {useCharacterViewForm} from "../model/useCharacterViewForm.ts";
 import {useState} from "react";
 import {InlineEdit} from "@shared/ui/InlineEdit";
 import {IInlineSelectorItem, InlineSelector} from "@shared/ui/InlineSelector";
-import {CharacterAttributeList} from "@features/CharacterAttributeList";
+import {CharacterAttributeList} from "@features/character/CharacterAttributeList";
 import {CharacterAttributeSection} from "@entities/Character";
+import {CharacterLinksView} from "@features/character/CharacterLinksView";
 
 export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     const {characterData,
@@ -109,6 +110,10 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                         changeAttributeValueCallback={changeAttributeValue}
                     />
                 </Tabs.Tab>
+                <Tabs.Tab title={"Упоминания"} key={"mentions"}>
+                    <CharacterLinksView characterId={characterData?.id}/>
+                </Tabs.Tab>
+
             </Tabs>
 
 

@@ -1,4 +1,4 @@
-import {IEnumerable} from "../../../shared/model/types.ts";
+import {IEnumerable} from "@shared/model/types.ts";
 
 export interface IBook extends IEnumerable{
     id?: number

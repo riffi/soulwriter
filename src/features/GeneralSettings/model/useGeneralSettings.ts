@@ -1,5 +1,5 @@
 import {exportDB} from "dexie-export-import";
-import {db, DbAdapter} from "../../../entities/Db/model/Db.ts";
+import {db, DbAdapter} from "@entities/Db/model/Db.ts";
 import moment from "moment/moment";
 import Dexie from "dexie";
 import { Document, Packer, Paragraph } from "docx";

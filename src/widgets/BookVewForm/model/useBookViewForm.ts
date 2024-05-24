@@ -2,7 +2,7 @@ import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "@entities/Db/model/Db.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
-import {setCurrentBook} from "@features/BookContext/bookContextSlice.ts";
+import {setCurrentBook} from "@features/book/BookContext/bookContextSlice.ts";
 
 export const useBookViewForm = (bookId: number) => {
 
