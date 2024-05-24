@@ -15,12 +15,12 @@ import {useDebouncedCallback} from "use-debounce";
 import {useNavigate} from "react-router-dom";
 import styled from './SceneViewForm.module.scss'
 import {ViewMode} from "@shared/model/types.ts";
-import {SceneCharacters} from "@features/SceneCharacters";
-import {SceneLinks} from "@features/SceneLinks";
+import {SceneCharacters} from "@features/scene/SceneCharacters";
+import {SceneLinks} from "@features/scene/SceneLinks";
 import {calcSymbolCount} from "@shared/lib/TextMetrics.ts";
 import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
-import {SceneParams} from "@features/SceneParams";
-import {SceneDescription} from "@features/SceneDescription";
+import {SceneParams} from "@features/scene/SceneParams";
+import {SceneDescription} from "@features/scene/SceneDesription";
 
 
 export const SceneViewForm = (props: ISceneViewFormProps) => {

@@ -5,7 +5,7 @@ import {useState} from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import {IBook} from "@entities/Book";
 import {RootState} from "../../../store";
-import {setCurrentBook} from '@features/BookContext/bookContextSlice.ts'
+import {setCurrentBook} from '@features/book/BookContext/bookContextSlice.ts'
 import {useNavigate} from "react-router-dom";
 
 export const BookManager = () => {

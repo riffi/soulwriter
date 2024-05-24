@@ -1,5 +1,5 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import {bookContextSlice} from "./features/BookContext/bookContextSlice.ts"
+import {bookContextSlice} from "@features/book/BookContext/bookContextSlice.ts"
 import storage from 'redux-persist/lib/storage'
 import {
     persistStore,

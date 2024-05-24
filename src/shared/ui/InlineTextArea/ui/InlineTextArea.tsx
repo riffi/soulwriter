@@ -5,7 +5,7 @@ import {ViewMode} from "../../../model/types.ts";
 import {IInlineTextAreaProps} from "../model/type.ts";
 
 export const InlineTextArea = (props: IInlineTextAreaProps) => {
-    const [mode, setMode] = useState<ViewMode>(ViewMode.READ)
+    const [mode, setMode] = useState<ViewMode>(props?.defaultMode ? props?.defaultMode : ViewMode.READ)
     const [val, setVal] = useState<string | undefined>(props?.value)
 
     const handleSave = () => {

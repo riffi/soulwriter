@@ -1,5 +1,5 @@
 import Dexie, {Table} from 'dexie'
-import {ICharacter, ICharacterDictAttribute, ICharacterGroup} from "../../Character";
+import {ICharacter, ICharacterDictAttribute, ICharacterGroup, ICharacterLink} from "../../Character";
 import {IWorld} from "../../World";
 import {IBook} from "../../Book";
 import {IScene, ISceneCharacters, ISceneLink} from "../../Scene";
@@ -17,6 +17,7 @@ export class DbAdapter extends Dexie {
     sceneCharacters!: Table<ISceneCharacters>
     bookItems!: Table<IBookItem>
     sceneLinks!: Table<ISceneLink>
+    characterLinks!: Table<ICharacterLink>
 
     static currentDbSchema: { [tableName: string]: string | null } =  {
         characters: '++id, groupId, name, description, sex, bookId',
@@ -27,7 +28,8 @@ export class DbAdapter extends Dexie {
         scenes: '++id, title, bookId, sortOrderId, dayStart, dayEnd',
         sceneCharacters: '++id, sceneId, characterId',
         bookItems: '++id, bookId, parentId, worldId, type',
-        sceneLinks: '++id, sceneId, bookId, bookItemId, type'
+        sceneLinks: '++id, sceneId, bookId, bookItemId',
+        characterLinks: '++id, characterId, sceneLinkId'
     }
 
     static currentVersion = 6

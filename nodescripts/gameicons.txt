@@ -474,111 +474,111 @@ GiBodyBalance; Баланс тела
 GiBodyHeight; Рост
 GiBodySwapping; Обмен телами
 GiBoilingBubbles; Кипящие пузыри
-GiBokChoy: Бок-чой
-GiBolas: Бола
-GiBolivia: Боливия
-GiBoltBomb: Болтовая бомба
-GiBoltCutter: Болторез
-GiBoltDrop: Падение болта
-GiBoltEye: Глаз-болт
-GiBoltSaw: Пила-болторез
-GiBoltShield: Щит-болт
-GiBoltSpellCast: Наложение заклинания болтом
-GiBolterGun: Болтер
-GiBomber: Бомбардировщик
-GiBombingRun: Бомбардировка
-GiBoneGnawer: Грызун костей
-GiBoneKnife: Нож из кости
-GiBoneMace: Булава из кости
-GiBonsaiTree: Бонсай
-GiBookAura: Аура книги
-GiBookCover: Обложка книги
-GiBookPile: Стопка книг
-GiBookStorm: Буря книг
-GiBookmark: Закладка
-GiBookmarklet: Закладка-скрипт
-GiBookshelf: Книжная полка
-GiBoombox: Бумербокс
-GiBoomerang: Бумеранг
-GiBoomerangCross: Бумеранг-крест
-GiBoomerangSun: бумеранг солнца
-GiBootKick: пинок ботинком
-GiBootPrints: отпечатки ботинок
-GiBootStomp: топающий звук ботинок
-GiBoots: ботинки
-GiBooze: алкоголь
-GiBorderedShield: щит с границей
-GiBossKey: ключ босса
-GiBottleCap: крышка бутылки
-GiBottleVapors: испарения из бутылки
-GiBottledBolt: запечатанный разряд молнии
-GiBottledShadow: запечатанная тень
-GiBottomRight3dArrow: трехмерная стрелка в правом нижнем углу
-GiBoulderDash: столкновение валунов
-GiBouncingSpring: пружинящая сила
-GiBouncingSword: меч, прыгающий вверх и вниз
-GiBowArrow: лук и стрела
-GiBowString: тетива лука
-GiBowTie: галстук-бабочка
-GiBowTieRibbon: лента для галстука-бабочки
-GiBowels: внутренние органы
-GiBowenKnot: узел Боуэна
-GiBowieKnife: нож Боуи
-GiBowlOfRice
-GiBowlSpiral
-GiBowlingAlley
-GiBowlingPin
-GiBowlingPropulsion
-GiBowlingStrike
-GiBowman
-GiBoxCutter
-GiBoxTrap
-GiBoxUnpacking
-GiBoxingGlove
-GiBoxingGloveSurprise
-GiBoxingRing
-GiBracer
-GiBracers
-GiBrain
-GiBrainDump
-GiBrainFreeze
-GiBrainLeak
-GiBrainStem
-GiBrainTentacle
-GiBrainstorm
-GiBranchArrow
-GiBrandyBottle
-GiBrasero
-GiBrassEye
-GiBrassKnuckles
-GiBrazil
-GiBrazilFlag
-GiBread
-GiBreadSlice
-GiBreakingChain
-GiBreastplate
-GiBrickPile
-GiBrickWall
-GiBridge
-GiBriefcase
-GiBrightExplosion
-GiBroadDagger
-GiBroadheadArrow
-GiBroadsword
-GiBroccoli
-GiBrodieHelmet
-GiBrokenArrow
-GiBrokenAxe
-GiBrokenBone
-GiBrokenBottle
-GiBrokenHeart
-GiBrokenHeartZone
-GiBrokenPottery
-GiBrokenRibbon
-GiBrokenShield
-GiBrokenSkull
-GiBrokenTablet
-GiBrokenWall
+GiBokChoy; Бок-чой
+GiBolas; Бола
+GiBolivia; Боливия
+GiBoltBomb; Болтовая бомба
+GiBoltCutter; Болторез
+GiBoltDrop; Падение болта
+GiBoltEye; Глаз-болт
+GiBoltSaw; Пила-болторез
+GiBoltShield; Щит-болт
+GiBoltSpellCast; Наложение заклинания болтом
+GiBolterGun; Болтер
+GiBomber; Бомбардировщик
+GiBombingRun; Бомбардировка
+GiBoneGnawer; Грызун костей
+GiBoneKnife; Нож из кости
+GiBoneMace; Булава из кости
+GiBonsaiTree; Бонсай
+GiBookAura; Аура книги
+GiBookCover; Обложка книги
+GiBookPile; Стопка книг
+GiBookStorm; Буря книг
+GiBookmark; Закладка
+GiBookmarklet; Закладка-скрипт
+GiBookshelf; Книжная полка
+GiBoombox; Бумербокс
+GiBoomerang; Бумеранг
+GiBoomerangCross; Бумеранг-крест
+GiBoomerangSun; бумеранг солнца
+GiBootKick; пинок ботинком
+GiBootPrints; отпечатки ботинок
+GiBootStomp; топающий звук ботинок
+GiBoots; ботинки
+GiBooze; алкоголь
+GiBorderedShield; щит с границей
+GiBossKey; ключ босса
+GiBottleCap; крышка бутылки
+GiBottleVapors; испарения из бутылки
+GiBottledBolt; запечатанный разряд молнии
+GiBottledShadow; запечатанная тень
+GiBottomRight3dArrow; трехмерная стрелка в правом нижнем углу
+GiBoulderDash; столкновение валунов
+GiBouncingSpring; пружинящая сила
+GiBouncingSword; меч, прыгающий вверх и вниз
+GiBowArrow; лук и стрела
+GiBowString; тетива лука
+GiBowTie; галстук-бабочка
+GiBowTieRibbon; лента для галстука-бабочки
+GiBowels; внутренние органы
+GiBowenKnot; узел Боуэна
+GiBowieKnife; нож Боуи
+GiBowlOfRice; миска риса
+GiBowlSpiral; спиральная миска
+GiBowlingAlley; боулинг-центр
+GiBowlingPin;кегля для боулинга
+GiBowlingPropulsion; импульс боулинга
+GiBowlingStrike;страйк в боулинге
+GiBowman;лучник
+GiBoxCutter;резак для коробок
+GiBoxTrap;ловушка в виде коробки
+GiBoxUnpacking; распаковка коробки
+GiBoxingGlove;боксёрская перчатка
+GiBoxingGloveSurprise;сюрприз в виде боксёрской перчатки.
+GiBoxingRing;боксёрский ринг
+GiBracer;наруч
+GiBracers;наручи
+GiBrain;мозг
+GiBrainDump; слив информации из мозга
+GiBrainFreeze; ощущение холода в мозгу
+GiBrainLeak; утечка мозгов
+GiBrainStem;ствол головного мозга
+GiBrainTentacle;мозговой отросток
+GiBrainstorm;мозговой штурм
+GiBranchArrow; ветвистая стрела
+GiBrandyBottle; бутылка бренди
+GiBrasero;мангал
+GiBrassEye;медная линза
+GiBrassKnuckles;кастет
+GiBrazil;Бразилия
+GiBrazilFlag; флаг Бразилии
+GiBread;хлеб
+GiBreadSlice;кусок хлеба
+GiBreakingChain;разрыв цепи
+GiBreastplate;кираса
+GiBrickPile;куча кирпичей
+GiBrickWall;кирпичная стена
+GiBridge;мост
+GiBriefcase;кейс
+GiBrightExplosion;яркий взрыв
+GiBroadDagger;широкий кинжал
+GiBroadheadArrow;стрела с широким наконечником
+GiBroadsword;двуручный меч
+GiBroccoli;брокколи
+GiBrodieHelmet;шлем Броди
+GiBrokenArrow; сломанная стрела
+GiBrokenAxe; сломанный топор
+GiBrokenBone;сломанная кость
+GiBrokenBottle;разбитая бутылка
+GiBrokenHeart;разбитое сердце
+GiBrokenHeartZone;зона разбитого сердца
+GiBrokenPottery;разбитый горшок
+GiBrokenRibbon;порванная лента
+GiBrokenShield;сломанный щит
+GiBrokenSkull; расколотый череп
+GiBrokenTablet;сломанная табличка
+GiBrokenWall;разрушенная стена
 GiBroom
 GiBrutalHelm
 GiBrute

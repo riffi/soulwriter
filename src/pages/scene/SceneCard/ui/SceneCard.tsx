@@ -1,7 +1,7 @@
 import {useSearchParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store.ts";
-import {NeedSelectBook} from "@features/NeedSelectBook";
+import {NeedSelectBook} from "@features/book/NeedSelectBook";
 import {SceneViewForm} from "@widgets/scene/SceneViewForm";
 
 export const SceneCard = () => {
