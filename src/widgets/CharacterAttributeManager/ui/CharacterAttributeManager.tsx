@@ -10,14 +10,11 @@ import {CharacterDictAttributeEditForm} from "@features/CharacterDictAttributeEd
 export const CharacterAttributeManager = (props: ICharacterAttributeManagerProps) => {
 
     const {characterAttributeDict,
-        onSaveNewAttribute,
-        onChangeAttribute,
         onSaveAttribute,
         onDeleteAttribute
     } = useCharacterAttributeManager(props.bookId)
 
     const [popupAddAttributeVisible, setPopupAddAttributeVisible] = useState<boolean>(false)
-    const [newAttributeTitle, setNewAttributeTitle] = useState<string>("")
     const [currentTab, setCurrentTab] = useState<CharacterAttributeSection>(CharacterAttributeSection.APPEARANCE)
 
 

@@ -4,7 +4,7 @@ import {AddCircleOutline} from "antd-mobile-icons";
 import {InlineEdit} from "@shared/ui/InlineEdit";
 import {CharacterAttributeDictList} from "@features/CharacterAttributeDictList";
 import {useState} from "react";
-import {useCharacterAttributeList} from "@features/CharacterAttributeList/model/useCharacterAttributeList.ts";
+import {useCharacterAttributeList} from "../model/useCharacterAttributeList.ts";
 import {CharacterAttributeDataType, ICharacterDictAttributeWithValue} from "@entities/Character";
 import {InlineTextArea} from "@shared/ui/InlineTextArea";
 
@@ -21,24 +21,19 @@ export const CharacterAttributeList = (props: ICharacterAttributeListProps) => {
         }
     )
 
-    const fullAttributes = props.character.dictAttributes?.filter(
-        (attr) => {
 
+    // Обогащаем данные атрибутов справочными данными
+    const fullAttributes: ICharacterDictAttributeWithValue[] = props.character.dictAttributes?.reduce<ICharacterDictAttributeWithValue[]>(
+        (result, charAttr) => {
             const dictAttr = characterAttributeDict?.find(
-                (a) => attr.id === a.id
+                (a) => charAttr.id === a.id
             )
-            return dictAttr !== undefined
-        }
-    )
-        .map((attr) => {
-            if (attr){
-                const dictAttr = characterAttributeDict?.find(
-                    (a) => attr.id === a.id
-                )
-                const fullData: ICharacterDictAttributeWithValue = {...dictAttr, value: attr.value}
-                return fullData
+            if (dictAttr){
+                result.push({...dictAttr, value: charAttr.value})
             }
-        })
+            return result
+        }, [])
+
 
     return (
         <>
@@ -47,7 +42,7 @@ export const CharacterAttributeList = (props: ICharacterAttributeListProps) => {
                    <SwipeAction
                        closeOnAction={true}
                        key={attribute?.id}
-                       onAction = {action => {
+                       onAction = {() => {
                            props.deleteCallback(attribute)
                        }}
                        rightActions={[
