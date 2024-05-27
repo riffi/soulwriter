@@ -1,16 +1,17 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import {Characters} from "../../../pages/character/Characters";
-import {CharacterNew} from "../../../pages/character/CharacterNew";
-import {CharacterCard} from "../../../pages/character/CharacterCard";
-import {Settings} from "../../../pages/Settings";
-import {Books} from "../../../pages/book/Books/ui/Books.tsx";
-import {Scenes} from "../../../pages/scene/Scenes/ui/Scenes.tsx";
-import {SceneCard} from "../../../pages/scene/SceneCard";
-import {Dictionaries} from "../../../pages/Dictionaries/ui/Dictionaries.tsx";
-import {LayoutBase} from "../../../widgets/LayoutBase";
-import {BookItemCard} from "../../../pages/bookItem/BookItemCard";
-import {BookItems} from "../../../pages/bookItem/BookItems";
-import {BookCard} from "../../../pages/book/BookCard/ui/BookCard.tsx";
+import {Characters} from "@pages/character/Characters";
+import {CharacterNew} from "@pages/character/CharacterNew";
+import {CharacterCard} from "@pages/character/CharacterCard";
+import {Settings} from "@pages/Settings";
+import {Books} from "@pages/book/Books";
+import {Scenes} from "@pages/scene/Scenes/ui/Scenes.tsx";
+import {SceneCard} from "@pages/scene/SceneCard";
+import {Dictionaries} from "@pages/Dictionaries/ui/Dictionaries.tsx";
+import {LayoutBase} from "@widgets/LayoutBase";
+import {BookItemCard} from "@pages/bookItem/BookItemCard";
+import {BookItems} from "@pages/bookItem/BookItems";
+import {BookCard} from "@pages/book/BookCard/ui/BookCard.tsx";
+import {ConsumeYandexToken} from "@pages/yandex/ConsumeYandexToken";
 
 export const AppRouter = () => {
     return (
@@ -28,6 +29,7 @@ export const AppRouter = () => {
                     <Route key={"/book-item/card"} path={"/book-item/card"} element={<BookItemCard/>} />
                     <Route key={"/books"} path={"/books"} element={<Books/>} />
                     <Route key={"/book/card"} path={"/book/card"} element={<BookCard/>} />
+                    <Route key={"/consume-yandex-token"} path={"/consume-yandex-token"} element={<ConsumeYandexToken/>} />
                 </Route>
                 <Route key={"/scene/card"} path={"/scene/card"} element={<SceneCard/>} />
             </Routes>

@@ -11,6 +11,7 @@ import {
     PURGE,
     REGISTER, persistCombineReducers,
 } from 'redux-persist'
+import {yandexContextSlice} from "@features/yandex/YandexContext/yandexContextSlice.ts";
 
 const persistConfig = {
     key: 'writerConfig',
@@ -20,7 +21,10 @@ const persistConfig = {
 }
 
 
-const persistedReducers = persistCombineReducers(persistConfig, {bookContext: bookContextSlice.reducer})
+const persistedReducers = persistCombineReducers(persistConfig, {
+    bookContext: bookContextSlice.reducer,
+    yandexContext: yandexContextSlice.reducer
+})
 
 export const store = configureStore({
     reducer: persistedReducers,
