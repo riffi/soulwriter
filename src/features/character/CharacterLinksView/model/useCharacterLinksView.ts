@@ -43,7 +43,7 @@ export const useCharacterLinksView = (characterId: number) => {
         return db.bookItems
             .where("id")
             .anyOf(...bookItemIds)
-            .toArray()
+            .sortBy("type")
 
     }, [sceneLinks])
 
