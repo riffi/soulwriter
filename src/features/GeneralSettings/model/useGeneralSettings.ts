@@ -129,10 +129,13 @@ export const useGeneralSettings = () => {
             })
 
             const getUrlData: YandexUploadInfo = await getUrlResult.json()
-            const uploadResult = await fetch(getUrlData.href, {
+            const downloadResult = await fetch(getUrlData.href, {
                 method: getUrlData.method,
+                headers: {
+                    Authorization: 'OAuth ' + yandexToken,
+                }
             })
-            const dbData = await uploadResult.json()
+            const dbData = await downloadResult.json()
             const blob = jsonToBlob(dbData)
 
             await db.delete()
