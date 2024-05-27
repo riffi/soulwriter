@@ -53,7 +53,7 @@ export const CharacterLinksView = (props: ICharacterLinksViewProps) => {
             {filteredSceneLinks?.map((link) =>
                 <List.Item
                     key={link.id}
-                    title={getBookItemByLink(link)?.type}
+                    title={`${getBookItemByLink(link)?.type}: ${getBookItemByLink(link)?.title}`}
                     description={`Сцена ${getSceneDataByLink(link)?.sortOrderId}: ${getSceneDataByLink(link)?.title}`}
                     prefix={
                         <IconBlock
