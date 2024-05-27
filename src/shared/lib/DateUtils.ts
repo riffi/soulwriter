@@ -23,9 +23,13 @@ export const daysToCalendarInterval = (days: number) => {
     };
 }
 export const humanizeDayValue = (dayCount?: number) => {
+
     if (!dayCount) return ''
-    const data = daysToCalendarInterval(dayCount)
-    let result = ''
+
+    const isNegative = dayCount < 0
+
+    const data = daysToCalendarInterval(Math.abs(dayCount))
+    let result = isNegative ? '-' : ''
     if (data.years > 0){
         result += `${data.years} год `
     }
