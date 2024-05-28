@@ -4,6 +4,7 @@ import {IWorld} from "../../World";
 import {IBook} from "../../Book";
 import {IScene, ISceneCharacters, ISceneLink} from "../../Scene";
 import {IBookItem} from "../../BookItem";
+import {IStoryLine} from "@entities/StoryLine/models/types.ts";
 
 
 export class DbAdapter extends Dexie {
@@ -18,6 +19,7 @@ export class DbAdapter extends Dexie {
     bookItems!: Table<IBookItem>
     sceneLinks!: Table<ISceneLink>
     characterLinks!: Table<ICharacterLink>
+    storyLines!: Table<IStoryLine>
 
     static currentDbSchema: { [tableName: string]: string | null } =  {
         characters: '++id, groupId, name, description, sex, bookId',
@@ -29,7 +31,8 @@ export class DbAdapter extends Dexie {
         sceneCharacters: '++id, sceneId, characterId',
         bookItems: '++id, bookId, parentId, worldId, type',
         sceneLinks: '++id, sceneId, bookId, bookItemId',
-        characterLinks: '++id, characterId, sceneLinkId'
+        characterLinks: '++id, characterId, sceneLinkId',
+        storyLines: '++id, title, bookId'
     }
 
     static currentVersion = 6
