@@ -6,4 +6,5 @@ export interface IBook extends IEnumerable{
     description?: string
     author?: string
     targetSymbolCount?: number
+    dateStart?: string
 }

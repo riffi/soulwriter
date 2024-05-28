@@ -1,4 +1,6 @@
+import {IBook} from "@entities/Book";
+
 export interface ISceneViewFormProps{
-    bookId: number
+    book: IBook
     sceneId: number
 }

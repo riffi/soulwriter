@@ -7,13 +7,9 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
 import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
 import {Dialog, Toast} from "antd-mobile";
+import {uploadFile} from "@features/GeneralSettings/api/YandexDiscAPI.ts";
 
-interface YandexUploadInfo{
-    href: string,
-    method: string,
-    templated?: boolean,
-    operation_id?: string
-}
+
 
 const downloadBlob = (blob: Blob, fileName: string) => {
     const url = window.URL.createObjectURL(blob);
@@ -24,6 +20,12 @@ const downloadBlob = (blob: Blob, fileName: string) => {
     tempLink.click();
 }
 
+const generateFileName = () => {
+    const date = moment();
+    const dateStr = date.format("YYYY-MM-DD_HH-mm-ss")
+    return `soulwriter-${dateStr}.json`
+}
+
 export const useGeneralSettings = () => {
 
     const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
@@ -31,9 +33,7 @@ export const useGeneralSettings = () => {
     const exportBase = async () => {
         const blob = await exportDB(db, {prettyJson: true});
 
-        const date = moment();
-        const dateStr = date.format("YYYY-MM-DD_HH-mm-ss")
-        const fileName = `soulwriter-${dateStr}.json`
+        const fileName = generateFileName()
         downloadBlob(blob, fileName)
     }
 
@@ -58,43 +58,35 @@ export const useGeneralSettings = () => {
         })
     }
 
-    const downloadFromYandexDiscQuery = () => {
-        Dialog.show({
-            content: 'Скачать данные из яндекс диска?',
-            closeOnMaskClick: true,
-            closeOnAction: true,
-            actions:[
-                {
-                    key: 'ok',
-                    text:'Скачать',
-                    onClick: () => downloadFromYandexDisc()
-                },
-                {
-                    key: 'cancel',
-                    text:'Отмена',
-                    onClick: () => (undefined)
-                }
-
-            ]
-        })
-    }
+    // const downloadFromYandexDiscQuery = () => {
+    //     Dialog.show({
+    //         content: 'Скачать данные из яндекс диска?',
+    //         closeOnMaskClick: true,
+    //         closeOnAction: true,
+    //         actions:[
+    //             {
+    //                 key: 'ok',
+    //                 text:'Скачать',
+    //                 onClick: () => downloadFromYandexDisc()
+    //             },
+    //             {
+    //                 key: 'cancel',
+    //                 text:'Отмена',
+    //                 onClick: () => (undefined)
+    //             }
+    //
+    //         ]
+    //     })
+    // }
 
 
     const uploadToYandexDisc = async () => {
         try{
-            const dbData = await exportDB(db, {prettyJson: true});
-            const url = 'https://cloud-api.yandex.net/v1/disk/resources/upload?path=soulwriter.json&overwrite=true'
-            const getUrlResult = await fetch(url,   {
-                headers: {
-                    Authorization: 'OAuth ' + yandexToken
-                }
-            })
-
-            const getUrlData: YandexUploadInfo = await getUrlResult.json()
-            const uploadResult = await fetch(getUrlData.href, {
-                method: getUrlData.method,
-                body: dbData
-            })
+            if (yandexToken){
+                const dbData = await exportDB(db, {prettyJson: true});
+                const fileName = generateFileName()
+                await uploadFile(fileName, dbData, yandexToken)
+            }
             Toast.show({
                 icon: 'success',
                 content: `Данные успешно загружены на яндекс диск`,
@@ -119,46 +111,46 @@ export const useGeneralSettings = () => {
 
     }
 
-    const downloadFromYandexDisc = async() => {
-        try{
-            const url = 'https://cloud-api.yandex.net/v1/disk/resources/download?path=soulwriter.json'
-            const getUrlResult = await fetch(url,   {
-                headers: {
-                    Authorization: 'OAuth ' + yandexToken
-                }
-            })
-
-            const getUrlData: YandexUploadInfo = await getUrlResult.json()
-            const downloadResult = await fetch(getUrlData.href, {
-                method: getUrlData.method,
-                headers: {
-                    Authorization: 'OAuth ' + yandexToken,
-                }
-            })
-            const dbData = await downloadResult.json()
-            const blob = jsonToBlob(dbData)
-
-            await db.delete()
-
-            const  db2 = new Dexie("soulwriter");
-            db2.version(DbAdapter.currentVersion).stores(DbAdapter.currentDbSchema)
-            await db2.import(blob)
-            window.location.replace('/books')
-
-            Toast.show({
-                icon: 'success',
-                content: `Данные успешно загружены из яндекс диска`,
-                position: 'bottom',
-            })
-        }
-        catch (e: Error){
-            Toast.show({
-                icon: 'fail',
-                content: `Ошибка ${e.message} при загрузке данных из яндекс диска`,
-                position: 'bottom',
-            })
-        }
-    }
+    // const downloadFromYandexDisc = async() => {
+    //     try{
+    //         const url = 'https://cloud-api.yandex.net/v1/disk/resources/download?path=soulwriter.json'
+    //         const getUrlResult = await fetch(url,   {
+    //             headers: {
+    //                 Authorization: 'OAuth ' + yandexToken
+    //             }
+    //         })
+    //
+    //         const getUrlData: YandexUploadInfo = await getUrlResult.json()
+    //         const downloadResult = await fetch(getUrlData.href, {
+    //             method: getUrlData.method,
+    //             headers: {
+    //                 Authorization: 'OAuth ' + yandexToken,
+    //             }
+    //         })
+    //         const dbData = await downloadResult.json()
+    //         const blob = jsonToBlob(dbData)
+    //
+    //         await db.delete()
+    //
+    //         const  db2 = new Dexie("soulwriter");
+    //         db2.version(DbAdapter.currentVersion).stores(DbAdapter.currentDbSchema)
+    //         await db2.import(blob)
+    //         window.location.replace('/books')
+    //
+    //         Toast.show({
+    //             icon: 'success',
+    //             content: `Данные успешно загружены из яндекс диска`,
+    //             position: 'bottom',
+    //         })
+    //     }
+    //     catch (e: Error){
+    //         Toast.show({
+    //             icon: 'fail',
+    //             content: `Ошибка ${e.message} при загрузке данных из яндекс диска`,
+    //             position: 'bottom',
+    //         })
+    //     }
+    // }
 
 
     const importBase = async (file: File | undefined) => {
@@ -276,7 +268,6 @@ export const useGeneralSettings = () => {
         exportBase,
         importBase,
         exportDocx,
-        uploadToYandexDiscQuery,
-        downloadFromYandexDiscQuery
+        uploadToYandexDiscQuery
     }
 }

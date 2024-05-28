@@ -1,7 +1,7 @@
 import {Space} from "antd-mobile";
-import {CalendarOutline, HistogramOutline} from "antd-mobile-icons";
+import {CalendarOutline, HistogramOutline, TagOutline} from "antd-mobile-icons";
 import {ISceneDescription} from "../model/types.ts";
-import {humanizeDayValue} from "@shared/lib/DateUtils.ts";
+import {getAbsoluteDate, humanizeDayValue} from "@shared/lib/DateUtils.ts";
 
 
 export const SceneDescription = (props: ISceneDescription) => {
@@ -10,20 +10,22 @@ export const SceneDescription = (props: ISceneDescription) => {
     const dayEndStr = humanizeDayValue(props.scene.dayEnd)
     return (
         <>
-            <Space>
-                <div>
-                    <HistogramOutline /> {props.scene.symbolCount}
-                </div>
-                {(props.scene.dayStart || props.scene.dayEnd) &&
-                <div>
-                    <CalendarOutline /> {(props.scene.dayStart === props.scene.dayEnd) && <>
-                        {dayStartStr}
-                    </>}
-                    {(props.scene.dayStart !== props.scene.dayEnd) && <>
-                        {dayStartStr} - {dayEndStr}
-                    </>}
-                </div>}
-            </Space>
+                <Space wrap={true}>
+                    <div><HistogramOutline /> {props.scene.symbolCount}</div>
+                    {(props.scene.dayStart || props.scene.dayEnd) &&  <div>
+                        <CalendarOutline /> {(props.scene.dayStart === props.scene.dayEnd) && <>
+                            {dayStartStr}
+                        </>}
+                        {(props.scene.dayStart !== props.scene.dayEnd) && <>
+                            {dayStartStr} - {dayEndStr}
+                        </>}
+                    </div>}
+                    {props.book.dateStart && props.scene.dayStart && <div
+                        style={{marginLeft: '0px'}}
+                    >
+                        <TagOutline />{getAbsoluteDate(props.book.dateStart, props.scene.dayStart)}
+                    </div>}
+                </Space>
         </>
     )
 }

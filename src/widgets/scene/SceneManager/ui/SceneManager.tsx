@@ -89,7 +89,7 @@ export const SceneManager = (props: SceneManagerProps) => {
                         className={blinkItemId === scene.id ? "blink" : ''}
                         key={scene.id}
                         description={
-                            <SceneDescription scene={scene}/>
+                            <SceneDescription scene={scene} book = {props.book}/>
                         }
                         prefix={scene.sortOrderId}
                         style={{"whiteSpace": "pre-line"}}

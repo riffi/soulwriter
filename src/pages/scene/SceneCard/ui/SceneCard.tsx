@@ -13,7 +13,7 @@ export const SceneCard = () => {
 
     return (
         <>
-            <SceneViewForm sceneId={sceneId} bookId={currentBook?.id}/>
+            <SceneViewForm sceneId={sceneId} book={currentBook}/>
         </>
     )
 }
