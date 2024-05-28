@@ -4,6 +4,7 @@ import {InlineEdit} from "@shared/ui/InlineEdit";
 import {InlineTextArea} from "@shared/ui/InlineTextArea";
 import {InlineStepper} from "@shared/ui/InlineStepper";
 import {useBookViewForm} from "../model/useBookViewForm.ts";
+import {InlineDatePicker} from "@shared/ui/InlineDatePicker";
 
 export const BookViewForm = (props: IBookViewFormProps) => {
     const {
@@ -39,6 +40,13 @@ export const BookViewForm = (props: IBookViewFormProps) => {
                     <InlineStepper
                         value={book.targetSymbolCount}
                         onChange={(val) => changeAttributeValue("targetSymbolCount", val)}
+                    />
+                </List.Item>
+                <List.Item title={"Дата отсчета"}>
+                    <InlineEdit
+                        placeholder={"Дата в формате ДД.ММ.ГГГГ"}
+                        value={book.dateStart}
+                        onChange={(val) => changeAttributeValue("dateStart", val)}
                     />
                 </List.Item>
             </List>

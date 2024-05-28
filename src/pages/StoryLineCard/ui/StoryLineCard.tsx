@@ -1,19 +1,17 @@
 import {useSearchParams} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../store.ts";
 import {NeedSelectBook} from "@features/book/NeedSelectBook";
-import {SceneViewForm} from "@widgets/scene/SceneViewForm";
-
-export const SceneCard = () => {
+import {StoryLineViewForm} from "@widgets/StoryLineViewForm";
+import {RootState} from "../../../store.ts";
+export const StoryLineCard = () => {
     const [searchParams] = useSearchParams();
-    const sceneId = Number(searchParams.get('id'))
+    const storyLineId = Number(searchParams.get('id'))
     const currentBook = useSelector((state: RootState) => state.bookContext.currentBook)
 
     if (!currentBook ||!currentBook?.id) return <NeedSelectBook/>
-
     return (
         <>
-            <SceneViewForm sceneId={sceneId} book={currentBook}/>
+            <StoryLineViewForm storyLineId={storyLineId} book={currentBook}/>
         </>
     )
 }

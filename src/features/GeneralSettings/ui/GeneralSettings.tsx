@@ -2,6 +2,7 @@ import {useRef} from "react";
 import {Button, List, Space} from "antd-mobile";
 import {useGeneralSettings} from "../model/useGeneralSettings.ts";
 import {DownOutline, UpOutline, UserCircleOutline} from 'antd-mobile-icons'
+import {getAuthPageUrl} from "@features/GeneralSettings/api/YandexDiscAPI.ts";
 
 export const GeneralSettings = () => {
 
@@ -11,7 +12,6 @@ export const GeneralSettings = () => {
         importBase,
         exportDocx,
         uploadToYandexDiscQuery,
-        downloadFromYandexDiscQuery
     } = useGeneralSettings()
 
 
@@ -25,7 +25,7 @@ export const GeneralSettings = () => {
             <List.Item>
                 <Button
                     onClick={() => {
-                        window.location = 'https://oauth.yandex.ru/authorize?response_type=token&client_id=8532554d78da42c2ac5a5d7d9498185f'
+                        window.location = getAuthPageUrl()
                     }}
                 >
                     <UserCircleOutline /> Авторизация Яндекс
@@ -49,13 +49,13 @@ export const GeneralSettings = () => {
                     Импорт json
                 </Button>
             </List.Item>
-            <List.Item title={"Импорт"}>
-                <Button
-                    onClick={() => downloadFromYandexDiscQuery()}
-                >
-                    <DownOutline /> Выгрузить из яндекс диска
-                </Button>
-            </List.Item>
+            {/*<List.Item title={"Импорт"}>*/}
+            {/*    <Button*/}
+            {/*        onClick={() => downloadFromYandexDiscQuery()}*/}
+            {/*    >*/}
+            {/*        <DownOutline /> Выгрузить из яндекс диска*/}
+            {/*    </Button>*/}
+            {/*</List.Item>*/}
         </List>
     )
 }

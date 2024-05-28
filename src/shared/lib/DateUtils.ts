@@ -1,3 +1,6 @@
+import moment from "moment";
+import 'moment/dist/locale/ru';
+
 export const daysToCalendarInterval = (days: number) => {
     const daysInYear = 365
     const daysInMonth = 30
@@ -41,4 +44,10 @@ export const humanizeDayValue = (dayCount?: number) => {
     }
 
     return result
+}
+
+export const getAbsoluteDate = (dateStart: string, dayCount: number) => {
+    const date = moment(dateStart, 'DD.MM.YYYY').locale("ru")
+    date.add(dayCount - 1, "days")
+    return date.format('DD MMMM YYYY')
 }

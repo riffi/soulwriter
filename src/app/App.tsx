@@ -7,8 +7,10 @@ import {persistStore} from "redux-persist";
 import {PersistGate} from "redux-persist/integration/react";
 
 const queryClient = new QueryClient()
+//moment.locale("ru");
 import { ConfigProvider } from "antd-mobile";
 import ruRU from "antd-mobile/es/locales/ru-RU";
+import moment from "moment/moment";
 
 export const App = () => {
 

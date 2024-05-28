@@ -31,7 +31,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         sceneLinkCount,
         changeAttributeValue,
         updateSymbolCount
-    } = useSceneViewForm(props.bookId, props.sceneId)
+    } = useSceneViewForm(props.book.id!, props.sceneId)
 
     const navigate = useNavigate()
 
@@ -178,7 +178,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         </div>
         <div className={styled.footer}>
             <AutoCenter style={{marginTop: '10px', color: '#888888'}}>
-                {scene && <SceneDescription scene={scene}/>}
+                {scene && <SceneDescription book={props.book} scene={scene}/>}
             </AutoCenter>
         </div>
         <Popup
@@ -189,7 +189,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
             onMaskClick={() => setSceneUsersPopupVisible(false)}
             tabIndex={1}
         >
-            <SceneCharacters bookId={props.bookId} sceneId={props.sceneId}/>
+            <SceneCharacters bookId={props.book.id!} sceneId={props.sceneId}/>
         </Popup>
         <Popup
             visible={sceneLinksPopupVisible}
@@ -199,7 +199,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
             onMaskClick={() => setSceneLinksPopupVisible(false)}
             tabIndex={2}
         >
-            <SceneLinks bookId={props.bookId} sceneId={props.sceneId}/>
+            <SceneLinks bookId={props.book.id!} sceneId={props.sceneId}/>
         </Popup>
         <Popup
             visible={sceneParamsPopupVisible}

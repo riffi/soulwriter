@@ -1,10 +1,10 @@
-import {IInlineEditProps} from "../model/type.ts";
 import {EditFill} from "antd-mobile-icons";
 import {useState} from "react";
-import {Input} from "antd-mobile";
+import {CalendarPicker} from "antd-mobile";
 import {ViewMode} from "../../../model/types.ts";
+import {IInlineDatePickerProps} from "../model/type.ts";
 
-export const InlineEdit = (props: IInlineEditProps) => {
+export const InlineDatePicker = (props: IInlineDatePickerProps) => {
     const [mode, setMode] = useState<ViewMode>(props?.defaultMode ? props?.defaultMode : ViewMode.READ)
     const [val, setVal] = useState<string | undefined>(props?.value)
 
@@ -28,17 +28,25 @@ export const InlineEdit = (props: IInlineEditProps) => {
             }
 
             {mode === ViewMode.WRITE &&
-                <Input
-                    autoFocus
-                    value={val}
-                    placeholder={props.placeholder}
-                    onChange={(val) => {setVal(val)}}
-                    onBlur={ handleSave }
-                    onKeyUp={(event) => {
-                        if (event.key === 'Enter') handleSave()
-                        if (event.key === 'Escape') setMode(ViewMode.READ)
-                    }}
+
+                <CalendarPicker
+                    visible={true}
+                    selectionMode='single'
+                    min={new Date(1966)}
+                    defaultValue={new Date()}
+                    onClose={() => setMode(ViewMode.READ)}
+                    onMaskClick={() =>  setMode(ViewMode.READ)}
                 />
+                // <Input
+                //     autoFocus
+                //     value={val}
+                //     onChange={(val) => {setVal(val)}}
+                //     onBlur={ handleSave }
+                //     onKeyUp={(event) => {
+                //         if (event.key === 'Enter') handleSave()
+                //         if (event.key === 'Escape') setMode(ViewMode.READ)
+                //     }}
+                // />
             }
         </div>
     )
