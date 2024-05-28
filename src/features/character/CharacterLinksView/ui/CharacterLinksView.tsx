@@ -1,11 +1,11 @@
 import {ICharacterLinksViewProps} from "@features/character/CharacterLinksView/model/types.ts";
-import {Button, Card, Ellipsis, List, Popup, Space} from "antd-mobile";
+import {Button, CapsuleTabs, Card, List, Popup, SearchBar, Space} from "antd-mobile";
 import {useCharacterLinksView} from "@features/character/CharacterLinksView/model/useCharacterLinksView.ts";
 import {IconBlock} from "@shared/ui/IconBlock";
 import {IBookItem} from "@entities/BookItem";
-import {ISceneLink} from "@entities/Scene";
-import {ReactNode, useState} from "react";
+import {useState} from "react";
 import {CloseOutline, FilterOutline} from "antd-mobile-icons";
+
 
 
 export const CharacterLinksView = (props: ICharacterLinksViewProps) => {
@@ -18,6 +18,7 @@ export const CharacterLinksView = (props: ICharacterLinksViewProps) => {
 
     const [selectedBookItem, setSelectedBookItem] = useState<IBookItem>()
     const [popupSelectBookItemVisible, setPopupSelectBookItemVisible ] = useState<boolean>(false)
+    const [searchStr, setSearchStr] = useState<string>('')
 
     const sortedSceneLinks =  sceneLinks?.sort((a,b) => {
         const aSort = getSceneDataByLink(a)?.sortOrderId
@@ -28,6 +29,15 @@ export const CharacterLinksView = (props: ICharacterLinksViewProps) => {
     const filteredSceneLinks = sortedSceneLinks?.filter(
         (link) => (!selectedBookItem) || link.bookItemId === selectedBookItem?.id
     )
+
+    const searchStrClean = searchStr ? searchStr?.toLowerCase().trim() : ''
+
+    const filteredBookItems = bookItems?.filter((bookItem) => {
+        if (!searchStrClean) return true
+        return (bookItem.title.toLowerCase().indexOf(searchStrClean) != -1)
+            || (bookItem.type.toLowerCase().indexOf(searchStrClean) != -1)
+    }
+)
 
     return (
         <>
@@ -66,6 +76,7 @@ export const CharacterLinksView = (props: ICharacterLinksViewProps) => {
                 </List.Item>
             )}
         </List>
+
             {popupSelectBookItemVisible &&
                 <Popup
                     visible={true}
@@ -76,7 +87,17 @@ export const CharacterLinksView = (props: ICharacterLinksViewProps) => {
                 >
                     <Card >
                         <List header={"Выберите элемент"}>
-                            {bookItems?.map((bookItem) =>
+                            <List.Item key={"search"}>
+                                <SearchBar
+                                    placeholder={"Поиск"}
+                                    clearable={true}
+                                    onChange={(val) => {
+                                        setSearchStr(val)
+                                    }}
+                                />
+
+                            </List.Item>
+                            {filteredBookItems?.map((bookItem) =>
                                 <List.Item
                                     key={bookItem.id}
                                     title={bookItem.type}
