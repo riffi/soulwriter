@@ -13,7 +13,7 @@ export const Settings = () => {
 
     return (
         <>
-            <Tabs tabIndex={0}  style={{"--title-font-size": "14px"}} activeKey={"generalSettings"}>
+            <Tabs tabIndex={0}  style={{"--title-font-size": "14px"}} defaultActiveKey={"generalSettings"}>
                 {(currentBook && currentBook?.id) &&
                 <>
                     <Tabs.Tab

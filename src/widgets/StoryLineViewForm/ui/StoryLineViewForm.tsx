@@ -28,12 +28,12 @@ export const StoryLineViewForm = (props: IStoryLineViewFormProps) => {
                         onChange={(val) => changeAttributeValue("description", val)}/>
                 </List.Item>
             </List>
-            <Tabs defaultActiveKey={"characters"}>
-                <Tabs.Tab title={"Персонажи"} key={"characters"}>
-                    <StoryLineCharacters storyLine={storyLine} />
-                </Tabs.Tab>
+            <Tabs defaultActiveKey={"items"}>
                 <Tabs.Tab title={"События"} key={"items"}>
                     <StoryLineItems storyLine={storyLine} />
+                </Tabs.Tab>
+                <Tabs.Tab title={"Персонажи"} key={"characters"}>
+                    <StoryLineCharacters storyLine={storyLine} />
                 </Tabs.Tab>
             </Tabs>
 
