@@ -27,7 +27,6 @@ export const MainMenu = (props: IMainMenuProps) => {
                 <TabBar.Item key="/characters" icon={<UserOutline/>} title={"Персонажи"}/>
                 <TabBar.Item key="/book-items" icon={<GlobalOutline/>} title={"База"}/>
                 <TabBar.Item key="/storylines" icon={<CollectMoneyOutline/>} title={"Cюжет"}/>
-                <TabBar.Item key="/dictionaries" icon={<UnorderedListOutline/>} title={"Справочники"}/>
                 <TabBar.Item key="/settings" icon={<SetOutline/>} title={"Настройки"}/>
         </TabBar>
     );
