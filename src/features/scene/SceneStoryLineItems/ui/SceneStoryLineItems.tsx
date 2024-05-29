@@ -1,55 +1,74 @@
 import {ISceneStoryLineItemsProps} from "../model/types.ts";
-import {Card, List, Popup} from "antd-mobile";
-import {useSceneStoryLineItems} from "../model/useSceneStoryLineItems.ts";
+import {AutoCenter, Button, List, Popup} from "antd-mobile";
 import {useState} from "react";
-import {IStoryLine} from "@entities/StoryLine/models/types.ts";
+import {useSceneStoryLineItems} from "@features/scene/SceneStoryLineItems/model/useSceneStoryLineItems.ts";
+import {StoryLineItemSelector} from "@features/storyLine/StoryLineItemSelector";
+import {AddCircleOutline, CalendarOutline, CloseOutline, EditSOutline} from "antd-mobile-icons";
+
 
 
 export const SceneStoryLineItems = (props: ISceneStoryLineItemsProps) => {
 
-    const [itemPopupVisible, setItemPopupVisible] = useState<boolean>(false)
-    const [selectedStoryLine, setSelectedStoryLine] = useState<IStoryLine>()
+    const [selectorPopupVisible, setSelectorPopupVisible] = useState<boolean>(false)
+    const {
+        storyLineItems,
+        addItem,
+        removeItem
+    } = useSceneStoryLineItems(props.bookId, props.sceneId)
 
-    const {storyLines, storyLineItems} = useSceneStoryLineItems(props.bookId, props.sceneId, selectedStoryLine)
-
+    const selectedItemIds = storyLineItems?.map((i) => i.id)
 
     return (
         <>
-        <List header={"Линии сюжета"}>
-            {storyLines?.map((storyLine) =>
+        <List header={"События сюжетных линий"}>
+            {storyLineItems?.map((item) =>
                 <List.Item
-                    clickable={true}
-                    key={storyLine.id}
-                    onClick={() => {
-                        setSelectedStoryLine(storyLine)
-                        setItemPopupVisible(true)
-                    }}
+                    clickable={false}
+                    key={item.id}
+                    prefix={<CalendarOutline />}
+                    extra={
+                        <Button fill={"none"}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    removeItem(item)
+                                }}
+                        >
+                            <CloseOutline/>
+                        </Button>
+                    }
                 >
-                    {storyLine.title}
+                    {item.title}
                 </List.Item>
             )}
+            <List.Item title={""} key={"add"}>
+                <AutoCenter>
+                    <Button
+                        size='large'
+                        fill={'none'}
+                        onClick={async  () => {
+                            setSelectorPopupVisible(true)
+                        }}>
+                        <AddCircleOutline/>
+
+                    </Button>
+                </AutoCenter>
+            </List.Item>
         </List>
-        <Popup
-            visible={itemPopupVisible}
+        {selectorPopupVisible && <Popup
+            visible={true}
             showCloseButton={true}
             bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
-            onClose={() => setItemPopupVisible(false)}
-            onMaskClick={() => setItemPopupVisible(false)}
+            onClose={() => setSelectorPopupVisible(false)}
+            onMaskClick={() => setSelectorPopupVisible(false)}
             tabIndex={3}
         >
-            <Card>
-                <List header={"События"}>
-                    {storyLineItems?.map((storyLineItem) =>
-                        <List.Item
-                            key={storyLineItem.id}
-                            onClick={() => props.onSelect?.(storyLineItem)}
-                        >
-                            {storyLineItem.title}
-                        </List.Item>
-                    )}
-                </List>
-            </Card>
-        </Popup>
+            <StoryLineItemSelector
+                bookId={props.bookId}
+                onSelect={addItem}
+                onClose={() => setSelectorPopupVisible(false)}
+                excludeItemIds={selectedItemIds}
+            />
+        </Popup>}
         </>
     )
 }

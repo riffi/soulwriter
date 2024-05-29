@@ -26,7 +26,7 @@ export const StoryLineItems = (props: IStoryLineItemsProps) => {
             return '[не привязано к сцене]'
         }
         else{
-            return `${storyLineItem.sceneData?.sortOrderId}: ${storyLineItem.sceneData?.title}`
+            return `Сцена ${storyLineItem.sceneData?.sortOrderId}: ${storyLineItem.sceneData?.title}`
         }
     }
 

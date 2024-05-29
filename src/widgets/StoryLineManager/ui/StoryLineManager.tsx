@@ -1,7 +1,7 @@
 import {IStoryLineManagerProps} from "@widgets/StoryLineManager/model/types.ts";
 import {useStoryLineManager} from "@widgets/StoryLineManager/model/useStoryLineManager.ts";
 import {AutoCenter, Button, Grid, Input, List, Popup} from "antd-mobile";
-import {AddCircleOutline} from "antd-mobile-icons";
+import {AddCircleOutline, CollectMoneyOutline} from "antd-mobile-icons";
 import styled from "@features/bookItem/BookItemList/ui/BookItemList.module.scss";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -24,6 +24,7 @@ export const StoryLineManager = (props: IStoryLineManagerProps) => {
                 <List.Item
                     clickable={true}
                     key={storyLine.id}
+                    prefix={<CollectMoneyOutline/>}
                     onClick={() => navigate(`/storyline/card?id=${storyLine.id}`)}
                 >
                     {storyLine.title}

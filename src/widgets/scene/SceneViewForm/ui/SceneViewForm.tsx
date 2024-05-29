@@ -31,6 +31,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         prevScene,
         characterCount,
         sceneLinkCount,
+        sceneStoryLineItemCount,
         changeAttributeValue,
         updateSymbolCount
     } = useSceneViewForm(props.book.id!, props.sceneId)
@@ -162,7 +163,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                     <TabBar.Item
                         key={"storyLineItems"}
                         icon={<CollectMoneyOutline/>}
-                        title={`Сюжет`}
+                        title={`Сюжет(${sceneStoryLineItemCount})`}
 
                     />
                     <TabBar.Item
@@ -226,7 +227,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         <Popup
             visible={sceneStoryLineItemsPopupVisible}
             showCloseButton={true}
-            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+            bodyStyle={{overflow: "auto", height: "90dvh"}}
             onClose={() => setSceneStoryLineItemsPopupVisible(false)}
             onMaskClick={() => setSceneStoryLineItemsPopupVisible(false)}
             tabIndex={3}

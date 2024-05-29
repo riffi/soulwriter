@@ -21,6 +21,11 @@ export const useSceneViewForm = (bookId: number, sceneId: number) =>{
         .count(), [sceneId]
     )
 
+    const sceneStoryLineItemCount = useLiveQuery(() => db.storyLineItems
+        .where("sceneId")
+        .equals(sceneId)
+        .count(), [sceneId]
+    )
 
     const nextScene = useLiveQuery(() => db.scenes
         .where("bookId")
@@ -56,6 +61,7 @@ export const useSceneViewForm = (bookId: number, sceneId: number) =>{
         prevScene,
         characterCount,
         sceneLinkCount,
+        sceneStoryLineItemCount,
         changeAttributeValue,
         updateSymbolCount
     }

@@ -1,27 +1,28 @@
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "@entities/Db/model/Db.ts";
-import {IStoryLine} from "@entities/StoryLine/models/types.ts";
+import {IStoryLineItem} from "@entities/StoryLine/models/types.ts";
 
-export const useSceneStoryLineItems = (bookId: number, sceneId: number, selectedStoryLine?: IStoryLine) => {
-
-    const storyLines = useLiveQuery(() => db.storyLines
-        .where('bookId')
-        .equals(bookId)
-        .toArray()
-    , [bookId])
+export const useSceneStoryLineItems = (bookId: number, sceneId: number) => {
 
 
     const storyLineItems = useLiveQuery(async () => {
-        if (!selectedStoryLine || !selectedStoryLine.id) return
-
-        return db.storyLineItems
-            .where('storyLineId')
-            .equals(selectedStoryLine.id)
+             return db.storyLineItems
+            .where('sceneId')
+            .equals(sceneId)
             .toArray()
-    }, [selectedStoryLine])
+    }, [sceneId])
+
+    const addItem = (storyLineItem: IStoryLineItem) => {
+        db.storyLineItems.update(storyLineItem.id, {sceneId: sceneId})
+    }
+
+    const removeItem = (storyLineItem: IStoryLineItem) => {
+        db.storyLineItems.update(storyLineItem.id, {sceneId: undefined})
+    }
 
     return {
-        storyLines,
-        storyLineItems
+        storyLineItems,
+        addItem,
+        removeItem
     }
 }
