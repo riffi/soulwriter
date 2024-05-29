@@ -26,6 +26,7 @@ export const SceneStoryLineItems = (props: ISceneStoryLineItemsProps) => {
                     clickable={false}
                     key={item.id}
                     prefix={<CalendarOutline />}
+                    description={`Линия: ${item.storyLineData?.title}`}
                     extra={
                         <Button fill={"none"}
                                 onClick={(e) => {

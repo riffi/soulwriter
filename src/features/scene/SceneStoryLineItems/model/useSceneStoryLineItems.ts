@@ -6,10 +6,22 @@ export const useSceneStoryLineItems = (bookId: number, sceneId: number) => {
 
 
     const storyLineItems = useLiveQuery(async () => {
-             return db.storyLineItems
+        const items = await db.storyLineItems
             .where('sceneId')
             .equals(sceneId)
             .toArray()
+
+        // Добавляем информацию по линиям сюжета
+        await Promise.all (items?.map (async item => {
+            if (item.sceneId){
+                [item.storyLineData] = await Promise.all([
+                    await db.storyLines.get(item.storyLineId)
+                ]);
+            }
+        }))
+
+        return items
+
     }, [sceneId])
 
     const addItem = (storyLineItem: IStoryLineItem) => {

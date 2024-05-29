@@ -19,6 +19,7 @@ export interface IStoryLineItem{
     storyLineId: number
     title: string
     sceneId?: number
-    sceneData?: IScene
+    sceneData?: IScene,
+    storyLineData?: IStoryLine
 }
 
