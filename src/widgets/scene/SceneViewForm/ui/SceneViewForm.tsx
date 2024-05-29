@@ -4,12 +4,13 @@ import {AutoCenter, Card, List, NavBar, Popup, TabBar} from "antd-mobile";
 import {InlineEdit} from "@shared/ui/InlineEdit";
 import {useMemo, useRef, useState} from "react";
 import JoditEditor from 'jodit-react';
-import {FillinOutline,
+import {
+    FillinOutline,
     RightOutline,
     UnorderedListOutline,
     TeamFill,
     FileOutline,
-    LinkOutline,
+    LinkOutline, CollectMoneyOutline, GlobalOutline,
 } from "antd-mobile-icons";
 import {useDebouncedCallback} from "use-debounce";
 import {useNavigate} from "react-router-dom";
@@ -21,6 +22,7 @@ import {calcSymbolCount} from "@shared/lib/TextMetrics.ts";
 import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
 import {SceneParams} from "@features/scene/SceneParams";
 import {SceneDescription} from "@features/scene/SceneDesription";
+import {SceneStoryLineItems} from "@features/scene/SceneStoryLineItems/ui/SceneStoryLineItems.tsx";
 
 
 export const SceneViewForm = (props: ISceneViewFormProps) => {
@@ -37,6 +39,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
 
     const [sceneUsersPopupVisible, setSceneUsersPopupVisible] = useState<boolean>(false)
     const [sceneLinksPopupVisible, setSceneLinksPopupVisible] = useState<boolean>(false)
+    const [sceneStoryLineItemsPopupVisible, setSceneStoryLineItemsPopupVisible] = useState<boolean>(false)
     const [sceneParamsPopupVisible, setSceneParamsPopupVisible] = useState<boolean>(false)
 
     const [mode, setMode] = useState<ViewMode>(ViewMode.READ)
@@ -138,6 +141,9 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                         else if (key == "params"){
                             setSceneParamsPopupVisible(true)
                         }
+                        else if (key == 'storyLineItems'){
+                            setSceneStoryLineItemsPopupVisible(true)
+                        }
                     }}
                     activeKey={null}
 
@@ -145,19 +151,24 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                     <TabBar.Item
                         key={"characters"}
                         icon={<TeamFill/>}
-                        title={`Персонажи (${characterCount})`}
+                        title={`Персонажи(${characterCount})`}
                     />
                     <TabBar.Item
                         key={"links"}
-                        icon={<LinkOutline/>}
-                        title={`Упоминания (${sceneLinkCount})`}
+                        icon={<GlobalOutline/>}
+                        title={`Сслыки(${sceneLinkCount})`}
+
+                    />
+                    <TabBar.Item
+                        key={"storyLineItems"}
+                        icon={<CollectMoneyOutline/>}
+                        title={`Сюжет`}
 
                     />
                     <TabBar.Item
                         key={"params"}
                         icon={<FileOutline />}
                         title={`Параметры`}
-
                     />
                 </TabBar>
             </NavBar>
@@ -211,6 +222,21 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         >
             <SceneParams sceneId={props.sceneId}/>
         </Popup>
+
+        <Popup
+            visible={sceneStoryLineItemsPopupVisible}
+            showCloseButton={true}
+            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+            onClose={() => setSceneStoryLineItemsPopupVisible(false)}
+            onMaskClick={() => setSceneStoryLineItemsPopupVisible(false)}
+            tabIndex={3}
+        >
+            <SceneStoryLineItems
+                sceneId={props.sceneId}
+                bookId={props.book.id!}
+            />
+        </Popup>
+
     </>
     )
 }

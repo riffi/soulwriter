@@ -1,4 +1,6 @@
 import {IEnumerable} from "@shared/model/types.ts";
+import {IScene} from "@entities/Scene";
+
 
 export interface IStoryLine extends IEnumerable{
     id?: number
@@ -7,9 +9,16 @@ export interface IStoryLine extends IEnumerable{
     description: string
 }
 
-export interface IStoryLineItems{
+export interface IStoryLineCharacter{
+    storyLineId: number
+    characterId: number,
+}
+
+export interface IStoryLineItem{
     id?: number
     storyLineId: number
     title: string
-    bookItemId?: number
+    sceneId?: number
+    sceneData?: IScene
 }
+

@@ -11,7 +11,7 @@ export const useBookItemLinks = (bookItemId: number) => {
             .toArray()
 
             await Promise.all (bookItemLinks?.map (async link => {
-                if (link.bookItemId){
+                if (link.sceneId){
                     [link.sceneData] = await Promise.all([
                         db.scenes.get(link.sceneId)
                     ]);

@@ -23,6 +23,7 @@ export const StoryLineManager = (props: IStoryLineManagerProps) => {
             {storyLines?.map((storyLine) =>
                 <List.Item
                     clickable={true}
+                    key={storyLine.id}
                     onClick={() => navigate(`/storyline/card?id=${storyLine.id}`)}
                 >
                     {storyLine.title}
