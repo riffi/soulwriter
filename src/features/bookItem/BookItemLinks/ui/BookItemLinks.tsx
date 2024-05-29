@@ -1,8 +1,7 @@
 import {IBookItemLinksProps} from "../model/types.ts";
-import {List, Space, Tag} from "antd-mobile";
+import {List} from "antd-mobile";
 import {useBookItemLinks} from "../model/useBookItemLinks.ts";
 import {useNavigate} from "react-router-dom";
-import {TeamFill} from "antd-mobile-icons";
 import {CharacterLinksTags} from "@features/character/CharacterLinksTags";
 
 export const BookItemLinks = (props: IBookItemLinksProps) => {
