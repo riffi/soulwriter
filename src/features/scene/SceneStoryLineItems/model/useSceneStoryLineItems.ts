@@ -14,9 +14,21 @@ export const useSceneStoryLineItems = (bookId: number, sceneId: number) => {
         // Добавляем информацию по линиям сюжета
         await Promise.all (items?.map (async item => {
             if (item.sceneId){
-                [item.storyLineData] = await Promise.all([
-                    await db.storyLines.get(item.storyLineId)
-                ]);
+                item.storyLineData = await db.storyLines.get(item.storyLineId)
+
+                if (item.storyLineData){
+                    const storyLineChars = await db.storyLineCharacters
+                        .where('storyLineId')
+                        .equals(item.storyLineData.id!)
+                        .toArray()
+                    const storyLineCharsIds = storyLineChars.map((c) => c.characterId)
+
+
+                    item.storyLineData.characters = await db.characters
+                        .where("id")
+                        .anyOf(storyLineCharsIds)
+                        .toArray()
+                }
             }
         }))
 

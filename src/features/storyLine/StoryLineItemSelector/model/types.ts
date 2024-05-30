@@ -5,4 +5,6 @@ export interface IStoryLineItemsSelectorProps{
     onSelect?: (item: IStoryLineItem) => void
     excludeItemIds?: number[]
     onClose?: () => void
+    sceneId: number
 }
+
