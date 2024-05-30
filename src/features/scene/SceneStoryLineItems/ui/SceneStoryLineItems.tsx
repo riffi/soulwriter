@@ -4,6 +4,7 @@ import {useState} from "react";
 import {useSceneStoryLineItems} from "@features/scene/SceneStoryLineItems/model/useSceneStoryLineItems.ts";
 import {StoryLineItemSelector} from "@features/storyLine/StoryLineItemSelector";
 import {AddCircleOutline, CalendarOutline, CloseOutline, EditSOutline} from "antd-mobile-icons";
+import {TagList} from "@shared/ui/TagList";
 
 
 
@@ -26,7 +27,17 @@ export const SceneStoryLineItems = (props: ISceneStoryLineItemsProps) => {
                     clickable={false}
                     key={item.id}
                     prefix={<CalendarOutline />}
-                    description={`Линия: ${item.storyLineData?.title}`}
+                    title={`Линия: ${item.storyLineData?.title}`}
+                    description={
+                        <TagList tags={
+                            item.storyLineData?.characters?.map((c) => {
+                                return {
+                                    id: c.id,
+                                    value: c.name
+                                }
+                            })
+                        }/>
+                    }
                     extra={
                         <Button fill={"none"}
                                 onClick={(e) => {
@@ -65,6 +76,7 @@ export const SceneStoryLineItems = (props: ISceneStoryLineItemsProps) => {
         >
             <StoryLineItemSelector
                 bookId={props.bookId}
+                sceneId={props.sceneId}
                 onSelect={addItem}
                 onClose={() => setSelectorPopupVisible(false)}
                 excludeItemIds={selectedItemIds}

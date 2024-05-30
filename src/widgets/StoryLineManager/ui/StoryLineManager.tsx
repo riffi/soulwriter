@@ -5,6 +5,7 @@ import {AddCircleOutline, CollectMoneyOutline} from "antd-mobile-icons";
 import styled from "@features/bookItem/BookItemList/ui/BookItemList.module.scss";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {TagList} from "@shared/ui/TagList";
 
 export const StoryLineManager = (props: IStoryLineManagerProps) => {
     const {
@@ -17,6 +18,7 @@ export const StoryLineManager = (props: IStoryLineManagerProps) => {
 
     const navigate = useNavigate()
 
+
     return (
         <>
         <List>
@@ -25,6 +27,16 @@ export const StoryLineManager = (props: IStoryLineManagerProps) => {
                     clickable={true}
                     key={storyLine.id}
                     prefix={<CollectMoneyOutline/>}
+                    description={
+                        <TagList tags={
+                            storyLine.characters?.map((c) => {
+                                return {
+                                    id: c.id,
+                                    value: c.name
+                                }
+                            })
+                        }/>
+                    }
                     onClick={() => navigate(`/storyline/card?id=${storyLine.id}`)}
                 >
                     {storyLine.title}
