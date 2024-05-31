@@ -64,20 +64,6 @@ export const StoryLineItemSelector = (props: IStoryLineItemsSelectorProps) => {
                 </List.Item>
             )}
         </List>}
-        {/*<Popup*/}
-        {/*    visible={itemPopupVisible}*/}
-        {/*    showCloseButton={true}*/}
-        {/*    bodyStyle={{overflow: "auto", height: "80dvh"}}*/}
-        {/*    onClose={() => {*/}
-        {/*        props.onClose?.()*/}
-        {/*        setItemPopupVisible(false)*/}
-        {/*    }}*/}
-        {/*    onMaskClick={() => {*/}
-        {/*        props.onClose?.()*/}
-        {/*        setItemPopupVisible(false)*/}
-        {/*    }}*/}
-        {/*    tabIndex={3}*/}
-        {/*>*/}
         {itemPopupVisible && <Card>
                 <List header={
                     <Space direction={"horizontal"} wrap={true}>
@@ -132,7 +118,7 @@ export const StoryLineItemSelector = (props: IStoryLineItemsSelectorProps) => {
             <Popup
                 visible={itemAddPopupVisible}
                 showCloseButton={true}
-                bodyStyle={{overflow: "auto", height: "90dvh"}}
+                bodyStyle={{overflow: "auto", height: "70dvh"}}
                 onClose={() => setItemAddPopupVisible(false)}
                 onMaskClick={() => setItemAddPopupVisible(false)}
                 tabIndex={3}
