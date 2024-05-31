@@ -1,9 +1,9 @@
-import {AutoCenter, Button, CapsuleTabs, Card, Input, List, Popup, TextArea} from "antd-mobile";
+import {AutoCenter, Button, CapsuleTabs, Card, Input, List, Popup, Space, Tag, TextArea} from "antd-mobile";
 import {useStoryLineItemSelector} from "../model/useStoryLineItemSelector.ts";
 import {useState} from "react";
 import {IStoryLine, IStoryLineItem} from "@entities/StoryLine/models/types.ts";
 import {IStoryLineItemsSelectorProps} from "../model/types.ts";
-import {AddCircleOutline, CalendarOutline, CollectMoneyOutline} from "antd-mobile-icons";
+import {AddCircleOutline, CalendarOutline, CollectMoneyOutline, RightOutline} from "antd-mobile-icons";
 import {TagList} from "@shared/ui/TagList";
 
 enum IItemsFilter{
@@ -39,7 +39,7 @@ export const StoryLineItemSelector = (props: IStoryLineItemsSelectorProps) => {
 
     return (
         <>
-        <List header={"Выберите линию сюжета"}>
+        {!itemPopupVisible && <List header={"Выберите линию сюжета"}>
             {storyLines?.map((storyLine) =>
                 <List.Item
                     clickable={true}
@@ -63,23 +63,37 @@ export const StoryLineItemSelector = (props: IStoryLineItemsSelectorProps) => {
                     {storyLine.title}
                 </List.Item>
             )}
-        </List>
-        <Popup
-            visible={itemPopupVisible}
-            showCloseButton={true}
-            bodyStyle={{overflow: "auto", height: "90dvh"}}
-            onClose={() => {
-                props.onClose?.()
-                setItemPopupVisible(false)
-            }}
-            onMaskClick={() => {
-                props.onClose?.()
-                setItemPopupVisible(false)
-            }}
-            tabIndex={3}
-        >
-            <Card title={"Выберите событие"}>
-                <List header={`Линия: ${selectedStoryLine?.title}`}>
+        </List>}
+        {/*<Popup*/}
+        {/*    visible={itemPopupVisible}*/}
+        {/*    showCloseButton={true}*/}
+        {/*    bodyStyle={{overflow: "auto", height: "80dvh"}}*/}
+        {/*    onClose={() => {*/}
+        {/*        props.onClose?.()*/}
+        {/*        setItemPopupVisible(false)*/}
+        {/*    }}*/}
+        {/*    onMaskClick={() => {*/}
+        {/*        props.onClose?.()*/}
+        {/*        setItemPopupVisible(false)*/}
+        {/*    }}*/}
+        {/*    tabIndex={3}*/}
+        {/*>*/}
+        {itemPopupVisible && <Card>
+                <List header={
+                    <Space direction={"horizontal"} wrap={true}>
+                        <Tag
+                            key={selectedStoryLine?.id}
+                            style={{cursor: 'pointer'}}
+                            color={"primary"}
+                            onClick={() => setItemPopupVisible(false)}
+                        >
+                            Сюжетные линии
+                        </Tag>
+                        <RightOutline key={'arrow-world'} style={{color: '#AAAAAA', marginLeft: '5px'}}/>
+                        <div> {selectedStoryLine?.title}</div>
+                    </Space>
+
+                }>
                     <CapsuleTabs activeKey={itemsFilter}
                         onChange={(key) => {
                             setItemsFilter(key)
@@ -114,7 +128,7 @@ export const StoryLineItemSelector = (props: IStoryLineItemsSelectorProps) => {
                         </AutoCenter>
                     </List.Item>
                 </List>
-            </Card>
+            </Card>}
             <Popup
                 visible={itemAddPopupVisible}
                 showCloseButton={true}
@@ -151,7 +165,7 @@ export const StoryLineItemSelector = (props: IStoryLineItemsSelectorProps) => {
                     </List.Item>
                 </List>
             </Popup>
-        </Popup>
+        {/*</Popup>*/}
         </>
     )
 }

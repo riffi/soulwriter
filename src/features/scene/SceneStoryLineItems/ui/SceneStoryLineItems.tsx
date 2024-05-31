@@ -3,7 +3,7 @@ import {AutoCenter, Button, List, Popup} from "antd-mobile";
 import {useState} from "react";
 import {useSceneStoryLineItems} from "@features/scene/SceneStoryLineItems/model/useSceneStoryLineItems.ts";
 import {StoryLineItemSelector} from "@features/storyLine/StoryLineItemSelector";
-import {AddCircleOutline, CalendarOutline, CloseOutline, EditSOutline} from "antd-mobile-icons";
+import {AddCircleOutline, CalendarOutline, CloseOutline} from "antd-mobile-icons";
 import {TagList} from "@shared/ui/TagList";
 
 
@@ -69,7 +69,7 @@ export const SceneStoryLineItems = (props: ISceneStoryLineItemsProps) => {
         {selectorPopupVisible && <Popup
             visible={true}
             showCloseButton={true}
-            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+            bodyStyle={{overflow: "auto", height: "80dvh"}}
             onClose={() => setSelectorPopupVisible(false)}
             onMaskClick={() => setSelectorPopupVisible(false)}
             tabIndex={3}
