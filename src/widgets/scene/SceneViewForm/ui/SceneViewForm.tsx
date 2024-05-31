@@ -221,7 +221,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
             onMaskClick={() => setSceneParamsPopupVisible(false)}
             tabIndex={3}
         >
-            <SceneParams sceneId={props.sceneId}/>
+            <SceneParams sceneId={props.sceneId} book={props.book}/>
         </Popup>
 
         <Popup

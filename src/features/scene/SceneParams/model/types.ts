@@ -1,3 +1,7 @@
+import {IBook} from "@entities/Book";
+
 export interface ISceneParamsProps{
-    sceneId: number
+    sceneId: number,
+    book: IBook
+
 }
