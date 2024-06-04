@@ -3,6 +3,7 @@ import {AddCircleOutline} from "antd-mobile-icons";
 import { useCharactersByGroup} from '../model/useCharactersByGroup.ts'
 import {NavLink} from "react-router-dom";
 import {ICharactersByGroupProps} from "../model/types.ts";
+import {ImageViewer} from "@shared/ui/ImageViewer";
 
 
 export const CharactersByGroup = (props: ICharactersByGroupProps) => {
@@ -21,13 +22,7 @@ export const CharactersByGroup = (props: ICharactersByGroupProps) => {
                         <List.Item
                             key={character.name}
                             prefix={
-                                <Image
-                                    src={character.avatar ? character.avatar: '/default-avatar.jpeg'}
-                                    style={{ borderRadius: 20 }}
-                                    fit='cover'
-                                    width={40}
-                                    height={40}
-                                />
+                                <ImageViewer guid={character.avatar} />
                             }
                             description={character.description}
                             clickable

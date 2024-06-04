@@ -1,61 +1,84 @@
 import {useRef} from "react";
-import {Button, List, Space} from "antd-mobile";
+import {Button, Card, List, Space} from "antd-mobile";
 import {useGeneralSettings} from "../model/useGeneralSettings.ts";
 import {DownOutline, UpOutline, UserCircleOutline} from 'antd-mobile-icons'
 import {getAuthPageUrl} from "@features/GeneralSettings/api/YandexDiscAPI.ts";
 
 export const GeneralSettings = () => {
 
-    const fileRef = useRef<HTMLInputElement>()
+    const textDbFileRef = useRef<HTMLInputElement>()
+    const fileDbFileRef = useRef<HTMLInputElement>()
 
-    const {exportBase,
-        importBase,
+    const {importTextDb,
+        importFileDB,
+        exportTextDb,
+        exportFileDb,
         exportDocx,
         uploadToYandexDiscQuery,
     } = useGeneralSettings()
 
 
-    const importDB = () => {
-        const file: File | undefined = fileRef.current?.files?.[0]
-        importBase(file)
+    const queryImportTextDb = () => {
+        const file: File | undefined = textDbFileRef.current?.files?.[0]
+        importTextDb(file)
+    }
+
+    const queryImportFileDb = () => {
+        const file: File | undefined = fileDbFileRef.current?.files?.[0]
+        importFileDB(file)
     }
 
     return (
-        <List>
-            <List.Item>
-                <Button
-                    onClick={() => {
-                        window.location = getAuthPageUrl()
-                    }}
-                >
-                    <UserCircleOutline /> Авторизация Яндекс
-                </Button>
-            </List.Item>
-
-            <List.Item title={"Экспорт"} key={"export"}>
-                <Space wrap={true}>
-                    <Button onClick={exportBase}>Выгрузить json</Button>
-                    <Button onClick={exportDocx}>Выгрузить docx</Button>
+        <>
+        <Card title={"Текстовая База"}>
+            <List>
+                <List.Item>
                     <Button
-                        onClick={() => uploadToYandexDiscQuery()}
+                        onClick={() => {
+                            window.location = getAuthPageUrl()
+                        }}
                     >
-                        <UpOutline /> Загрузить на яндекс диск
+                        <UserCircleOutline /> Авторизация Яндекс
                     </Button>
-                </Space>
-            </List.Item>
-            <List.Item title={"Импорт"} key={"import"}>
-                <input ref={fileRef} type="file" accept={"application/json"}/>
-                <Button onClick={importDB} style={{marginTop: '10px'}}>
-                    Импорт json
-                </Button>
-            </List.Item>
-            {/*<List.Item title={"Импорт"}>*/}
-            {/*    <Button*/}
-            {/*        onClick={() => downloadFromYandexDiscQuery()}*/}
-            {/*    >*/}
-            {/*        <DownOutline /> Выгрузить из яндекс диска*/}
-            {/*    </Button>*/}
-            {/*</List.Item>*/}
-        </List>
+                </List.Item>
+
+                <List.Item title={"Экспорт"} key={"export"}>
+                    <Space wrap={true}>
+                        <Button onClick={exportTextDb}>Выгрузить json</Button>
+                        <Button onClick={exportDocx}>Выгрузить docx</Button>
+                        <Button
+                            onClick={() => uploadToYandexDiscQuery()}
+                        >
+                            <UpOutline /> Загрузить на яндекс диск
+                        </Button>
+                    </Space>
+                </List.Item>
+                <List.Item title={"Импорт"} key={"import"}>
+                    <input ref={textDbFileRef} type="file" accept={"application/json"}/>
+                    <Button onClick={queryImportTextDb} style={{marginTop: '10px'}}>
+                        Импорт json
+                    </Button>
+                </List.Item>
+            </List>
+        </Card>
+
+        <Card title={"База изображений"}>
+            <List>
+
+                <List.Item title={"Экспорт картинок"} key={"export"}>
+                    <Space wrap={true}>
+                        <Button onClick={exportFileDb}>Выгрузить json картинок</Button>
+                    </Space>
+                </List.Item>
+                <List.Item title={"Импорт картинок"} key={"import"}>
+                    <input ref={fileDbFileRef} type="file" accept={"application/json"}/>
+                    <Button onClick={queryImportFileDb} style={{marginTop: '10px'}}>
+                        Импорт json картинок
+                    </Button>
+                </List.Item>
+
+            </List>
+        </Card>
+        </>
     )
 }

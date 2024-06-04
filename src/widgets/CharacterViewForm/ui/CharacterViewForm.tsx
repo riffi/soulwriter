@@ -8,25 +8,16 @@ import {CharacterAttributeList} from "@features/character/CharacterAttributeList
 import {CharacterAttributeSection} from "@entities/Character";
 import {CharacterLinksView} from "@features/character/CharacterLinksView";
 import {CharacterStoryLines} from "@features/character/CharacterStoryLines";
+import {ImageHolder} from "@shared/ui/ImageHolder/ui/ImageHolder.tsx";
 
 export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     const {characterData,
-        characterAttributeDict,
         characterGroups,
         changeBaseAttributeValue,
-        onUploadCharacterAvatar,
-        onDeleteAvatar,
         appendDictAttribute,
         deleteDictAttribute,
         changeAttributeValue
     } = useCharacterViewForm(props.id, props.bookId)
-
-
-    const [avatarList, setAvatarList] = useState<ImageUploadItem[]>([])
-
-
-
-
     let selectorGroupsItems: IInlineSelectorItem[] = []
 
     if (characterGroups){
@@ -37,18 +28,10 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     return (
         <>
             <Space>
-                <ImageUploader
-                    style={{
-                        "--cell-size": '150px',
-                        marginTop: '10px',
-                        marginLeft: '10px'
-                    }}
-                    maxCount={1}
-                    camera={true}
-                    value={(characterData?.avatar !== undefined && characterData?.avatar != '') ? [{url: characterData?.avatar, thumbnailUrl: characterData?.avatar}]: avatarList}
-                    onChange={setAvatarList}
-                    upload={onUploadCharacterAvatar}
-                    onDelete={onDeleteAvatar}
+                <ImageHolder
+                    guid={characterData?.avatar}
+                    onUpload={(guid) => changeBaseAttributeValue("avatar", guid, characterData)}
+                    onDelete={(guid) => changeBaseAttributeValue("avatar", "", characterData)}
                 />
                 <List style={{margin: "0px", "--font-size": "12px", "--header-font-size": "10px", "--border-top": "none", "--border-bottom": "none"}}>
                     <List.Item title={"Имя"} key={"name"}>
