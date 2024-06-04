@@ -7,6 +7,7 @@ import {IInlineSelectorItem, InlineSelector} from "@shared/ui/InlineSelector";
 import {CharacterAttributeList} from "@features/character/CharacterAttributeList";
 import {CharacterAttributeSection} from "@entities/Character";
 import {CharacterLinksView} from "@features/character/CharacterLinksView";
+import {CharacterStoryLines} from "@features/character/CharacterStoryLines";
 
 export const CharacterViewForm = (props: ICharacterViewFormProps) => {
     const {characterData,
@@ -112,6 +113,9 @@ export const CharacterViewForm = (props: ICharacterViewFormProps) => {
                 </Tabs.Tab>
                 <Tabs.Tab title={"Упоминания"} key={"mentions"}>
                     <CharacterLinksView characterId={characterData?.id}/>
+                </Tabs.Tab>
+                <Tabs.Tab title={"Сюжетные линии"} key={"storyLines"}>
+                    <CharacterStoryLines characterId={characterData?.id}/>
                 </Tabs.Tab>
 
             </Tabs>

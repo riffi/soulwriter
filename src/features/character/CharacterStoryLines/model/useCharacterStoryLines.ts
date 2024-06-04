@@ -2,15 +2,24 @@ import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "@entities/Db/model/Db.ts";
 import {IStoryLine} from "@entities/StoryLine/models/types.ts";
 
-export const useStoryLineManager = (bookId: number) => {
-    const storyLines = useLiveQuery(async () =>{
-        const storyLines = await db.storyLines
-                .where("bookId")
-                .equals(bookId)
-                .toArray()
+export const useCharacterStoryLines = (characterId: number) => {
+
+    const storyLines = useLiveQuery(async () => {
+
+        const storyLineChars = await db.storyLineCharacters
+            .where("characterId")
+            .equals(characterId)
+            .toArray()
+
+        const storyLineIds = storyLineChars.map(s => s.storyLineId)
+
+        const storyLines  =  await db.storyLines
+            .where("id")
+            .anyOf(storyLineIds)
+            .toArray();
 
         // Добавляем информацию по персонажам
-        await Promise.all (storyLines?.map (async storyLine => {
+        return Promise.all(storyLines?.map(async storyLine => {
             const storyLineCharacters = await db.storyLineCharacters
                 .where("storyLineId")
                 .equals(storyLine.id!)
@@ -27,20 +36,11 @@ export const useStoryLineManager = (bookId: number) => {
             return storyLine
         }))
 
-        return storyLines
-    } , [bookId])
 
-    const onSaveNewStoryLine = (title: string) => {
-        const storyLine: IStoryLine = {
-            title: title,
-            bookId: bookId,
-            description: ''
-        }
-        db.storyLines.add(storyLine)
-    }
+    }, [characterId])
+
 
     return {
-        storyLines,
-        onSaveNewStoryLine
+        storyLines
     }
 }
