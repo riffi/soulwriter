@@ -12,7 +12,6 @@ export class DbAdapter extends Dexie {
     characters!: Table<ICharacter>
     characterGroups!: Table<ICharacterGroup>
     characterAttributeDict!: Table<ICharacterDictAttribute>
-    worlds!: Table<IWorld>
     books!: Table<IBook>
     scenes!: Table<IScene>
     sceneCharacters!: Table<ISceneCharacters>

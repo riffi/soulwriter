@@ -7,5 +7,6 @@ export interface IBookItem{
     type: string
     childCount?: number
     iconName?: string
-    needMention?: boolean
+    needMention?: boolean,
+    image?: string
 }

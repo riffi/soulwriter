@@ -12,6 +12,8 @@ import {BookItemSelector} from "@features/bookItem/BookItemSelector";
 import {BookItemLinks} from "@features/bookItem/BookItemLinks";
 import {useBookItemViewForm} from "../model/useBookItemViewForm.ts";
 import {IBookItemViewFormProps} from "../model/types.ts";
+import {ImageViewer} from "@shared/ui/ImageViewer";
+import {ImageHolder} from "@shared/ui/ImageHolder";
 
 export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const {
@@ -98,6 +100,13 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                             onChange={(val) => changeAttributeValue("needMention", val, bookItem)}
                         >Нужно упомянуть</Checkbox>
                     </List.Item>
+                    <List.Item title={"Изображение"}>
+                        <ImageHolder
+                            guid={bookItem.image}
+                            onUpload={(val) => changeAttributeValue("image", val, bookItem)}
+                            onDelete={() => changeAttributeValue("image", "", bookItem)}
+                        />
+                    </List.Item>
                     </>
 
                 }
@@ -169,6 +178,15 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                                         checked={bookItem?.needMention === true}
                                         onChange={(val) => changeAttributeValue("needMention", val, bookItem)}
                                     >Нужно упомянуть</Checkbox>
+                                </List.Item>
+                                <List.Item title={"Изображение"}>
+                                    <ImageHolder
+                                        guid={bookItem.image}
+                                        onUpload={(val) => changeAttributeValue("image", val, bookItem)}
+                                        onDelete={() => changeAttributeValue("image", "", bookItem)}
+                                        width={1024}
+                                        height={1024}
+                                    />
                                 </List.Item>
                             </List>
                         </Tabs.Tab>

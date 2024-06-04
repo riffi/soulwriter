@@ -8,7 +8,7 @@ export const ImageHolder = (props: IImageHolderProps) => {
     const {file,
         onUploadImage,
         onDeleteImage
-    } = useImageHolder(props.guid, props.onUpload, props.onDelete)
+    } = useImageHolder(props.guid, props.onUpload, props.onDelete, props.width, props.height)
 
     const [imageList, setImageList] = useState<ImageUploadItem[]>([])
 
