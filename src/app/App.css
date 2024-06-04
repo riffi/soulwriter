@@ -51,3 +51,7 @@
     animation: blink 1s linear;
 }
 
+.adm-checkbox-content{
+    font-size: 13px !important;
+}
+

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {AutoCenter, Button, List, Popup, Space, Tabs} from "antd-mobile";
+import {AutoCenter, Button, Checkbox, List, Popup, Space, Tabs} from "antd-mobile";
 import {CloseCircleOutline, DownOutline, PictureOutline, SendOutline, UpOutline} from 'antd-mobile-icons'
 import {InlineEdit} from "@shared/ui/InlineEdit";
 import {InlineTextArea} from "@shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
@@ -17,6 +17,7 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
     const {
         bookItem,
         changeBaseAttributeValue,
+        changeAttributeValue,
         onDeleteBookItemQuery,
         onMoveBookItemQuery,
         childCount,
@@ -76,20 +77,29 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                         onChange={(val) => changeBaseAttributeValue("title", val, bookItem)}
                     />
                 </List.Item>
-                {!showDetails && <List.Item title={"Тип"} key={"type"}>
-                    <InlineEdit
-                        value={bookItem?.type}
-                        onChange={(val) => changeBaseAttributeValue("type", val, bookItem)}
-                    />
-                </List.Item>
-                }
                 {!showDetails &&
+                    <>
+                    <List.Item title={"Тип"} key={"type"}>
+                        <InlineEdit
+                            value={bookItem?.type}
+                            onChange={(val) => changeBaseAttributeValue("type", val, bookItem)}
+                        />
+                    </List.Item>
                     <List.Item title={"Описание"} key={"description"}>
                         <InlineTextArea
                             value={bookItem?.description}
                             onChange={(val) => changeBaseAttributeValue("description", val, bookItem)}
-                        />
+                    />
                     </List.Item>
+                    <List.Item title={"Дополнительно"}>
+                        <Checkbox
+                            style={{marginTop: '5px'}}
+                            checked={bookItem?.needMention === true}
+                            onChange={(val) => changeAttributeValue("needMention", val, bookItem)}
+                        >Нужно упомянуть</Checkbox>
+                    </List.Item>
+                    </>
+
                 }
             </List>
 
@@ -152,6 +162,13 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                                         value={bookItem?.description}
                                         onChange={(val) => changeBaseAttributeValue("description", val, bookItem)}
                                     />
+                                </List.Item>
+                                <List.Item title={"Дополнительно"}>
+                                    <Checkbox
+                                        style={{marginTop: '5px'}}
+                                        checked={bookItem?.needMention === true}
+                                        onChange={(val) => changeAttributeValue("needMention", val, bookItem)}
+                                    >Нужно упомянуть</Checkbox>
                                 </List.Item>
                             </List>
                         </Tabs.Tab>

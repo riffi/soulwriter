@@ -11,7 +11,7 @@ export const BookItemList = (props: IBookItemListProps) => {
 
     const {bookItemList,
         onSaveNewItem
-    } = useBookItemList(props.parentId, props.bookId, props.mode, props.searchStr)
+    } = useBookItemList(props.parentId, props.bookId, props.mode, props.searchStr, props.needMention)
     const [popupAddItemVisible, setPopupAddItemVisible] = useState<boolean>(false)
     const [newItemTitle, setNewItemTitle] = useState<string>("")
     const [newItemType, setNewItemType] = useState<string>("")

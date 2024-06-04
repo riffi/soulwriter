@@ -38,6 +38,13 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
         }
     }
 
+    const changeAttributeValue = <T> (attributeName: string, newValue: T, bookItem?: IBookItem) => {
+        if (bookItem){
+            bookItem[attributeName] = newValue
+            db.bookItems.update(bookItemId, {...bookItem})
+        }
+    }
+
     const deleteBookItem = async (bookItem: IBookItem)=> {
         const children = await db.bookItems.where("parentId").equals(bookItem.id).toArray()
         if (children.length > 0){
@@ -126,6 +133,7 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
         mentionCount,
         onDeleteBookItemQuery,
         changeBaseAttributeValue,
+        changeAttributeValue,
         onMoveBookItemQuery
 
     }

@@ -7,5 +7,6 @@ export interface IBookItemListProps{
     bookId: number
     header: string
     mode: BookItemListMode,
-    searchStr?: string
+    searchStr?: string,
+    needMention: boolean
 }

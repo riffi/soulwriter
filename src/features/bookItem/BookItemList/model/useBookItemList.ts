@@ -2,7 +2,11 @@ import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "@entities/Db/model/Db.ts";
 import {BookItemListMode} from "./types.ts";
 
-export const useBookItemList = (parentId: number, bookId: number, mode: BookItemListMode, searchStr?: string) => {
+export const useBookItemList = (parentId: number,
+                                bookId: number,
+                                mode: BookItemListMode,
+                                searchStr?: string,
+                                needMention: boolean) => {
 
     const bookItemList = useLiveQuery(() => {
             const searchStrClean = searchStr ? searchStr?.toLowerCase().trim() : ''
@@ -19,16 +23,19 @@ export const useBookItemList = (parentId: number, bookId: number, mode: BookItem
                     .where("bookId")
                     .equals(bookId)
                     .and((bookItem) => {
-                        if (!searchStr) return true
-                        return (bookItem.title.toLowerCase().indexOf(searchStrClean) != -1)
+                        if (!searchStr && !needMention) return true
+                        const searchStrOverlap = (bookItem.title.toLowerCase().indexOf(searchStrClean) != -1)
                             || (bookItem.type.toLowerCase().indexOf(searchStrClean) != -1)
+
+                        const needMentionOverlap = !needMention || bookItem.needMention
+                        return searchStrOverlap && needMentionOverlap
                     }
                     )
                     .sortBy("title")
 
             }
         },
-        [parentId, mode, searchStr]
+        [parentId, mode, searchStr, needMention]
     )
 
     const onSaveNewItem = (newItemTitle: string,
