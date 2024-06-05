@@ -11,7 +11,7 @@ const initialState: CharacterContextSlice = {
 }
 
 export const characterContextSlice = createSlice({
-    name: 'bookContext',
+    name: 'characterContext',
     initialState,
     reducers: {
         setCurrentCharacterGroup: (state, action: PayloadAction<ICharacterGroup>) => {

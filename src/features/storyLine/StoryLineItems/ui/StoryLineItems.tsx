@@ -37,6 +37,7 @@ export const StoryLineItems = (props: IStoryLineItemsProps) => {
                     <List.Item
                         key={storyLineItem.id}
                         description={getSceneTitle(storyLineItem)}
+                        style={{"whiteSpace": "pre-line"}}
                         extra={
                             <Button fill={"none"}
                                     onClick={(e) => {

@@ -1,20 +1,27 @@
 import {ISceneShiftDirection, SceneManagerMode, SceneManagerProps} from "../model/types.ts";
 import {useSceneManager} from "../model/useSceneManager.ts";
-import {AutoCenter, Button, Card, Collapse, List, ProgressBar, SearchBar, Space} from "antd-mobile";
+import {AutoCenter, Button, Card, Collapse, List, Popup, ProgressBar, SearchBar, Space} from "antd-mobile";
 import {useNavigate} from "react-router-dom";
-import {AddCircleOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
+import {AddCircleOutline, CloseOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import {SceneDescription} from "@features/scene/SceneDesription";
 import {useDebounce} from "use-debounce";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../../store.ts";
+import {setSceneFilters} from "@features/scene/SceneFilters/sceneFiltersSlice.ts";
+import {CharacterManager} from "@features/character/CharacterManager";
+import {ImageViewer} from "@shared/ui/ImageViewer";
 
 export const SceneManager = (props: SceneManagerProps) => {
     const navigate = useNavigate()
-
+    const dispatch = useDispatch()
 
     const [mode, setMode] = useState<SceneManagerMode>(SceneManagerMode.BASIC)
     const [blinkItemId, setBlinkItemId] = useState<number>()
+    const [charPopupVisible, setCharPopupVisible] = useState<boolean>(false)
 
     const {sceneList,
+        sceneCharacters,
         onCreateNewScene,
         shiftScene,
         bookSymbolCount
@@ -22,18 +29,37 @@ export const SceneManager = (props: SceneManagerProps) => {
 
     const targetSymbolCount = props.book?.targetSymbolCount ? props.book?.targetSymbolCount : '400000'
 
-    const [searchStr, setSearchStr] = useState<string>("")
+    const sceneFilters = useSelector((state: RootState) => state.sceneFilters.filters)
 
+    const [debouncedFilters] = useDebounce(sceneFilters, 500)
 
-    const [filteredSceneList] = useDebounce(sceneList?.filter((scene) => {
-        return searchStr === '' || scene.body.toLowerCase().indexOf(searchStr.toLowerCase()) !== -1
-    }), 500)
+    const filteredSceneList = sceneList?.filter((scene) => {
+        // Ищем в тексте по поисковой строке
+        const searchStrMatch =  (debouncedFilters?.searchStr === '')
+             || (scene.body.toLowerCase().indexOf(debouncedFilters?.searchStr.toLowerCase()) !== -1)
 
-    const scenes = searchStr === '' ? sceneList : filteredSceneList
+        // Получаем список персонажей в сцене
+        const sceneChars = sceneCharacters?.filter(
+            sc => sc.sceneId === scene.id
+        )
+
+        // Убеждаемся, что персонаж присутствует в сцене
+         const charMatch = !debouncedFilters?.character || sceneChars?.find(
+             (sc) => sc.characterId === debouncedFilters?.character?.id
+         ) !== undefined
+
+        return !debouncedFilters
+            || (debouncedFilters?.searchStr === '' && !debouncedFilters?.character)
+            || (charMatch && searchStrMatch)
+    })
+
+    const scenes = !debouncedFilters ? sceneList : filteredSceneList
+    const showFilters = (debouncedFilters?.searchStr != '') || (debouncedFilters?.character !== undefined)
 
     const symbolTotalPercentage = Math.round(bookSymbolCount / targetSymbolCount * 100)
 
     return (
+        <>
         <Card
             bodyStyle={{paddingTop: "0px"}}
         >
@@ -46,17 +72,50 @@ export const SceneManager = (props: SceneManagerProps) => {
                     "whiteSpace": "pre-line"
                 }}
             />
-            <Collapse defaultActiveKey={null} accordion={true}  style={{color: '#999999'}}>
-                <Collapse.Panel key='1' title='Фильтры'>
-                    <SearchBar
-                        placeholder={"Поиск"}
-                        clearable={true}
-                        onChange={(val) => {
-                            setSearchStr(val)
-                        }}
-                    />
+            <Collapse
+                defaultActiveKey={showFilters ? 'filters' : null}
+                accordion={true}
+                style={{color: '#999999'}}
+            >
+                <Collapse.Panel key='filters' title='Фильтры'>
+                    <List style={{"--padding-left": '0px'}}>
+                        <List.Item title={"Поиск в тексте"}>
+                            <SearchBar
+                                style={{marginTop: '5px'}}
+                                placeholder={"Поиск"}
+                                clearable={true}
+                                defaultValue={sceneFilters?.searchStr}
+                                onChange={(val) => {
+                                    dispatch(setSceneFilters({...sceneFilters, searchStr: val}))
+                                }}
+                            />
+                        </List.Item>
+                        <List.Item
+                            title={"Персонаж"}
+                        >
+                            <Space wrap={true} style={{marginTop: '5px'}} align={"center"}>
+                                {sceneFilters?.character &&
+                                    <ImageViewer guid={sceneFilters.character?.avatar}/>
+                                }
+                                <div style={{fontSize: '14px'}}>{sceneFilters.character?.name}</div>
+                                <Button
+                                    size={"small"}
+                                    onClick={() => setCharPopupVisible(true)}
+                                >
+                                    Выбрать
+                                </Button>
+                                {sceneFilters?.character && <Button
+                                    size={"small"}
+                                    fill={"none"}
+                                    onClick={() =>  dispatch(setSceneFilters({...sceneFilters, character: undefined}))}
+                                >
+                                    <CloseOutline/>
+                                </Button>}
+                            </Space>
+                        </List.Item>
+                    </List>
                 </Collapse.Panel>
-                <Collapse.Panel key='2' title='Действия'>
+                <Collapse.Panel key='actions' title='Действия'>
                 <Space
                     justify={"center"}
                     direction={"horizontal"}
@@ -139,5 +198,28 @@ export const SceneManager = (props: SceneManagerProps) => {
                 </List.Item>
             </List>
         </Card>
+        {charPopupVisible &&
+        <Popup
+            visible={true}
+            bodyStyle={{overflow: "auto", height: "90dvh"}}
+        >
+            <Card
+                title={"Добавление персонажа"}
+                extra={
+                    <Button fill={"none"} onClick={() => setCharPopupVisible(false)}>
+                        <CloseOutline />
+                    </Button>
+                }
+            >
+                <CharacterManager
+                    bookId={props.book.id!}
+                    onClick={(character) => {
+                        setCharPopupVisible(false)
+                        dispatch(setSceneFilters({...sceneFilters, character: character}))
+                    }}/>
+            </Card>
+        </Popup>
+        }
+        </>
     )
 }
