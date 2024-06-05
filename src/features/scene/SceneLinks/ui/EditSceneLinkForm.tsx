@@ -9,6 +9,7 @@ import {CharacterManager} from "@features/character/CharacterManager";
 import {ViewMode} from "@shared/model/types.ts";
 import {ICharacter, ICharacterLink} from "@entities/Character";
 import {InlineTextArea} from "@shared/ui/InlineTextArea";
+import {ImageViewer} from "@shared/ui/ImageViewer";
 
 export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
 
@@ -93,13 +94,7 @@ export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
                         <List.Item
                             key = {characterLink.characterId}
                             prefix={
-                                <Image
-                                    src={characterLink?.character?.avatar ? characterLink?.character?.avatar : '/default-avatar.jpeg'}
-                                    style={{ borderRadius: 20 }}
-                                    fit='cover'
-                                    width={40}
-                                    height={40}
-                                />
+                                <ImageViewer guid={characterLink.character?.avatar} />
                             }
                             extra={
                                 <Button fill={"none"} onClick={async (e) => {

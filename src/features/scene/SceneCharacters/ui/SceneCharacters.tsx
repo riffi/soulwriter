@@ -5,6 +5,7 @@ import {AddCircleOutline, CloseOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import {CharacterManager} from "../../../character/CharacterManager";
 import {useNavigate} from "react-router-dom";
+import {ImageViewer} from "@shared/ui/ImageViewer";
 
 export const SceneCharacters = (props: ISceneCharactersProps) => {
     const {
@@ -35,13 +36,7 @@ export const SceneCharacters = (props: ISceneCharactersProps) => {
                             <CloseOutline />
                         </Button>}
                     prefix={
-                        <Image
-                            src={sceneCharacter.avatar ? sceneCharacter.avatar: '/default-avatar.jpeg'}
-                            style={{ borderRadius: 20 }}
-                            fit='cover'
-                            width={40}
-                            height={40}
-                        />
+                        <ImageViewer guid={sceneCharacter.avatar} />
                     }
                 >
                     {sceneCharacter?.name}
