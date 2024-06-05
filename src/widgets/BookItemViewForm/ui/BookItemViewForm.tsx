@@ -220,8 +220,8 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
 
                 </>
             }
-            <Popup
-                visible={popupTransferVisible}
+            {popupTransferVisible && <Popup
+                visible={true}
                 onMaskClick={() => setPopupTransferVisible(false)}
                 showCloseButton={true}
                 onClose={() => setPopupTransferVisible(false)}
@@ -230,13 +230,15 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                     bookId={props.bookId}
                     title={`Переместить ${bookItem?.type}: ${bookItem?.title} в`}
                     actionTitle={'Переместить'}
+                    topSelectionAllowed={true}
                     parentBookItemId={-1}
                     onSelect={(id) => {
                         setPopupTransferVisible(false)
-                        onMoveBookItemQuery(bookItem, id)}
+                        onMoveBookItemQuery(bookItem, id)
+                    }
                 }
                 />
-            </Popup>
+            </Popup>}
 
             <Popup
                 visible={iconSelectorPopupVisible}

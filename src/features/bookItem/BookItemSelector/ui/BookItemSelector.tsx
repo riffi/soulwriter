@@ -10,9 +10,10 @@ import {BookItemListMode} from "@features/bookItem/BookItemList";
 export const BookItemSelector = (props:BookItemSelectorProps) => {
 
     const [parentBookItemId, setParentBookItemId] = useState<number>(props.parentBookItemId)
-    const [selectedId, setSelectedId] = useState<number>(props.selectedId)
+    const [selectedId, setSelectedId] = useState<number | undefined>(props.selectedId)
     const [searchStr, setSearchStr] = useState<string>("")
 
+    const topSelectionAllowed = props.topSelectionAllowed? props.topSelectionAllowed : false
     const mode: BookItemListMode = searchStr === '' ? BookItemListMode.CHILDREN : BookItemListMode.SEARCH
 
     const {
@@ -40,8 +41,14 @@ export const BookItemSelector = (props:BookItemSelectorProps) => {
         />
         {mode === BookItemListMode.CHILDREN && <BookItemBreadcrumbs
             bookItemId={parentBookItemId}
-            onClickItem={(bookItem) => setParentBookItemId(bookItem?.id)}
-            onClickTop={() => setParentBookItemId(-1)}
+            onClickItem={(bookItem) => {
+                setParentBookItemId(bookItem?.id)
+                setSelectedId(undefined)
+            }}
+            onClickTop={() => {
+                setParentBookItemId(-1)
+                setSelectedId(undefined)
+            }}
         />}
         <List>
             {bookItemList?.map((bookItem) =>
@@ -79,6 +86,7 @@ export const BookItemSelector = (props:BookItemSelectorProps) => {
                         () => {
                             if (bookItem?.childCount && bookItem?.childCount > 0){
                                 changeParent(bookItem?.id)
+                                setSelectedId(undefined)
                             }
                         }
                     }
@@ -90,7 +98,8 @@ export const BookItemSelector = (props:BookItemSelectorProps) => {
         <AutoCenter>
             <Button
                 color={"primary"}
-                onClick={() => props.onSelect(selectedId)}
+                disabled={!(selectedId || (parentBookItemId == -1 && topSelectionAllowed))}
+                onClick={() => props.onSelect(selectedId ? selectedId : -1)}
             >
                 {props.actionTitle ? props.actionTitle : 'Выбрать'}
             </Button>

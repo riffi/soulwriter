@@ -6,4 +6,5 @@ export interface BookItemSelectorProps{
     actionTitle?: string
     onSelect: (bookItemId: number) => void
     selectedId?: number
+    topSelectionAllowed?: boolean
 }
