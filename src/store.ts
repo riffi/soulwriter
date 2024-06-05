@@ -14,6 +14,7 @@ import {bookContextSlice} from "@features/book/BookContext/bookContextSlice.ts"
 import {yandexContextSlice} from "@features/yandex/YandexContext/yandexContextSlice.ts";
 import {characterContextSlice} from "@features/character/CharacterContext/characterContextSlice.ts";
 import {sceneFiltersSlice} from "@features/scene/SceneFilters/sceneFiltersSlice.ts";
+import {sceneContextSlice} from "@features/scene/SceneContext/sceneContextSlice.ts";
 
 const persistConfig = {
     key: 'writerConfig',
@@ -27,7 +28,8 @@ const persistedReducers = persistCombineReducers(persistConfig, {
     bookContext: bookContextSlice.reducer,
     yandexContext: yandexContextSlice.reducer,
     characterContext: characterContextSlice.reducer,
-    sceneFilters: sceneFiltersSlice.reducer
+    sceneFilters: sceneFiltersSlice.reducer,
+    sceneContext: sceneContextSlice.reducer
 })
 
 export const store = configureStore({

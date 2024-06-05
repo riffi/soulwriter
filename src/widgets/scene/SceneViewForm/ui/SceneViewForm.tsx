@@ -1,8 +1,8 @@
 import {ISceneViewFormProps} from "../model/types.ts";
 import {useSceneViewForm} from "../model/useSceneViewForm.ts";
-import {AutoCenter, Card, List, NavBar, Popup, TabBar} from "antd-mobile";
+import {AutoCenter, Button, Card, FloatingBubble, List, NavBar, Popup, TabBar} from "antd-mobile";
 import {InlineEdit} from "@shared/ui/InlineEdit";
-import {useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import JoditEditor from 'jodit-react';
 import {
     FillinOutline,
@@ -10,7 +10,8 @@ import {
     UnorderedListOutline,
     TeamFill,
     FileOutline,
-    LinkOutline, CollectMoneyOutline, GlobalOutline,
+    UpOutline,
+    CollectMoneyOutline, GlobalOutline,
 } from "antd-mobile-icons";
 import {useDebouncedCallback} from "use-debounce";
 import {useNavigate} from "react-router-dom";
@@ -23,6 +24,9 @@ import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
 import {SceneParams} from "@features/scene/SceneParams";
 import {SceneDescription} from "@features/scene/SceneDesription";
 import {SceneStoryLineItems} from "@features/scene/SceneStoryLineItems/ui/SceneStoryLineItems.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {setSceneContext} from "@features/scene/SceneContext/sceneContextSlice.ts";
+import {RootState} from "../../../../store.ts";
 
 
 export const SceneViewForm = (props: ISceneViewFormProps) => {
@@ -37,15 +41,40 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
     } = useSceneViewForm(props.book.id!, props.sceneId)
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [sceneUsersPopupVisible, setSceneUsersPopupVisible] = useState<boolean>(false)
     const [sceneLinksPopupVisible, setSceneLinksPopupVisible] = useState<boolean>(false)
     const [sceneStoryLineItemsPopupVisible, setSceneStoryLineItemsPopupVisible] = useState<boolean>(false)
     const [sceneParamsPopupVisible, setSceneParamsPopupVisible] = useState<boolean>(false)
 
+    const sceneContext = useSelector((state: RootState) => state.sceneContext.sceneContextList.find(s => s.sceneId === props.sceneId))
+
     const [mode, setMode] = useState<ViewMode>(ViewMode.READ)
 
+    const bodyHtmlElementRef = React.useRef<HTMLElement>();
 
+    useEffect(() => {
+        const handler = () => {
+            const scrollPosition = bodyHtmlElementRef.current?.scrollTop ? bodyHtmlElementRef.current?.scrollTop : 0
+            dispatch(setSceneContext({
+                sceneId: scene?.id,
+                scrollPosition
+
+            }))
+        }
+
+        bodyHtmlElementRef.current?.addEventListener('scroll', handler)
+        return () => {
+            bodyHtmlElementRef.current?.removeEventListener('scroll', handler)
+        }
+    }, [props.sceneId, scene])
+
+    useEffect(() => {
+        if (sceneContext){
+            bodyHtmlElementRef.current?.scroll({top: sceneContext?.scrollPosition})
+        }
+    }, [bodyHtmlElementRef.current])
 
     const debouncedBodyCallback = useDebouncedCallback(
         // function
@@ -175,7 +204,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
             </NavBar>
 
         </div>
-        <div className={styled.body}>
+        <div className={styled.body} ref={bodyHtmlElementRef}>
             <Card>
                 <List style={{"--padding-left": "0px"}}>
                     <List.Item title={"Название"} key={"title"}>
@@ -237,7 +266,18 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                 bookId={props.book.id!}
             />
         </Popup>
-
+            {sceneContext?.scrollPosition > 600 && <FloatingBubble
+            style={{
+                '--initial-position-bottom': '55px',
+                '--initial-position-right': '24px',
+                '--edge-distance': '24px',
+                '--background': '#00000052',
+                '--size': '42px'
+            }}
+            onClick={() => bodyHtmlElementRef.current?.scroll({top: 0})}
+        >
+            <UpOutline fontSize={20}/>
+        </FloatingBubble>}
     </>
     )
 }
