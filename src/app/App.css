@@ -29,6 +29,10 @@
     --title-font-size: 14px !important;
 }
 
+.adm-nav-bar-title{
+    padding: 0px;
+}
+
 @media screen and (min-width: 1000px) {
     .adm-popup-body{
         /*max-width: 1024px !important;*/
