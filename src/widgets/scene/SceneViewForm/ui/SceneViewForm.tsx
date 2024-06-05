@@ -1,6 +1,6 @@
 import {ISceneViewFormProps} from "../model/types.ts";
 import {useSceneViewForm} from "../model/useSceneViewForm.ts";
-import {AutoCenter, Button, Card, FloatingBubble, List, NavBar, Popup, TabBar} from "antd-mobile";
+import {AutoCenter, Card, FloatingBubble, List, NavBar, Popup, TabBar, Badge} from "antd-mobile";
 import {InlineEdit} from "@shared/ui/InlineEdit";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import JoditEditor from 'jodit-react';
@@ -184,23 +184,24 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                             setSceneStoryLineItemsPopupVisible(true)
                         }
                     }}
+
                     activeKey={null}
 
                 >
-                    <TabBar.Item
+                    <TabBar.Item style={{"--adm-color-highlight": '#959899'}}
                         key={"characters"}
                         icon={<TeamFill/>}
                         badge={characterCount}
                         title={`Персонажи`}
                     />
-                    <TabBar.Item
+                    <TabBar.Item  style={{"--adm-color-highlight": '#959899'}}
                         key={"links"}
                         badge={sceneLinkCount}
                         icon={<GlobalOutline/>}
                         title={`Ссылки`}
 
                     />
-                    <TabBar.Item
+                    <TabBar.Item  style={{"--adm-color-highlight": '#959899'}}
                         key={"storyLineItems"}
                         badge={sceneStoryLineItemCount}
                         icon={<CollectMoneyOutline/>}
