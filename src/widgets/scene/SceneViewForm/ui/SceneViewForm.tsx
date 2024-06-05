@@ -68,13 +68,13 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         return () => {
             bodyHtmlElementRef.current?.removeEventListener('scroll', handler)
         }
-    }, [props.sceneId, scene])
+    }, [scene])
 
     useEffect(() => {
         if (sceneContext){
             bodyHtmlElementRef.current?.scroll({top: sceneContext?.scrollPosition})
         }
-    }, [bodyHtmlElementRef.current])
+    }, [bodyHtmlElementRef.current, scene])
 
     const debouncedBodyCallback = useDebouncedCallback(
         // function
