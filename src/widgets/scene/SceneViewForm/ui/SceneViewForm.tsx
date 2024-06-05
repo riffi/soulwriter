@@ -7,6 +7,7 @@ import JoditEditor from 'jodit-react';
 import {
     FillinOutline,
     RightOutline,
+    LeftOutline,
     UnorderedListOutline,
     TeamFill,
     FileOutline,
@@ -149,7 +150,15 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                 {scene?.sortOrderId}. {scene?.title}
             </NavBar>
             <NavBar
-                backArrow={prevScene?.id !== undefined}
+                left={
+                    <>
+                    {prevScene?.id && <LeftOutline
+                        style={{fontSize: "22px"}}
+                        onClick={() => navigate(`/scene/card?id=${prevScene?.id}`)}
+                    />}
+                    </>
+                }
+                back={null}
                 onBack={() => navigate(`/scene/card?id=${prevScene?.id}`)}
                 right={
                 <>
@@ -181,18 +190,21 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
                     <TabBar.Item
                         key={"characters"}
                         icon={<TeamFill/>}
-                        title={`Персонажи(${characterCount})`}
+                        badge={characterCount}
+                        title={`Персонажи`}
                     />
                     <TabBar.Item
                         key={"links"}
+                        badge={sceneLinkCount}
                         icon={<GlobalOutline/>}
-                        title={`Сслыки(${sceneLinkCount})`}
+                        title={`Ссылки`}
 
                     />
                     <TabBar.Item
                         key={"storyLineItems"}
+                        badge={sceneStoryLineItemCount}
                         icon={<CollectMoneyOutline/>}
-                        title={`Сюжет(${sceneStoryLineItemCount})`}
+                        title={`Сюжет`}
 
                     />
                     <TabBar.Item
