@@ -1,5 +1,4 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import {bookContextSlice} from "@features/book/BookContext/bookContextSlice.ts"
+import {configureStore} from '@reduxjs/toolkit'
 import storage from 'redux-persist/lib/storage'
 import {
     persistStore,
@@ -11,7 +10,9 @@ import {
     PURGE,
     REGISTER, persistCombineReducers,
 } from 'redux-persist'
+import {bookContextSlice} from "@features/book/BookContext/bookContextSlice.ts"
 import {yandexContextSlice} from "@features/yandex/YandexContext/yandexContextSlice.ts";
+import {characterContextSlice} from "@features/character/CharacterContext/characterContextSlice.ts";
 
 const persistConfig = {
     key: 'writerConfig',
@@ -23,7 +24,8 @@ const persistConfig = {
 
 const persistedReducers = persistCombineReducers(persistConfig, {
     bookContext: bookContextSlice.reducer,
-    yandexContext: yandexContextSlice.reducer
+    yandexContext: yandexContextSlice.reducer,
+    characterContext: characterContextSlice.reducer
 })
 
 export const store = configureStore({
