@@ -41,20 +41,12 @@ export const Measure = (props: IMeasureProps) => {
                     >
                         {measureRatios?.map((measureRatio) =>
                             <List.Item
-                                description={
+                                key={measureRatio?.id}
+                                title={
                                     <>
                                         {measureRatio.targetMeasureData?.title}: {measureRatio?.targetMeasureData?.description}
                                     </>
                                 }
-                                key={measureRatio?.id}
-                                title={ <InlineEdit
-                                    value={measureRatio?.ratio}
-                                    onChange={
-                                        (val) =>
-                                            saveMeasureRatio({...measureRatio, ratio: val})
-                                    }
-                                    prefix={"Коэффициент: "}
-                                />}
                                 extra={
                                     <Button
                                         fill={"none"}
@@ -64,7 +56,26 @@ export const Measure = (props: IMeasureProps) => {
                                     </Button>
                                 }
                             >
-                                {valueToCalc} {measure?.shortTitle} = {Math.round(valueToCalc * measureRatio.ratio * 100 ) / 100} {measureRatio.targetMeasureData?.shortTitle}
+                                <>
+                                <div>
+                                    {valueToCalc} {measure?.shortTitle} = {Math.round(valueToCalc * measureRatio.ratio * 100 ) / 100} {measureRatio.targetMeasureData?.shortTitle}
+                                </div>
+
+                                <div style={{
+                                    fontSize: '12px',
+                                    color: '#999999',
+                                    width: '150px',
+                                }}>
+                                    <InlineEdit
+                                        value={measureRatio?.ratio}
+                                        onChange={
+                                            (val) =>
+                                                saveMeasureRatio({...measureRatio, ratio: val})
+                                        }
+                                        prefix={"Коэффициент: "}
+                                    />
+                                </div>
+                                </>
 
                             </List.Item>
                         )}
