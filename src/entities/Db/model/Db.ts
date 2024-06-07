@@ -5,6 +5,7 @@ import {IBook} from "../../Book";
 import {IScene, ISceneCharacters, ISceneLink} from "../../Scene";
 import {IBookItem} from "../../BookItem";
 import {IStoryLine, IStoryLineCharacter, IStoryLineItem} from "@entities/StoryLine/models/types.ts";
+import {IMeasure, IMeasureKind, IMeasureRadio} from "@entities/Measure";
 
 
 export class DbAdapter extends Dexie {
@@ -21,6 +22,9 @@ export class DbAdapter extends Dexie {
     storyLines!: Table<IStoryLine>
     storyLineCharacters!: Table<IStoryLineCharacter>
     storyLineItems!: Table<IStoryLineItem>
+    measureKinds!: Table<IMeasureKind>
+    measures!: Table<IMeasure>
+    measureRatios!: Table<IMeasureRadio>
 
     static currentDbSchema: { [tableName: string]: string | null } =  {
         characters: '++id, groupId, name, description, sex, bookId',
@@ -35,7 +39,11 @@ export class DbAdapter extends Dexie {
         characterLinks: '++id, characterId, sceneLinkId',
         storyLines: '++id, title, bookId',
         storyLineCharacters: '++id, storyLineId, characterId',
-        storyLineItems: '++id, storyLineId, sceneId'
+        storyLineItems: '++id, storyLineId, sceneId',
+        measureKinds: '++id, title, bookId',
+        measures: '++id, kindId, title',
+        measureRatios: '++id, measureId, targetMeasureId'
+
     }
 
     static currentVersion = 6

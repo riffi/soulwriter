@@ -5,6 +5,7 @@ import {CharacterGroupManager} from "@widgets/CharacterGroupManager";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
 import {NeedSelectBook} from "@features/book/NeedSelectBook";
+import {MeasureKinds} from "@features/measure/MeasureKinds";
 
 export const Settings = () => {
 
@@ -27,6 +28,12 @@ export const Settings = () => {
                         key={"characterGroupDict"}
                         title={"Группы персонажей"}>
                         <CharacterGroupManager bookId={currentBook.id}/>
+                    </Tabs.Tab>
+                    <Tabs.Tab
+                        tabIndex={1}
+                        key={"measureKinds"}
+                        title={"Единицы измерения"}>
+                        <MeasureKinds bookId={currentBook.id}/>
                     </Tabs.Tab>
                 </>
                 }
