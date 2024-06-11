@@ -10,7 +10,8 @@ export const useMeasureKindViewForm = (props: IMeasureKidViewFormProps) => {
     const measures = useLiveQuery(() => db.measures
         .where("kindId")
         .equals(props.measureKindId)
-        .toArray(), [measureKind]
+        .sortBy("description")
+        , [measureKind]
     )
 
     const changeAttributeValue = <T> (attributeName: string, newValue: T) => {
