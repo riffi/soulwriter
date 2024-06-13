@@ -1,20 +1,29 @@
 import {IBookItemListProps} from "../model/types.ts";
 import {useBookItemList} from "../model/useBookItemList.ts";
 import {AutoCenter, Button, Ellipsis, Grid, Input, List, Popup} from "antd-mobile";
-import {AddCircleOutline} from "antd-mobile-icons";
+import {AddCircleOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
 import styled from "./BookItemList.module.scss";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {IconBlock} from "@shared/ui/IconBlock";
+import {ISceneShiftDirection, SceneManagerMode} from "@widgets/scene/SceneManager";
+import {IBookItemShiftDirection} from "@entities/BookItem";
+
+enum IItemListMode{
+    BASIC = 'BASIC',
+    REORDER = 'REORDER'
+}
 
 export const BookItemList = (props: IBookItemListProps) => {
 
     const {bookItemList,
+        shiftItem,
         onSaveNewItem
     } = useBookItemList(props.parentId, props.bookId, props.mode, props.searchStr, props.needMention)
     const [popupAddItemVisible, setPopupAddItemVisible] = useState<boolean>(false)
     const [newItemTitle, setNewItemTitle] = useState<string>("")
     const [newItemType, setNewItemType] = useState<string>("")
+    const [mode, setMode] = useState<IItemListMode>(IItemListMode.BASIC )
 
     const navigate = useNavigate()
 
@@ -22,7 +31,25 @@ export const BookItemList = (props: IBookItemListProps) => {
     return (
         <>
         <List>
-            {bookItemList?.map((bookItem) =>
+            <List.Item>
+                <Button
+                    size={"small"}
+                    style={{marginBottom: '10px'}}
+                    color={(mode === IItemListMode.REORDER) ?  'warning' : 'default'}
+                    onClick={() => {
+                        if (mode === IItemListMode.BASIC){
+                            setMode(IItemListMode.REORDER)
+                        }
+                        else{
+                            setMode(IItemListMode.BASIC)
+                        }
+
+                    }}
+                >
+                    <FingerdownOutline /> Переставить
+                </Button>
+            </List.Item>
+            {bookItemList?.map((bookItem, index) =>
                 <List.Item
                     title={bookItem.type}
                     description={
@@ -35,7 +62,30 @@ export const BookItemList = (props: IBookItemListProps) => {
                         <IconBlock iconName={bookItem?.iconName} style={{fontSize: '35px'}}/>
                     }
                     key={bookItem.id}
-                    clickable={true}
+                    clickable={mode === IItemListMode.BASIC}
+                    extra={mode === IItemListMode.REORDER &&
+                        <>
+                            {(index > 0) && <Button
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    shiftItem(bookItem, IBookItemShiftDirection.UP)
+                                }}
+                            >
+                                <UpOutline />
+                            </Button>
+                            }
+                            {(index < bookItemList?.length - 1) &&
+                                <Button
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        shiftItem(bookItem, IBookItemShiftDirection.DOWN)
+                                    }}
+                                >
+                                    <DownOutline />
+                                </Button>
+                            }
+                        </>
+                    }
                     onClick={() => navigate(`/book-item/card?id=${bookItem.id}`)}
                 >
                     {bookItem.title}

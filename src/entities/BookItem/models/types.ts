@@ -5,8 +5,14 @@ export interface IBookItem{
     description: string
     parentId: number
     type: string
+    sortOrderId?: number
     childCount?: number
     iconName?: string
     needMention?: boolean,
     image?: string
+}
+
+export enum IBookItemShiftDirection{
+    UP = 'UP',
+    DOWN = 'DOWN'
 }

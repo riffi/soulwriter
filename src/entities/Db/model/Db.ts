@@ -1,6 +1,5 @@
 import Dexie, {Table} from 'dexie'
 import {ICharacter, ICharacterDictAttribute, ICharacterGroup, ICharacterLink} from "../../Character";
-import {IWorld} from "../../World";
 import {IBook} from "../../Book";
 import {IScene, ISceneCharacters, ISceneLink} from "../../Scene";
 import {IBookItem} from "../../BookItem";
@@ -34,7 +33,7 @@ export class DbAdapter extends Dexie {
         books: '++id, title, description, author',
         scenes: '++id, title, bookId, sortOrderId, dayStart, dayEnd',
         sceneCharacters: '++id, sceneId, characterId',
-        bookItems: '++id, bookId, parentId, type, needMention',
+        bookItems: '++id, bookId, parentId, type, needMention, sortOrderId',
         sceneLinks: '++id, sceneId, bookId, bookItemId',
         characterLinks: '++id, characterId, sceneLinkId',
         storyLines: '++id, title, bookId',

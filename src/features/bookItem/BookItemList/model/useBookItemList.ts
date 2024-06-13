@@ -1,6 +1,7 @@
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "@entities/Db/model/Db.ts";
 import {BookItemListMode} from "./types.ts";
+import {IBookItem, IBookItemShiftDirection} from "@entities/BookItem";
 
 export const useBookItemList = (parentId: number,
                                 bookId: number,
@@ -8,7 +9,7 @@ export const useBookItemList = (parentId: number,
                                 searchStr?: string,
                                 needMention: boolean) => {
 
-    const bookItemList = useLiveQuery(() => {
+    const bookItemList = useLiveQuery(async () => {
             const searchStrClean = searchStr ? searchStr?.toLowerCase().trim() : ''
 
             if (mode === BookItemListMode.CHILDREN){
@@ -16,7 +17,7 @@ export const useBookItemList = (parentId: number,
                     .where("bookId")
                     .equals(bookId)
                     .and((bookItem) => bookItem.parentId === parentId)
-                    .toArray()
+                    .sortBy("sortOrderId")
             }
             else{
                 return db.bookItems
@@ -38,6 +39,30 @@ export const useBookItemList = (parentId: number,
         [parentId, mode, searchStr, needMention]
     )
 
+    const shiftItem = async (itemToShift: IBookItem, direction: IBookItemShiftDirection) => {
+        const bookItems: IBookItem[] = [...bookItemList]
+        if (!itemToShift.sortOrderId){
+            bookItems.forEach((item, index) => {
+                item.sortOrderId = index + 1
+            })
+        }
+
+
+        let newSortOrderId = itemToShift.sortOrderId
+        if (direction === IBookItemShiftDirection.DOWN){
+            newSortOrderId = itemToShift.sortOrderId + 1
+        }
+        else{
+            newSortOrderId = itemToShift.sortOrderId - 1
+        }
+
+        bookItems.splice(itemToShift.sortOrderId - 1, 1)
+        bookItems.splice(newSortOrderId - 1, 0, itemToShift)
+        bookItems.forEach((item, index) => {
+            db.bookItems.update(item.id, {sortOrderId: index + 1})
+        })
+    }
+
     const onSaveNewItem = (newItemTitle: string,
                            newItemType: string
     ) => {
@@ -52,6 +77,7 @@ export const useBookItemList = (parentId: number,
 
     return {
         bookItemList,
+        shiftItem,
         onSaveNewItem
     }
 }

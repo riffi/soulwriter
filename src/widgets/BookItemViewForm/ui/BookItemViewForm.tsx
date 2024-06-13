@@ -12,7 +12,6 @@ import {BookItemSelector} from "@features/bookItem/BookItemSelector";
 import {BookItemLinks} from "@features/bookItem/BookItemLinks";
 import {useBookItemViewForm} from "../model/useBookItemViewForm.ts";
 import {IBookItemViewFormProps} from "../model/types.ts";
-import {ImageViewer} from "@shared/ui/ImageViewer";
 import {ImageHolder} from "@shared/ui/ImageHolder";
 
 export const BookItemViewForm = (props: IBookItemViewFormProps) => {
