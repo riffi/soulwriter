@@ -1,9 +1,9 @@
 import {IBookItemListProps} from "../model/types.ts";
 import {useBookItemList} from "../model/useBookItemList.ts";
-import {AutoCenter, Button, Ellipsis, Grid, Input, List, Popup} from "antd-mobile";
+import {AutoCenter, Button, Collapse, Ellipsis, Grid, Input, List, Popup} from "antd-mobile";
 import {AddCircleOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
 import styled from "./BookItemList.module.scss";
-import {useState} from "react";
+import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {IconBlock} from "@shared/ui/IconBlock";
 import {ISceneShiftDirection, SceneManagerMode} from "@widgets/scene/SceneManager";
@@ -30,8 +30,10 @@ export const BookItemList = (props: IBookItemListProps) => {
 
     return (
         <>
-        <List>
-            <List.Item>
+        <Collapse
+            style={{color: '#999999'}}
+        >
+            <Collapse.Panel key={"extra"} title={"Дополнительно"}>
                 <Button
                     size={"small"}
                     style={{marginBottom: '10px'}}
@@ -48,7 +50,9 @@ export const BookItemList = (props: IBookItemListProps) => {
                 >
                     <FingerdownOutline /> Переставить
                 </Button>
-            </List.Item>
+            </Collapse.Panel>
+        </Collapse>
+        <List>
             {bookItemList?.map((bookItem, index) =>
                 <List.Item
                     title={bookItem.type}
@@ -68,7 +72,7 @@ export const BookItemList = (props: IBookItemListProps) => {
                             {(index > 0) && <Button
                                 onClick={(e) => {
                                     e.stopPropagation()
-                                    shiftItem(bookItem, IBookItemShiftDirection.UP)
+                                    shiftItem(bookItem, IBookItemShiftDirection.UP, index)
                                 }}
                             >
                                 <UpOutline />
@@ -78,7 +82,7 @@ export const BookItemList = (props: IBookItemListProps) => {
                                 <Button
                                     onClick={(e) => {
                                         e.stopPropagation()
-                                        shiftItem(bookItem, IBookItemShiftDirection.DOWN)
+                                        shiftItem(bookItem, IBookItemShiftDirection.DOWN, index)
                                     }}
                                 >
                                     <DownOutline />

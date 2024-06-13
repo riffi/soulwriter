@@ -58,7 +58,8 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
     }
 
     const moveBookItem = async (bookItem: IBookItem, toBookItemId: number) => {
-        db.bookItems.update(bookItem.id, {...bookItem, parentId: toBookItemId})
+        const existingCount = await db.bookItems.where('parentId').equals(toBookItemId).count()
+        db.bookItems.update(bookItem.id, {...bookItem, parentId: toBookItemId, sortOrderId: existingCount})
     }
 
     const onDeleteBookItemQuery = async (bookItem: IBookItem) => {

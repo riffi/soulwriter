@@ -19,7 +19,9 @@ export const useStoryLineItems = (storyLine: IStoryLine) => {
             }
         }))
 
-        return storyLineItems
+        return storyLineItems.sort((a,b) => {
+            return a.sceneData?.dayStart - b.sceneData?.dayStart
+        })
 
     }, [storyLine])
 

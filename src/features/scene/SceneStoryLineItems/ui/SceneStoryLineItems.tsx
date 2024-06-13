@@ -3,14 +3,18 @@ import {AutoCenter, Button, List, Popup} from "antd-mobile";
 import {useState} from "react";
 import {useSceneStoryLineItems} from "@features/scene/SceneStoryLineItems/model/useSceneStoryLineItems.ts";
 import {StoryLineItemSelector} from "@features/storyLine/StoryLineItemSelector";
-import {AddCircleOutline, CalendarOutline, CloseOutline} from "antd-mobile-icons";
+import {AddCircleOutline, CalendarOutline, CloseOutline, DeleteOutline} from "antd-mobile-icons";
 import {TagList} from "@shared/ui/TagList";
+import {useNavigate} from "react-router-dom";
 
 
 
 export const SceneStoryLineItems = (props: ISceneStoryLineItemsProps) => {
 
+    const navigate = useNavigate()
+
     const [selectorPopupVisible, setSelectorPopupVisible] = useState<boolean>(false)
+
     const {
         storyLineItems,
         addItem,
@@ -24,8 +28,8 @@ export const SceneStoryLineItems = (props: ISceneStoryLineItemsProps) => {
         <List header={"События сюжетных линий"}>
             {storyLineItems?.map((item) =>
                 <List.Item
-                    clickable={false}
                     key={item.id}
+                    onClick={() => navigate(`/storyline/card?id=${item.storyLineId}`)}
                     prefix={<CalendarOutline />}
                     title={`Линия: ${item.storyLineData?.title}`}
                     description={
@@ -45,7 +49,7 @@ export const SceneStoryLineItems = (props: ISceneStoryLineItemsProps) => {
                                     removeItem(item)
                                 }}
                         >
-                            <CloseOutline/>
+                            <DeleteOutline />
                         </Button>
                     }
                 >

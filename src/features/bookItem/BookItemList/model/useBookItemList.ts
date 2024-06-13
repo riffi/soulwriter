@@ -39,39 +39,36 @@ export const useBookItemList = (parentId: number,
         [parentId, mode, searchStr, needMention]
     )
 
-    const shiftItem = async (itemToShift: IBookItem, direction: IBookItemShiftDirection) => {
+    const shiftItem = async (itemToShift: IBookItem, direction: IBookItemShiftDirection, currentIndex: number) => {
         const bookItems: IBookItem[] = [...bookItemList]
-        if (!itemToShift.sortOrderId){
-            bookItems.forEach((item, index) => {
-                item.sortOrderId = index + 1
-            })
-        }
 
-
-        let newSortOrderId = itemToShift.sortOrderId
+        let newSortOrderId = currentIndex
         if (direction === IBookItemShiftDirection.DOWN){
-            newSortOrderId = itemToShift.sortOrderId + 1
+            newSortOrderId = currentIndex + 1
         }
         else{
-            newSortOrderId = itemToShift.sortOrderId - 1
+            newSortOrderId = currentIndex - 1
         }
 
-        bookItems.splice(itemToShift.sortOrderId - 1, 1)
-        bookItems.splice(newSortOrderId - 1, 0, itemToShift)
+        bookItems.splice(currentIndex, 1)
+        bookItems.splice(newSortOrderId, 0, itemToShift)
         bookItems.forEach((item, index) => {
-            db.bookItems.update(item.id, {sortOrderId: index + 1})
+            db.bookItems.update(item.id, {sortOrderId: index})
         })
     }
 
     const onSaveNewItem = (newItemTitle: string,
                            newItemType: string
     ) => {
+        if (!bookItemList) return
+
         db.bookItems.add({
             bookId: bookId,
             parentId: parentId,
             type: newItemType,
             title: newItemTitle,
             description: '',
+            sortOrderId: bookItemList.length + 1
         })
     }
 

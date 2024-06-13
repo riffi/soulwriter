@@ -1,7 +1,7 @@
 import {ISceneCharactersProps} from "../model/types.ts";
 import {AutoCenter, Button, Card, Image, List, Popup} from "antd-mobile";
 import {useSceneCharacters} from "../model/useSceneCharacters.ts";
-import {AddCircleOutline, CloseOutline} from "antd-mobile-icons";
+import {AddCircleOutline, CloseOutline, DeleteOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import {CharacterManager} from "../../../character/CharacterManager";
 import {useNavigate} from "react-router-dom";
@@ -33,7 +33,7 @@ export const SceneCharacters = (props: ISceneCharactersProps) => {
                             e.stopPropagation()
                             onRemoveCharacterFromScene(sceneCharacter)
                         }}>
-                            <CloseOutline />
+                            <DeleteOutline />
                         </Button>}
                     prefix={
                         <ImageViewer guid={sceneCharacter.avatar} />
