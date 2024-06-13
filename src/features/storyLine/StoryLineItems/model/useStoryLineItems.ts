@@ -19,6 +19,7 @@ export const useStoryLineItems = (storyLine: IStoryLine) => {
             }
         }))
 
+        // @TODO сделать опциональную сортировку по порядку сцен
         return storyLineItems.sort((a,b) => {
             return a.sceneData?.dayStart - b.sceneData?.dayStart
         })
