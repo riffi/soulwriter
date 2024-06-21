@@ -1,12 +1,14 @@
-import {IEditStoryLineItemFormProps} from "@features/storyLine/EditStoryLineItemForm/model/types.ts";
+import {useState} from "react";
 import {Button, Card, List, Popup, Space} from "antd-mobile";
 import {CloseOutline} from "antd-mobile-icons";
+
 import {InlineTextArea} from "@shared/ui/InlineTextArea";
 import {ViewMode} from "@shared/model/types.ts";
-import {useState} from "react";
 import {IStoryLineItem} from "@entities/StoryLine/models/types.ts";
-import {useEditStoryLineItemForm} from "@features/storyLine/EditStoryLineItemForm/model/useEditStoryLineItemForm.ts";
 import {IScene} from "@entities/Scene";
+
+import {IEditStoryLineItemFormProps} from "../model/types.ts";
+import {useEditStoryLineItemForm} from "../model/useEditStoryLineItemForm.ts";
 
 export const EditStoryLineItemForm = (props: IEditStoryLineItemFormProps) => {
 

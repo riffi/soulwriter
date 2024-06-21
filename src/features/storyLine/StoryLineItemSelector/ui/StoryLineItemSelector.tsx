@@ -1,10 +1,14 @@
-import {AutoCenter, Button, CapsuleTabs, Card, Input, List, Popup, Space, Tag, TextArea} from "antd-mobile";
-import {useStoryLineItemSelector} from "../model/useStoryLineItemSelector.ts";
 import {useState} from "react";
-import {IStoryLine, IStoryLineItem} from "@entities/StoryLine/models/types.ts";
-import {IStoryLineItemsSelectorProps} from "../model/types.ts";
+
+import {AutoCenter, Button, CapsuleTabs, Card, List, Popup, Space, Tag, TextArea} from "antd-mobile";
 import {AddCircleOutline, CalendarOutline, CollectMoneyOutline, RightOutline} from "antd-mobile-icons";
+
 import {TagList} from "@shared/ui/TagList";
+
+import {IStoryLine, IStoryLineItem} from "@entities/StoryLine/models/types.ts";
+
+import {useStoryLineItemSelector} from "../model/useStoryLineItemSelector.ts";
+import {IStoryLineItemsSelectorProps} from "../model/types.ts";
 
 enum IItemsFilter{
     ALL = 'ALL',

@@ -61,7 +61,7 @@ export const useMeasure = (props: IMeasureProps) => {
         }
     }
 
-    const removerMeasureRatio = (measureRatio: IMeasureRadio) => {
+    const removeMeasureRatio = (measureRatio: IMeasureRadio) => {
         db.measureRatios.delete(measureRatio.id)
     }
 
@@ -70,7 +70,7 @@ export const useMeasure = (props: IMeasureProps) => {
         measureRatios,
         changeAttributeValue,
         saveMeasureRatio,
-        removerMeasureRatio,
+        removeMeasureRatio,
         notUsedMeasures,
         allMeasuresByKind
     }

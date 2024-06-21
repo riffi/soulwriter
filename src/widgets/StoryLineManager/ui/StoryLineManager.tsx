@@ -1,10 +1,12 @@
-import {IStoryLineManagerProps} from "@widgets/StoryLineManager/model/types.ts";
-import {useStoryLineManager} from "@widgets/StoryLineManager/model/useStoryLineManager.ts";
-import {AutoCenter, Button, Grid, Input, List, Popup} from "antd-mobile";
-import {AddCircleOutline, CollectMoneyOutline} from "antd-mobile-icons";
-import styled from "@features/bookItem/BookItemList/ui/BookItemList.module.scss";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {AutoCenter, Button, Grid, Input, List, Popup} from "antd-mobile";
+import {AddCircleOutline, CollectMoneyOutline} from "antd-mobile-icons";
+
+import {IStoryLineManagerProps} from "@widgets/StoryLineManager/model/types.ts";
+import {useStoryLineManager} from "@widgets/StoryLineManager/model/useStoryLineManager.ts";
+
+import styled from "./StoryLineManager.module.scss";
 import {TagList} from "@shared/ui/TagList";
 
 export const StoryLineManager = (props: IStoryLineManagerProps) => {

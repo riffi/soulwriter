@@ -1,13 +1,15 @@
 import {ISceneLinksProps} from "../model/types.ts";
 import {AutoCenter, Button, List, Popup} from "antd-mobile";
-import {useSceneLinks} from "../model/useSceneLinks.ts";
 import {AddCircleOutline, EditSOutline} from "antd-mobile-icons";
 import {useState} from "react";
-import {ISceneLink} from "@entities/Scene";
 import {EditSceneLinkForm} from "./EditSceneLinkForm.tsx";
-import {IconBlock} from "@shared/ui/IconBlock";
 import {useNavigate} from "react-router-dom";
+import {IconBlock} from "@shared/ui/IconBlock";
+
+import {ISceneLink} from "@entities/Scene";
 import {CharacterLinksTags} from "@features/character/CharacterLinksTags";
+
+import {useSceneLinks} from "../model/useSceneLinks.ts";
 
 export const SceneLinks = (props: ISceneLinksProps) => {
 

@@ -1,11 +1,14 @@
-import {IStoryLineItemsProps} from "@features/storyLine/StoryLineItems/model/types.ts";
-import {useStoryLineItems} from "@features/storyLine/StoryLineItems/model/useStoryLineItems.ts";
-import {AutoCenter, Button, List, Popup, Space, Steps} from "antd-mobile";
 import {useState} from "react";
-import {EditStoryLineItemForm} from "@features/storyLine/EditStoryLineItemForm";
-import {IStoryLineItem} from "@entities/StoryLine/models/types.ts";
-import {AddCircleOutline, EditFill, EditSOutline, PlayOutline, CheckCircleFill,ExclamationCircleFill} from "antd-mobile-icons";
 import {Step} from "antd-mobile/es/components/steps/step";
+import {AddCircleOutline, EditSOutline} from "antd-mobile-icons";
+import {AutoCenter, Button, List, Popup, Steps} from "antd-mobile";
+
+import {IStoryLineItem} from "@entities/StoryLine/models/types.ts";
+import {EditStoryLineItemForm} from "@features/storyLine/EditStoryLineItemForm";
+
+import {IStoryLineItemsProps} from "../model/types.ts";
+import {useStoryLineItems} from "../model/useStoryLineItems.ts";
+
 
 export const StoryLineItems = (props: IStoryLineItemsProps) => {
 

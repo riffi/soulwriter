@@ -1,6 +1,6 @@
 import {ISceneViewFormProps} from "../model/types.ts";
 import {useSceneViewForm} from "../model/useSceneViewForm.ts";
-import {AutoCenter, Card, FloatingBubble, List, NavBar, Popup, TabBar, Badge} from "antd-mobile";
+import {AutoCenter, Card, FloatingBubble, List, NavBar, Popup, TabBar} from "antd-mobile";
 import {InlineEdit} from "@shared/ui/InlineEdit";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import JoditEditor from 'jodit-react';
@@ -16,17 +16,19 @@ import {
 } from "antd-mobile-icons";
 import {useDebouncedCallback} from "use-debounce";
 import {useNavigate} from "react-router-dom";
+import {calcSymbolCount} from "@shared/lib/TextMetrics.ts";
 import styled from './SceneViewForm.module.scss'
 import {ViewMode} from "@shared/model/types.ts";
+import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
+
 import {SceneCharacters} from "@features/scene/SceneCharacters";
 import {SceneLinks} from "@features/scene/SceneLinks";
-import {calcSymbolCount} from "@shared/lib/TextMetrics.ts";
-import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
 import {SceneParams} from "@features/scene/SceneParams";
 import {SceneDescription} from "@features/scene/SceneDesription";
 import {SceneStoryLineItems} from "@features/scene/SceneStoryLineItems/ui/SceneStoryLineItems.tsx";
-import {useDispatch, useSelector} from "react-redux";
 import {setSceneContext} from "@features/scene/SceneContext/sceneContextSlice.ts";
+
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store.ts";
 
 

@@ -1,6 +1,6 @@
 import {IMeasureProps} from "@features/measure/Measure/model/types.ts";
 import {useMeasure} from "@features/measure/Measure/model/useMeasure.ts";
-import {AutoCenter, Button, Card, Divider, Input, List, Popup, Tabs} from "antd-mobile";
+import {AutoCenter, Button, Input, List, Popup, Tabs} from "antd-mobile";
 import {InlineEdit} from "@shared/ui/InlineEdit";
 import {AddCircleOutline,DeleteOutline} from "antd-mobile-icons";
 import {useState} from "react";
@@ -13,9 +13,8 @@ export const Measure = (props: IMeasureProps) => {
         measure,
         measureRatios,
         notUsedMeasures,
-        allMeasuresByKind,
         saveMeasureRatio,
-        removerMeasureRatio,
+        removeMeasureRatio,
         changeAttributeValue
     } = useMeasure(props)
 
@@ -50,7 +49,7 @@ export const Measure = (props: IMeasureProps) => {
                                 extra={
                                     <Button
                                         fill={"none"}
-                                        onClick={() => removerMeasureRatio(measureRatio)}
+                                        onClick={() => removeMeasureRatio(measureRatio)}
                                     >
                                         <DeleteOutline/>
                                     </Button>

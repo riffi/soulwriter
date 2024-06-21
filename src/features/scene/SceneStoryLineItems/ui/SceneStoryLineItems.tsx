@@ -1,9 +1,10 @@
-import {ISceneStoryLineItemsProps} from "../model/types.ts";
-import {AutoCenter, Button, List, Popup} from "antd-mobile";
 import {useState} from "react";
-import {useSceneStoryLineItems} from "@features/scene/SceneStoryLineItems/model/useSceneStoryLineItems.ts";
+import {ISceneStoryLineItemsProps} from "../model/types.ts";
+import {AddCircleOutline, CalendarOutline, DeleteOutline} from "antd-mobile-icons";
+import {AutoCenter, Button, List, Popup} from "antd-mobile";
+import {useSceneStoryLineItems} from "../model/useSceneStoryLineItems.ts";
+
 import {StoryLineItemSelector} from "@features/storyLine/StoryLineItemSelector";
-import {AddCircleOutline, CalendarOutline, CloseOutline, DeleteOutline} from "antd-mobile-icons";
 import {TagList} from "@shared/ui/TagList";
 import {useNavigate} from "react-router-dom";
 

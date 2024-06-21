@@ -1,10 +1,14 @@
-import {IStoryLineViewFormProps} from "@widgets/StoryLineViewForm/model/types.ts";
-import {useStoryLineViewForm} from "@widgets/StoryLineViewForm/model/useStoryLineViewForm.ts";
 import {List, Tabs} from "antd-mobile";
+
 import {InlineEdit} from "@shared/ui/InlineEdit";
 import {InlineTextArea} from "@shared/ui/InlineTextArea";
-import {StoryLineCharacters} from "@features/storyLine/StoryLineCharacters/ui/StoryLineCharacters.tsx";
+
+import {StoryLineCharacters} from "@features/storyLine/StoryLineCharacters";
 import {StoryLineItems} from "@features/storyLine/StoryLineItems";
+
+import {IStoryLineViewFormProps} from "../model/types.ts";
+import {useStoryLineViewForm} from "../model/useStoryLineViewForm.ts";
+
 
 export const StoryLineViewForm = (props: IStoryLineViewFormProps) => {
     const {

@@ -1,11 +1,13 @@
-import {IStoryLineCharactersProps} from "@features/storyLine/StoryLineCharacters/model/types.ts";
-import {AutoCenter, Button, Card, Image, List, Popup} from "antd-mobile";
-import {useStoryLineCharacters} from "@features/storyLine/StoryLineCharacters/model/useStoryLineCharacters.ts";
-import {AddCircleOutline, CloseOutline} from "antd-mobile-icons";
-import {useNavigate} from "react-router-dom";
-import {CharacterManager} from "@features/character/CharacterManager";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {AddCircleOutline, CloseOutline} from "antd-mobile-icons";
+import {AutoCenter, Button, Card, List, Popup} from "antd-mobile";
+
 import {ImageViewer} from "@shared/ui/ImageViewer";
+import {CharacterManager} from "@features/character/CharacterManager";
+
+import {IStoryLineCharactersProps} from "../model/types.ts";
+import {useStoryLineCharacters} from "../model/useStoryLineCharacters.ts";
 
 export const StoryLineCharacters = (props: IStoryLineCharactersProps) => {
 

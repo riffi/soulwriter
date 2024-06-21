@@ -1,16 +1,20 @@
-import {ISceneShiftDirection, SceneManagerMode, SceneManagerProps} from "../model/types.ts";
-import {useSceneManager} from "../model/useSceneManager.ts";
-import {AutoCenter, Button, Card, Collapse, List, Popup, ProgressBar, SearchBar, Space} from "antd-mobile";
-import {useNavigate} from "react-router-dom";
-import {AddCircleOutline, CloseOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
-import {useState} from "react";
-import {SceneDescription} from "@features/scene/SceneDesription";
-import {useDebounce} from "use-debounce";
 import {useDispatch, useSelector} from "react-redux";
+import {useDebounce} from "use-debounce";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {AutoCenter, Button, Card, Collapse, List, Popup, ProgressBar, SearchBar, Space} from "antd-mobile";
+import {AddCircleOutline, CloseOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
+
 import {RootState} from "../../../../store.ts";
 import {setSceneFilters} from "@features/scene/SceneFilters/sceneFiltersSlice.ts";
-import {CharacterManager} from "@features/character/CharacterManager";
+
 import {ImageViewer} from "@shared/ui/ImageViewer";
+import {CharacterManager} from "@features/character/CharacterManager";
+import {SceneDescription} from "@features/scene/SceneDesription";
+
+import {ISceneShiftDirection, SceneManagerMode, SceneManagerProps} from "../model/types.ts";
+import {useSceneManager} from "../model/useSceneManager.ts";
+
 
 export const SceneManager = (props: SceneManagerProps) => {
     const navigate = useNavigate()
