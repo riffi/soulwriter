@@ -1,18 +1,16 @@
 import {useState} from "react";
 import {Step} from "antd-mobile/es/components/steps/step";
-import {AddCircleOutline, EditSOutline} from "antd-mobile-icons";
+import {AddCircleOutline, CalendarOutline, EditSOutline, TextOutline} from "antd-mobile-icons";
 import {AutoCenter, Button, List, Popup, Steps} from "antd-mobile";
 
 import {IStoryLineItem} from "@entities/StoryLine/models/types.ts";
 import {EditStoryLineItemForm} from "@features/storyLine/EditStoryLineItemForm";
 
-import {IStoryLineItemsProps} from "../model/types.ts";
+import {IStoryLineItemsProps, IStoryLineSortKind} from "../model/types.ts";
 import {useStoryLineItems} from "../model/useStoryLineItems.ts";
 
 
 export const StoryLineItems = (props: IStoryLineItemsProps) => {
-
-    const {storyLineItemsFull,save} = useStoryLineItems(props.storyLine)
 
     const getInitialItemState = (): IStoryLineItem => {
         return {
@@ -21,9 +19,16 @@ export const StoryLineItems = (props: IStoryLineItemsProps) => {
         }
     }
 
+    const [sortKind, setSortKind] = useState<IStoryLineSortKind>(IStoryLineSortKind.BY_DATE)
+
     const [currentItem, setCurrentItem] = useState<IStoryLineItem>(getInitialItemState())
 
     const [appendPopupVisible, setAppendPopupVisible] = useState<boolean>(false)
+
+    const {storyLineItemsFull,save} = useStoryLineItems(props.storyLine, sortKind)
+
+
+
 
     const getSceneTitle = (storyLineItem: IStoryLineItem) => {
         if (!storyLineItem.sceneId) {
@@ -36,6 +41,28 @@ export const StoryLineItems = (props: IStoryLineItemsProps) => {
 
     return (
         <>
+            <Button
+                size={"mini"}
+                style={{marginBottom:  '10px'}}
+                onClick={() => {
+                    if (sortKind === IStoryLineSortKind.BY_DATE){
+                        setSortKind(IStoryLineSortKind.BY_SORT_ORDER)
+                    }
+                    else{
+                        setSortKind(IStoryLineSortKind.BY_DATE)
+                    }
+                }}
+            >
+                {sortKind === IStoryLineSortKind.BY_DATE && <div>
+                    <CalendarOutline style={{fontSize: '16px', marginRight: '5px'}}/>
+                    Сортировка по времени
+                </div>}
+                {sortKind === IStoryLineSortKind.BY_SORT_ORDER &&
+                <div>
+                    <TextOutline style={{fontSize: '16px', marginRight: '5px'}}/>
+                    Сортировка по порядку сцен
+                </div>}
+            </Button>
             <Steps
                 direction='vertical'
                 style={{
@@ -74,26 +101,6 @@ export const StoryLineItems = (props: IStoryLineItemsProps) => {
                 )}
             </Steps>
             <List>
-                {/*{storyLineItemsFull?.map((storyLineItem) =>*/}
-                {/*    <List.Item*/}
-                {/*        key={storyLineItem.id}*/}
-                {/*        description={getSceneTitle(storyLineItem)}*/}
-                {/*        style={{"whiteSpace": "pre-line"}}*/}
-                {/*        extra={*/}
-                {/*            <Button fill={"none"}*/}
-                {/*                    onClick={(e) => {*/}
-                {/*                        e.stopPropagation()*/}
-                {/*                        setCurrentItem(storyLineItem)*/}
-                {/*                        setAppendPopupVisible(true)*/}
-                {/*                    }}*/}
-                {/*            >*/}
-                {/*                <EditSOutline/>*/}
-                {/*            </Button>*/}
-                {/*        }*/}
-                {/*    >*/}
-                {/*        {storyLineItem.title}*/}
-                {/*    </List.Item>*/}
-                {/*)}*/}
                 <List.Item title={""} key={"add"}>
                     <AutoCenter>
                         <Button size='large' fill={'none'}  onClick={async  () => {

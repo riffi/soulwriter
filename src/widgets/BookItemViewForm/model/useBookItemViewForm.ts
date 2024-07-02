@@ -52,7 +52,14 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
         }
         const bookItemId = bookItem.id
         if (bookItemId){
-            await db.sceneLinks.where("bookItemId").equals(bookItemId).delete()
+            const sceneLinks = await db.sceneLinks.where("bookItemId").equals(bookItemId).toArray()
+            await Promise.all(
+                sceneLinks.map((sceneLink) => {
+                    db.characterLinks.where("sceneLinkId").equals(sceneLink.id!).delete()
+                })
+            )
+            await db.sceneLinks.bulkDelete(sceneLinks.map(sceneLink => sceneLink.id!))
+
             await db.bookItems.delete(bookItem.id)
         }
     }
@@ -68,7 +75,7 @@ export const useBookItemViewForm = (bookId: number, bookItemId: number) => {
             content: 'Внимание, будут удалены все детали и их связи!',
             closeOnMaskClick: true,
             onConfirm: () => {
-                db.transaction('rw', db.bookItems, db.sceneLinks, async () => {
+                db.transaction('rw', db.bookItems, db.sceneLinks, db.characterLinks, async () => {
                     await deleteBookItem(bookItem)
                 }).then(() => {
                     Toast.show({

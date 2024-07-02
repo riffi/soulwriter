@@ -14,6 +14,7 @@ export const BookItemLinks = (props: IBookItemLinksProps) => {
         <List>
             {bookItemLinkList?.map((link) =>
                 <List.Item
+                    key={link.id}
                     title={
                         `Сцена ${link?.sceneData?.sortOrderId}`
                     }

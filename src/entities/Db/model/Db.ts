@@ -6,7 +6,7 @@ import {IBookItem} from "../../BookItem";
 import {IStoryLine, IStoryLineCharacter, IStoryLineItem} from "@entities/StoryLine/models/types.ts";
 import {IMeasure, IMeasureKind, IMeasureRadio} from "@entities/Measure";
 
-
+Dexie.debug = true;
 export class DbAdapter extends Dexie {
 
     characters!: Table<ICharacter>

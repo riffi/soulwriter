@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {AutoCenter, Button, Checkbox, List, Popup, Space, Tabs} from "antd-mobile";
-import {CloseCircleOutline, DownOutline, PictureOutline, SendOutline, UpOutline} from 'antd-mobile-icons'
+import {CloseCircleOutline, DeleteOutline, DownOutline, PictureOutline, SendOutline, UpOutline} from 'antd-mobile-icons'
 import {InlineEdit} from "@shared/ui/InlineEdit";
 import {InlineTextArea} from "@shared/ui/InlineTextArea/ui/InlineTextArea.tsx";
 import {IconBlock} from "@shared/ui/IconBlock";
@@ -211,7 +211,7 @@ export const BookItemViewForm = (props: IBookItemViewFormProps) => {
                                     size={"mini"}
                                     onClick={() => onDeleteBookItemQuery(bookItem)}
                                 >
-                                    <CloseCircleOutline/> Удалить
+                                    <DeleteOutline /> Удалить
                                 </Button>
                             </Space>
                         </Tabs.Tab>
