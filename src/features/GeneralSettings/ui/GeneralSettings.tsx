@@ -1,7 +1,7 @@
 import {useRef} from "react";
 import {Button, Card, JumboTabs, List, Space} from "antd-mobile";
 import {useGeneralSettings} from "../model/useGeneralSettings.ts";
-import {UpOutline, UserCircleOutline} from 'antd-mobile-icons'
+import {DownlandOutline, GlobalOutline, UploadOutline, UserCircleOutline} from 'antd-mobile-icons'
 import {getAuthPageUrl} from "@features/GeneralSettings/api/YandexDiscAPI.ts";
 
 export const GeneralSettings = () => {
@@ -33,7 +33,25 @@ export const GeneralSettings = () => {
         <JumboTabs >
             <JumboTabs.Tab title={""} description={"Текстовая База"} key={"textDB"}>
                 <List>
-                    <List.Item>
+
+                    <List.Item title={"Экспорт"} key={"export"}>
+                        <Space wrap={true}>
+                            <Button onClick={exportTextDb}>
+                                <DownlandOutline /> Экспорт в json
+                            </Button>
+                            <Button onClick={exportDocx}>
+                                <DownlandOutline /> Экспорт в docx
+                            </Button>
+
+                        </Space>
+                    </List.Item>
+                    <List.Item  title={"Яндекс диск"}>
+                        <Space wrap={true}>
+                        <Button
+                            onClick={() => uploadToYandexDiscQuery()}
+                        >
+                            <GlobalOutline  /> Загрузить на яндекс диск
+                        </Button>
                         <Button
                             onClick={() => {
                                 window.location = getAuthPageUrl()
@@ -41,23 +59,12 @@ export const GeneralSettings = () => {
                         >
                             <UserCircleOutline /> Авторизация Яндекс
                         </Button>
-                    </List.Item>
-
-                    <List.Item title={"Экспорт"} key={"export"}>
-                        <Space wrap={true}>
-                            <Button onClick={exportTextDb}>Выгрузить json</Button>
-                            <Button onClick={exportDocx}>Выгрузить docx</Button>
-                            <Button
-                                onClick={() => uploadToYandexDiscQuery()}
-                            >
-                                <UpOutline /> Загрузить на яндекс диск
-                            </Button>
                         </Space>
                     </List.Item>
                     <List.Item title={"Импорт"} key={"import"}>
                         <input ref={textDbFileRef} type="file" accept={"application/json"}/>
                         <Button onClick={queryImportTextDb} style={{marginTop: '10px'}}>
-                            Импорт json
+                            <UploadOutline /> Импорт json
                         </Button>
                     </List.Item>
                 </List>
