@@ -11,6 +11,7 @@ export interface IScene{
     symbolCount?: number
     dayStart?: number
     dayEnd?: number
+    stateId?: number
 }
 
 
@@ -31,4 +32,12 @@ export interface ISceneLink{
     bookItemData?: IBookItem
     sceneData?: IScene,
     characterLinks?: ICharacterLink[]
+}
+
+
+export interface ISceneState{
+    id?: number
+    bookId: number
+    title: string
+    isDefault: boolean
 }

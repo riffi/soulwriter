@@ -4,8 +4,8 @@ import {CharacterAttributeManager} from "@widgets/CharacterAttributeManager";
 import {CharacterGroupManager} from "@widgets/CharacterGroupManager";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
-import {NeedSelectBook} from "@features/book/NeedSelectBook";
 import {MeasureKinds} from "@features/measure/MeasureKinds";
+import {SceneStateDict} from "@features/scene/SceneStateDict/ui/SceneStateDict.tsx";
 
 export const Settings = () => {
 
@@ -34,6 +34,12 @@ export const Settings = () => {
                         key={"measureKinds"}
                         title={"Единицы измерения"}>
                         <MeasureKinds bookId={currentBook.id}/>
+                    </Tabs.Tab>
+                    <Tabs.Tab
+                        tabIndex={1}
+                        key={"sceneStates"}
+                        title={"Статусы сцен"}>
+                      <SceneStateDict bookId={currentBook.id}/>
                     </Tabs.Tab>
                 </>
                 }

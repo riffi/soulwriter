@@ -20,6 +20,7 @@ export const useBookManager = () => {
                 {title: 'Возраст', bookId: id, dataType: CharacterAttributeDataType.STRING, section: CharacterAttributeSection.APPEARANCE},
             ])
             db.characterGroups.add({title: 'Основные', bookId: id})
+            db.sceneStates.add({bookId: id, title: 'Черновик', isDefault: true})
         })
 
 
