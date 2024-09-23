@@ -1,11 +1,11 @@
-import {AutoCenter, Button, Input, List, Popup} from "antd-mobile"
+import {AutoCenter, Badge, Button, Checkbox, Input, List, Popup, Tag} from "antd-mobile"
 import {ISceneStateDictProps} from "../model/types.ts"
 import {useSceneStateDict} from "@features/scene/SceneStateDict/model/useSceneStateDict.ts";
-import {AddCircleOutline, CheckOutline} from "antd-mobile-icons";
+import {AddCircleOutline, CheckOutline, EditSOutline} from "antd-mobile-icons";
 import {ISceneState} from "@entities/Scene";
 import {useState} from "react";
-import { CheckCircleFill } from 'antd-mobile-icons'
-import {InlineEdit} from "@shared/ui/InlineEdit";
+import {CirclePicker} from "react-color";
+import {s} from "vite/dist/node/types.d-aGj9QkWt";
 
 export const SceneStateDict = (props: ISceneStateDictProps) => {
 
@@ -15,14 +15,17 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
   } = useSceneStateDict(props)
 
   const getInitialState = (): ISceneState => {
+
     return {
       title: "",
+      color: "#000000",
+      sortOrderId: (sceneStates && sceneStates.length > 0) ? sceneStates?.[sceneStates.length - 1].sortOrderId + 1 : 0,
       isDefault: false,
       bookId: props.bookId,
     }
   }
 
-  const [newState, setNewState] = useState<ISceneState>(getInitialState())
+  const [editedState, setEditedState] = useState<ISceneState>(getInitialState())
   const [sceneEditPopupVisible, setSceneEditPopupVisible] = useState(false)
 
   return (
@@ -31,27 +34,32 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
         {sceneStates?.map(state =>
           <List.Item
               key={state.id}
+              prefix={state.isDefault? <CheckOutline /> :""}
               extra={
                 <Button
-                  fill={!state.isDefault? "none" :"solid"}
+                  fill={"none"}
                   color={"primary"}
                   onClick = {() => {
-                    saveState({...state, isDefault: !state.isDefault})
+                    setEditedState(state)
+                    setSceneEditPopupVisible(true)
                   }}
                 >
-                    <CheckOutline />
+                    <EditSOutline />
                 </Button>
               }
+
           >
-            <InlineEdit value={state.title} onChange={(val) =>{
-              saveState({...state, title: val})
-            }}/>
+            <Tag
+              color={state.color}
+            >
+              {state.title}
+            </Tag >
           </List.Item>
         )}
         <List.Item title={""} key={"add"}>
           <AutoCenter>
             <Button size='large' fill={'none'}  onClick={async  () => {
-              setNewState(getInitialState())
+              setEditedState(getInitialState())
               setSceneEditPopupVisible(true)
             }}>
               <AddCircleOutline/>
@@ -73,13 +81,26 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
              <List header={"Добавление нового статуса"}>
                <List.Item title={"Название статуса"}>
                  <Input placeholder={"Введите название"}
-                        value={newState.title}
-                        onChange={(val) => setNewState({...newState, title: val})}
+                        value={editedState.title}
+                        onChange={(val) => setEditedState({...editedState, title: val})}
                  />
                </List.Item>
+               <List.Item title={"Цвет"}>
+                 <CirclePicker
+                     color={ editedState.color }
+                     onChange={(val) => setEditedState({...editedState, color: val.hex})}
+                 />
+               </List.Item>
+               <List.Item title={"По-умолчанию"}>
+                 <Checkbox
+                     checked={editedState.isDefault}
+                     onChange={(val) => setEditedState({...editedState, isDefault: val})}
+                 />
+               </List.Item>
+
                <List.Item>
                  <Button color={'primary'}  onClick={() => {
-                   saveState(newState)
+                   saveState(editedState)
                    setSceneEditPopupVisible(false)
                  }}>
                    Сохранить

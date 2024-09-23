@@ -40,4 +40,6 @@ export interface ISceneState{
     bookId: number
     title: string
     isDefault: boolean
+    sortOrderId: number
+    color: string
 }
