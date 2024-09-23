@@ -1,25 +1,38 @@
-import {AutoCenter, Badge, Button, Checkbox, Input, List, Popup, Tag} from "antd-mobile"
-import {ISceneStateDictProps} from "../model/types.ts"
+import {AutoCenter, Button, Checkbox, Input, List, Popup, Space, Tag} from "antd-mobile"
+import {
+  ISceneStateDictProps,
+  ISceneStateShiftDirection,
+  ISceneStateViewMode
+} from "../model/types.ts"
 import {useSceneStateDict} from "@features/scene/SceneStateDict/model/useSceneStateDict.ts";
-import {AddCircleOutline, CheckOutline, EditSOutline} from "antd-mobile-icons";
+import {
+  AddCircleOutline,
+  CheckOutline,
+  DownOutline,
+  EditSOutline,
+  FingerdownOutline,
+  UpOutline
+} from "antd-mobile-icons";
 import {ISceneState} from "@entities/Scene";
 import {useState} from "react";
 import {CirclePicker} from "react-color";
-import {s} from "vite/dist/node/types.d-aGj9QkWt";
 
 export const SceneStateDict = (props: ISceneStateDictProps) => {
 
   const {
     sceneStates,
-    saveState
+    saveState,
+    shiftState
   } = useSceneStateDict(props)
+
+  const [mode, setMode] = useState<ISceneStateViewMode>(ISceneStateViewMode.BASIC)
 
   const getInitialState = (): ISceneState => {
 
     return {
       title: "",
       color: "#000000",
-      sortOrderId: (sceneStates && sceneStates.length > 0) ? sceneStates?.[sceneStates.length - 1].sortOrderId + 1 : 0,
+      sortOrderId: (sceneStates && sceneStates.length > 0) ? sceneStates?.[sceneStates.length - 1].sortOrderId + 1 : 1,
       isDefault: false,
       bookId: props.bookId,
     }
@@ -30,23 +43,55 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
 
   return (
       <>
+        <Space
+            justify={"center"}
+            direction={"horizontal"}
+            style={{marginTop: '10px'}}
+        >
+          <Button
+              size={"small"}
+              style={{marginBottom: '10px'}}
+              color={(mode === ISceneStateViewMode.REORDER) ?  'warning' : 'default'}
+              onClick={() => {
+                if (mode === ISceneStateViewMode.BASIC){
+                  setMode(ISceneStateViewMode.REORDER)
+                }
+                else{
+                  setMode(ISceneStateViewMode.BASIC)
+                }
+
+              }}
+          >
+            <FingerdownOutline /> Переставить
+          </Button>
+        </Space>
       <List>
         {sceneStates?.map(state =>
           <List.Item
               key={state.id}
               prefix={state.isDefault? <CheckOutline /> :""}
-              extra={
-                <Button
-                  fill={"none"}
-                  color={"primary"}
-                  onClick = {() => {
-                    setEditedState(state)
-                    setSceneEditPopupVisible(true)
-                  }}
-                >
-                    <EditSOutline />
-                </Button>
+              extra={mode === ISceneStateViewMode.REORDER &&
+                  <>
+                    {(state.sortOrderId > 1) && <Button
+                        onClick={() => {
+                          shiftState(state, ISceneStateShiftDirection.UP)
+                        }}
+                    >
+                      <UpOutline />
+                    </Button>
+                    }
+                    {(state.sortOrderId < sceneStates?.length) &&
+                        <Button
+                            onClick={() => {
+                             shiftState(state, ISceneStateShiftDirection.DOWN)
+                            }}
+                        >
+                          <DownOutline />
+                        </Button>
+                    }
+                  </>
               }
+              clickable={false}
 
           >
             <Tag
@@ -54,6 +99,17 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
             >
               {state.title}
             </Tag >
+            <Button
+                fill={"none"}
+                color={"primary"}
+                onClick = {() => {
+                  setEditedState(state)
+                  setSceneEditPopupVisible(true)
+                }}
+            >
+              <EditSOutline />
+            </Button>
+
           </List.Item>
         )}
         <List.Item title={""} key={"add"}>
