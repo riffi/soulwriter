@@ -14,6 +14,14 @@ export const useSceneManager = (bookId: number) => {
         .sortBy("sortOrderId")
         , [bookId])
 
+    const sceneStates = useLiveQuery(() => {
+
+        return db.sceneStates
+        .where("bookId")
+        .equals(bookId)
+        .sortBy("sortOrderId")
+    }, [bookId])
+
     const sceneIds = useLiveQuery(() => sceneList?.map(s => s.id!), [sceneList])
 
     const sceneCharacters = useLiveQuery(async () => {
@@ -75,6 +83,7 @@ export const useSceneManager = (bookId: number) => {
         sceneCharacters,
         shiftScene,
         bookSymbolCount,
+        sceneStates,
         onCreateNewScene
     }
 

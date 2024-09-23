@@ -2,7 +2,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {useDebounce} from "use-debounce";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {AutoCenter, Button, Card, Collapse, List, Popup, ProgressBar, SearchBar, Space} from "antd-mobile";
+import {
+    AutoCenter,
+    Button,
+    Card,
+    Collapse,
+    List,
+    Popup,
+    ProgressBar,
+    SearchBar,
+    Space,
+    Tag
+} from "antd-mobile";
 import {AddCircleOutline, CloseOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
 
 import {RootState} from "../../../../store.ts";
@@ -14,6 +25,7 @@ import {SceneDescription} from "@features/scene/SceneDesription";
 
 import {ISceneShiftDirection, SceneManagerMode, SceneManagerProps} from "../model/types.ts";
 import {useSceneManager} from "../model/useSceneManager.ts";
+import {IScene} from "@entities/Scene";
 
 
 export const SceneManager = (props: SceneManagerProps) => {
@@ -28,8 +40,29 @@ export const SceneManager = (props: SceneManagerProps) => {
         sceneCharacters,
         onCreateNewScene,
         shiftScene,
-        bookSymbolCount
+        bookSymbolCount,
+        sceneStates
     } = useSceneManager(props.book.id)
+
+    const getSceneStateJSX = (scene: IScene) => {
+        let state = sceneStates?.find(state => state.id === scene.stateId)
+        if (!state) {
+            state = sceneStates?.find(state => state.isDefault)
+        }
+        if (state) {
+             return (
+                <div style={{
+                    color: state.color,
+                    fontSize: '8px',
+                    textTransform: 'uppercase',
+                    fontWeight: 'bold',
+                }}>
+                    {state.title}
+                </div>
+             )
+        }
+        else return ""
+    }
 
     const targetSymbolCount = props.book?.targetSymbolCount ? props.book?.targetSymbolCount : '400000'
 
@@ -152,7 +185,9 @@ export const SceneManager = (props: SceneManagerProps) => {
                         className={blinkItemId === scene.id ? "blink" : ''}
                         key={scene.id}
                         description={
-                            <SceneDescription scene={scene} book = {props.book}/>
+                            <>
+                               <SceneDescription scene={scene} book = {props.book}/>
+                            </>
                         }
                         prefix={scene.sortOrderId}
                         style={{"whiteSpace": "pre-line"}}
@@ -187,7 +222,11 @@ export const SceneManager = (props: SceneManagerProps) => {
                         }}
                     >
 
-                        {scene.title}
+                        <div>
+                         {scene.title}
+                        </div>
+                        {getSceneStateJSX(scene)}
+
                     </List.Item>
                 ))}
                 <List.Item title={""}>

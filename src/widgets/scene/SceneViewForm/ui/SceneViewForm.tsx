@@ -260,7 +260,7 @@ export const SceneViewForm = (props: ISceneViewFormProps) => {
         <Popup
             visible={sceneParamsPopupVisible}
             showCloseButton={true}
-            bodyStyle={{overflow: "auto", maxHeight: "90dvh"}}
+            bodyStyle={{overflow: "auto", height: "90dvh"}}
             onClose={() => setSceneParamsPopupVisible(false)}
             onMaskClick={() => setSceneParamsPopupVisible(false)}
             tabIndex={3}
