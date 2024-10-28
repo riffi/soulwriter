@@ -1,14 +1,20 @@
 import {ISceneParamsProps} from "../model/types.ts";
-import {List, Radio, Space, Tag} from "antd-mobile";
+import {AutoCenter, Button, List, Radio, Space, Tabs, Tag} from "antd-mobile";
 import {useSceneParams} from "../model/useSceneParams.ts";
 import {InlineStepper} from "@shared/ui/InlineStepper";
 import {getAbsoluteDate, humanizeDayValue} from "@shared/lib/DateUtils.ts";
+import {InlineTextArea} from "@shared/ui/InlineTextArea";
+import {AddCircleOutline, DeleteOutline} from "antd-mobile-icons";
+
 
 export const SceneParams = (props: ISceneParamsProps) => {
     const {
         sceneData,
         changeNumberAttributeValue,
-        sceneStates
+        sceneStates,
+        sceneNotes,
+        saveSceneNote,
+        removeSceneNote
     } = useSceneParams(props.sceneId)
 
     const dayStartStr = humanizeDayValue(sceneData?.dayStart)
@@ -22,53 +28,104 @@ export const SceneParams = (props: ISceneParamsProps) => {
 
 
     return (
-        <List header={"Параметры сцены"}>
-            <List.Item
-                key={"dayStart"}
-                title={"День начала сцены"}
-                description={`Отображаемое значение: ${dayStartStr}; ${dayStartAbsoluteStr}`}
-            >
+        <Tabs
+            style={{"--title-font-size": "14px"}}
+            defaultActiveKey={"main"}
+        >
+              <Tabs.Tab
+                  key={"main"}
+                  title={"Общее"}
+              >
+                <List>
+                  <List.Item
+                      key={"dayStart"}
+                      title={"День начала сцены"}
+                      description={`Отображаемое значение: ${dayStartStr}; ${dayStartAbsoluteStr}`}
+                  >
 
-                <InlineStepper
-                    value={sceneData?.dayStart}
-                    onChange={(val) => {
-                        changeNumberAttributeValue("dayStart", val)
-                        if (!sceneData?.dayEnd){
+                    <InlineStepper
+                        value={sceneData?.dayStart}
+                        onChange={(val) => {
+                          changeNumberAttributeValue("dayStart", val)
+                          if (!sceneData?.dayEnd){
                             changeNumberAttributeValue("dayEnd", val)
-                        }
-                    }}
-                />
-            </List.Item>
-            <List.Item
-                key={"dayEnd"}
-                title={"День окончания сцены"}
-                description={`Отображаемое значение: ${dayEndStr}; ${dayEndAbsoluteStr}`}
-            >
-                <InlineStepper
-                    value={sceneData?.dayEnd}
-                    onChange={(val) => changeNumberAttributeValue("dayEnd", val)}
-                />
-            </List.Item>
-          <List.Item
-              key={"state"}
-              title={"Статус сцены"}
-          >
-            <Space direction="vertical">
-              {sceneStates?.map((state) =>
-                <Radio
-                    value={state.id}
-                    key={state.id}
-                    checked={state.id === sceneData?.stateId || (sceneData?.stateId === undefined && state.isDefault)}
-                    onChange={(val) => changeNumberAttributeValue("stateId", state.id!)}
-                >
-                  <Tag color={state.color}>
-                    {state.title}
-                  </Tag>
+                          }
+                        }}
+                    />
+                  </List.Item>
+                  <List.Item
+                      key={"dayEnd"}
+                      title={"День окончания сцены"}
+                      description={`Отображаемое значение: ${dayEndStr}; ${dayEndAbsoluteStr}`}
+                  >
+                    <InlineStepper
+                        value={sceneData?.dayEnd}
+                        onChange={(val) => changeNumberAttributeValue("dayEnd", val)}
+                    />
+                  </List.Item>
+                  <List.Item
+                      key={"state"}
+                      title={"Статус сцены"}
+                  >
+                    <Space direction="vertical">
+                      {sceneStates?.map((state) =>
+                          <Radio
+                              value={state.id}
+                              key={state.id}
+                              checked={state.id === sceneData?.stateId || (sceneData?.stateId === undefined && state.isDefault)}
+                              onChange={(val) => changeNumberAttributeValue("stateId", state.id!)}
+                          >
+                            <Tag color={state.color}>
+                              {state.title}
+                            </Tag>
 
-                </Radio>
+                          </Radio>
+                      )}
+                    </Space>
+                  </List.Item>
+                </List>
+              </Tabs.Tab>
+          <Tabs.Tab
+              key={"notes"}
+              title={"Заметки"}
+          >
+            <List>
+              {sceneNotes?.map((note) =>
+                <List.Item
+                    key={note.id}
+                    extra={
+                      <Button
+                          onClick={() => removeSceneNote(note)}
+                          fill={"none"}
+                      >
+                        <DeleteOutline />
+                      </Button>
+                    }
+                >
+                  <div style={{position: "relative"}}>
+                    <InlineTextArea
+                        value={note.text}
+                        onChange={(val) => saveSceneNote({...note, text: val})}
+                        iconStyle={{right: "-10px", marginTop: "3px", fontSize: "18px"}}
+                    />
+                  </div>
+                </List.Item>
               )}
-            </Space>
-          </List.Item>
-        </List>
+              <List.Item title={""}>
+                <AutoCenter>
+                    <Button size='large' fill={'none'}  onClick={() => {
+                      saveSceneNote({
+                        sceneId: props.sceneId,
+                        text: "Новая заметка",
+                      })
+                    }}>
+                      <AddCircleOutline />
+
+                    </Button>
+                </AutoCenter>
+              </List.Item>
+            </List>
+          </Tabs.Tab>
+        </Tabs>
     )
 }

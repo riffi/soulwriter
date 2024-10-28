@@ -1,7 +1,7 @@
 import Dexie, {Table} from 'dexie'
 import {ICharacter, ICharacterDictAttribute, ICharacterGroup, ICharacterLink} from "../../Character";
 import {IBook} from "../../Book";
-import {IScene, ISceneCharacters, ISceneLink, ISceneState} from "../../Scene";
+import {IScene, ISceneCharacters, ISceneLink, ISceneNote, ISceneState} from "../../Scene";
 import {IBookItem} from "../../BookItem";
 import {IStoryLine, IStoryLineCharacter, IStoryLineItem} from "@entities/StoryLine/models/types.ts";
 import {IMeasure, IMeasureKind, IMeasureRadio} from "@entities/Measure";
@@ -14,6 +14,7 @@ export class DbAdapter extends Dexie {
     characterAttributeDict!: Table<ICharacterDictAttribute>
     books!: Table<IBook>
     scenes!: Table<IScene>
+    sceneNotes!: Table<ISceneNote>
     sceneCharacters!: Table<ISceneCharacters>
     bookItems!: Table<IBookItem>
     sceneLinks!: Table<ISceneLink>
@@ -35,6 +36,7 @@ export class DbAdapter extends Dexie {
         scenes: '++id, title, bookId, sortOrderId, dayStart, dayEnd',
         sceneCharacters: '++id, sceneId, characterId',
         sceneStates: '++id, bookId, isDefault',
+        sceneNotes: '++id, sceneId',
         bookItems: '++id, bookId, parentId, type, needMention, sortOrderId',
         sceneLinks: '++id, sceneId, bookId, bookItemId',
         characterLinks: '++id, characterId, sceneLinkId',

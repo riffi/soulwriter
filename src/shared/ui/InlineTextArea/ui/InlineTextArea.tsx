@@ -20,7 +20,7 @@ export const InlineTextArea = (props: IInlineTextAreaProps) => {
                     setMode(ViewMode.WRITE)
                 }}
             >
-                <EditFill style={{position: "absolute", right: "10px"}} onClick={() => {
+                <EditFill style={{position: "absolute", right: "10px", ...props.iconStyle}} onClick={() => {
                     setVal(props.value)
                     setMode(ViewMode.WRITE)
                 }

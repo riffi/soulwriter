@@ -43,3 +43,10 @@ export interface ISceneState{
     sortOrderId: number
     color: string
 }
+
+
+export interface ISceneNote{
+    id?: number
+    sceneId: number
+    text: string
+}
