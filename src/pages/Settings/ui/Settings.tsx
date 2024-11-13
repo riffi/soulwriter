@@ -6,6 +6,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
 import {MeasureKinds} from "@features/measure/MeasureKinds";
 import {SceneStateDict} from "@features/scene/SceneStateDict/ui/SceneStateDict.tsx";
+import {SceneCheckDict} from "@features/scene/SceneCheckDict";
 
 export const Settings = () => {
 
@@ -41,6 +42,12 @@ export const Settings = () => {
                         title={"Статусы сцен"}>
                       <SceneStateDict bookId={currentBook.id}/>
                     </Tabs.Tab>
+                  <Tabs.Tab
+                      tabIndex={1}
+                      key={"sceneChecks"}
+                      title={"Чек-лист"}>
+                    <SceneCheckDict bookId={currentBook.id}/>
+                  </Tabs.Tab>
                 </>
                 }
                 <Tabs.Tab

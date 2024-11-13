@@ -44,6 +44,21 @@ export interface ISceneState{
     color: string
 }
 
+export interface ISceneCheck{
+    id?: number
+    bookId: number
+    title: string
+    sortOrderId: number
+    color: string
+}
+
+export interface ISceneCheckState{
+    id?: number
+    sceneCheckId: number
+    sceneId: number
+    bookId: number
+}
+
 
 export interface ISceneNote{
     id?: number

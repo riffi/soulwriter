@@ -4,7 +4,7 @@ import {ISceneNote} from "@entities/Scene";
 import {IMeasureRadio} from "@entities/Measure";
 import {Dialog} from "antd-mobile";
 
-export const useSceneParams = (sceneId: number) => {
+export const useSceneParams = (sceneId: number, bookId: number) => {
 
     const sceneData = useLiveQuery(() => db.scenes.get(sceneId), [sceneId])
 
@@ -49,6 +49,32 @@ export const useSceneParams = (sceneId: number) => {
         })
     }
 
+    const sceneChecks = useLiveQuery(() =>{
+        return db.sceneChecks
+        .where({bookId: bookId})
+        .sortBy("sortOrderId")
+    }, [bookId])
+
+    const sceneCheckStates = useLiveQuery(() =>{
+        return db.sceneCheckStates
+        .where({sceneId: sceneId}).toArray()
+    }, [sceneId])
+
+    const toggleSceneCheckState = (checkId: number, newState: boolean) =>{
+        if (checkId){
+            if (newState){
+                db.sceneCheckStates.add({
+                    sceneCheckId: checkId,
+                    sceneId,
+                    bookId
+                })
+            }
+            else{
+                db.sceneCheckStates.where({sceneId, sceneCheckId: checkId}).delete()
+            }
+        }
+    }
+
 
 
     return {
@@ -57,6 +83,9 @@ export const useSceneParams = (sceneId: number) => {
         sceneNotes,
         saveSceneNote,
         removeSceneNote,
-        changeNumberAttributeValue
+        changeNumberAttributeValue,
+        sceneChecks,
+        sceneCheckStates,
+        toggleSceneCheckState
     }
 }

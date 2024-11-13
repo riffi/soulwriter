@@ -1,5 +1,5 @@
 import {ISceneParamsProps} from "../model/types.ts";
-import {AutoCenter, Button, List, Radio, Space, Tabs, Tag} from "antd-mobile";
+import {AutoCenter, Button, List, Radio, Space, Switch, Tabs, Tag} from "antd-mobile";
 import {useSceneParams} from "../model/useSceneParams.ts";
 import {InlineStepper} from "@shared/ui/InlineStepper";
 import {getAbsoluteDate, humanizeDayValue} from "@shared/lib/DateUtils.ts";
@@ -14,8 +14,11 @@ export const SceneParams = (props: ISceneParamsProps) => {
         sceneStates,
         sceneNotes,
         saveSceneNote,
-        removeSceneNote
-    } = useSceneParams(props.sceneId)
+        removeSceneNote,
+        sceneChecks,
+        sceneCheckStates,
+        toggleSceneCheckState
+    } = useSceneParams(props.sceneId, props.book.id)
 
     const dayStartStr = humanizeDayValue(sceneData?.dayStart)
     const dayEndStr = humanizeDayValue(sceneData?.dayEnd)
@@ -29,7 +32,7 @@ export const SceneParams = (props: ISceneParamsProps) => {
 
     return (
         <Tabs
-            style={{"--title-font-size": "14px"}}
+            style={{"--title-font-size": "14px", "paddingTop":"10px"}}
             defaultActiveKey={"main"}
         >
               <Tabs.Tab
@@ -124,6 +127,28 @@ export const SceneParams = (props: ISceneParamsProps) => {
                     </Button>
                 </AutoCenter>
               </List.Item>
+            </List>
+          </Tabs.Tab>
+          <Tabs.Tab
+              key={"checklist"}
+              title={"Чек-лист"}
+          >
+            <List>
+              {sceneChecks?.map((check) =>
+                  <List.Item
+                      key={check.id}
+                      title={check.title}
+                      prefix={
+                        <Switch
+                            checked={sceneCheckStates?.find(s => s.sceneCheckId === check.id) !== undefined}
+                            onChange={(val) => {
+                              toggleSceneCheckState(check.id, val)
+                            }}
+                        />
+                  }
+                  >
+                  </List.Item>
+              )}
             </List>
           </Tabs.Tab>
         </Tabs>
