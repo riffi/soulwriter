@@ -5,6 +5,7 @@ import {ICharacter} from "@entities/Character";
 export interface ISceneFilters{
     searchStr: string
     character?: ICharacter
+    notPassedCheckId?: number
 }
 
 export interface SceneFiltersSlice {

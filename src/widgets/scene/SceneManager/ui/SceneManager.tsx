@@ -10,7 +10,7 @@ import {
     List,
     Popup,
     ProgressBar,
-    SearchBar,
+    SearchBar, Selector,
     Space,
     Tag
 } from "antd-mobile";
@@ -41,7 +41,9 @@ export const SceneManager = (props: SceneManagerProps) => {
         onCreateNewScene,
         shiftScene,
         bookSymbolCount,
-        sceneStates
+        sceneStates,
+        sceneChecks,
+        sceneCheckStates
     } = useSceneManager(props.book.id)
 
     const getSceneStateJSX = (scene: IScene) => {
@@ -85,13 +87,20 @@ export const SceneManager = (props: SceneManagerProps) => {
              (sc) => sc.characterId === debouncedFilters?.character?.id
          ) !== undefined
 
+
+        // Убеждаемся, что проверка не была пройдена
+        const notPassedCheckMatch = (debouncedFilters?.notPassedCheckId === undefined) || sceneCheckStates?.find(
+            (sc) => ((sc.sceneId === scene.id) && (sc.sceneCheckId === debouncedFilters?.notPassedCheckId))
+        ) === undefined
+        //console.log(`Проверка, сцена ${scene.sortOrderId} статус: ${+notPassedCheckMatch}`)
+
         return !debouncedFilters
-            || (debouncedFilters?.searchStr === '' && !debouncedFilters?.character)
-            || (charMatch && searchStrMatch)
+            || (debouncedFilters?.searchStr === '' && !debouncedFilters?.character && !debouncedFilters?.notPassedCheckId)
+            || (charMatch && searchStrMatch && notPassedCheckMatch)
     })
 
     const scenes = !debouncedFilters ? sceneList : filteredSceneList
-    const showFilters = (debouncedFilters?.searchStr != '') || (debouncedFilters?.character !== undefined)
+    const showFilters = (debouncedFilters?.searchStr != '') || (debouncedFilters?.character !== undefined) || (debouncedFilters?.notPassedCheckId !== undefined)
 
     const symbolTotalPercentage = Math.round(bookSymbolCount / targetSymbolCount * 100)
 
@@ -149,6 +158,24 @@ export const SceneManager = (props: SceneManagerProps) => {
                                     <CloseOutline/>
                                 </Button>}
                             </Space>
+                        </List.Item>
+                        <List.Item title={"не пройдена проверка"}>
+                            {sceneChecks && <Selector
+                                options={sceneChecks}
+                                fieldNames={{
+                                    label: 'title',
+                                    value: 'id'
+                                }}
+                                value={[sceneFilters?.notPassedCheckId]}
+                                onChange={(val) => dispatch(
+                                    setSceneFilters(
+                                        {
+                                            ...sceneFilters,
+                                            notPassedCheckId: val[0] ? +val[0] : undefined
+                                        }
+                                    )
+                                )}
+                            />}
                         </List.Item>
                     </List>
                 </Collapse.Panel>
