@@ -39,7 +39,7 @@ export interface ISceneState{
     id?: number
     bookId: number
     title: string
-    isDefault: boolean
+    isDefault: number
     sortOrderId: number
     color: string
 }

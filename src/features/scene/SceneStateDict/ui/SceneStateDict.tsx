@@ -22,7 +22,8 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
   const {
     sceneStates,
     saveState,
-    shiftState
+    shiftState,
+    deleteState
   } = useSceneStateDict(props)
 
   const [mode, setMode] = useState<ISceneStateViewMode>(ISceneStateViewMode.BASIC)
@@ -33,7 +34,7 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
       title: "",
       color: "#000000",
       sortOrderId: (sceneStates && sceneStates.length > 0) ? sceneStates?.[sceneStates.length - 1].sortOrderId + 1 : 1,
-      isDefault: false,
+      isDefault: 0,
       bookId: props.bookId,
     }
   }
@@ -69,7 +70,7 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
         {sceneStates?.map(state =>
           <List.Item
               key={state.id}
-              prefix={state.isDefault? <CheckOutline /> :""}
+              prefix={state.isDefault === 1? <CheckOutline /> :""}
               extra={mode === ISceneStateViewMode.REORDER &&
                   <>
                     {(state.sortOrderId > 1) && <Button
@@ -149,8 +150,8 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
                </List.Item>
                <List.Item title={"По-умолчанию"}>
                  <Checkbox
-                     checked={editedState.isDefault}
-                     onChange={(val) => setEditedState({...editedState, isDefault: val})}
+                     checked={editedState.isDefault === 1}
+                     onChange={(val) => setEditedState({...editedState, isDefault: val ? 1 : 0})}
                  />
                </List.Item>
 
@@ -160,6 +161,14 @@ export const SceneStateDict = (props: ISceneStateDictProps) => {
                    setSceneEditPopupVisible(false)
                  }}>
                    Сохранить
+                 </Button>
+               </List.Item>
+               <List.Item>
+                 <Button color={'danger'}  onClick={() => {
+                   deleteState(editedState)
+                   setSceneEditPopupVisible(false)
+                 }}>
+                   Удалить
                  </Button>
                </List.Item>
              </List>

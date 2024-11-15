@@ -75,7 +75,7 @@ export const SceneParams = (props: ISceneParamsProps) => {
                           <Radio
                               value={state.id}
                               key={state.id}
-                              checked={state.id === sceneData?.stateId || (sceneData?.stateId === undefined && state.isDefault)}
+                              checked={state.id === sceneData?.stateId || (sceneData?.stateId === undefined && state.isDefault === 1)}
                               onChange={(val) => changeNumberAttributeValue("stateId", state.id!)}
                           >
                             <Tag color={state.color}>

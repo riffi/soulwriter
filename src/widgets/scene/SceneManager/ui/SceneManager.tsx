@@ -49,7 +49,7 @@ export const SceneManager = (props: SceneManagerProps) => {
     const getSceneStateJSX = (scene: IScene) => {
         let state = sceneStates?.find(state => state.id === scene.stateId)
         if (!state) {
-            state = sceneStates?.find(state => state.isDefault)
+            state = sceneStates?.find(state => state.isDefault === 1)
         }
         if (state) {
              return (
