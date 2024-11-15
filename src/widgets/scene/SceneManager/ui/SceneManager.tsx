@@ -92,15 +92,29 @@ export const SceneManager = (props: SceneManagerProps) => {
         const notPassedCheckMatch = (debouncedFilters?.notPassedCheckId === undefined) || sceneCheckStates?.find(
             (sc) => ((sc.sceneId === scene.id) && (sc.sceneCheckId === debouncedFilters?.notPassedCheckId))
         ) === undefined
-        //console.log(`Проверка, сцена ${scene.sortOrderId} статус: ${+notPassedCheckMatch}`)
+
+        // Убеждаемся, сцена в нужном статусе
+        const stateMatch = (debouncedFilters?.stateId === undefined) || (
+            (debouncedFilters.stateId === scene.stateId)
+            || (scene.stateId === undefined) && (sceneStates?.find(s => s.isDefault === 1)?.id == debouncedFilters?.stateId)
+
+        )
 
         return !debouncedFilters
-            || (debouncedFilters?.searchStr === '' && !debouncedFilters?.character && !debouncedFilters?.notPassedCheckId)
-            || (charMatch && searchStrMatch && notPassedCheckMatch)
+            || (
+                debouncedFilters?.searchStr === ''
+                && !debouncedFilters?.character
+                && !debouncedFilters?.notPassedCheckId
+                && !debouncedFilters?.stateId
+               )
+            || (charMatch && searchStrMatch && notPassedCheckMatch && stateMatch)
     })
 
     const scenes = !debouncedFilters ? sceneList : filteredSceneList
-    const showFilters = (debouncedFilters?.searchStr != '') || (debouncedFilters?.character !== undefined) || (debouncedFilters?.notPassedCheckId !== undefined)
+    const showFilters = (debouncedFilters?.searchStr != '')
+        || (debouncedFilters?.character !== undefined)
+        || (debouncedFilters?.notPassedCheckId !== undefined)
+        || (debouncedFilters?.stateId !== undefined)
 
     const symbolTotalPercentage = Math.round(bookSymbolCount / targetSymbolCount * 100)
 
@@ -159,7 +173,25 @@ export const SceneManager = (props: SceneManagerProps) => {
                                 </Button>}
                             </Space>
                         </List.Item>
-                        <List.Item title={"не пройдена проверка"}>
+                        <List.Item title={"Статус"}>
+                            {sceneChecks && <Selector
+                                options={sceneStates}
+                                fieldNames={{
+                                    label: 'title',
+                                    value: 'id'
+                                }}
+                                value={[sceneFilters?.stateId]}
+                                onChange={(val) => dispatch(
+                                    setSceneFilters(
+                                        {
+                                            ...sceneFilters,
+                                            stateId: val[0] ? +val[0] : undefined
+                                        }
+                                    )
+                                )}
+                            />}
+                        </List.Item>
+                        <List.Item title={"Не пройдена проверка"}>
                             {sceneChecks && <Selector
                                 options={sceneChecks}
                                 fieldNames={{
