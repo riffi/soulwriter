@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {
     AutoCenter,
     Button,
-    Card,
+    Card, Checkbox,
     Collapse,
     List,
     Popup,
@@ -43,7 +43,8 @@ export const SceneManager = (props: SceneManagerProps) => {
         bookSymbolCount,
         sceneStates,
         sceneChecks,
-        sceneCheckStates
+        sceneCheckStates,
+        sceneNotes
     } = useSceneManager(props.book.id)
 
     const getSceneStateJSX = (scene: IScene) => {
@@ -100,14 +101,21 @@ export const SceneManager = (props: SceneManagerProps) => {
 
         )
 
+        // Проверяем, что в сценах есть заметки
+        const hasNotesMatch = (debouncedFilters?.hasNotes !== true) || sceneNotes?.find(
+            (sc) => sc.sceneId === scene.id
+        ) !== undefined
+
+
         return !debouncedFilters
             || (
                 debouncedFilters?.searchStr === ''
                 && !debouncedFilters?.character
                 && !debouncedFilters?.notPassedCheckId
                 && !debouncedFilters?.stateId
+                && !debouncedFilters?.hasNotes
                )
-            || (charMatch && searchStrMatch && notPassedCheckMatch && stateMatch)
+            || (charMatch && searchStrMatch && notPassedCheckMatch && stateMatch && hasNotesMatch)
     })
 
     const scenes = !debouncedFilters ? sceneList : filteredSceneList
@@ -184,6 +192,7 @@ export const SceneManager = (props: SceneManagerProps) => {
                                     label: 'title',
                                     value: 'id'
                                 }}
+                                showCheckMark = {false}
                                 value={[sceneFilters?.stateId]}
                                 onChange={(val) => dispatch(
                                     setSceneFilters(
@@ -206,6 +215,7 @@ export const SceneManager = (props: SceneManagerProps) => {
                                     "--padding": "3px 10px",
                                     fontSize: '12px',
                                 }}
+                                showCheckMark = {false}
                                 value={[sceneFilters?.notPassedCheckId]}
                                 onChange={(val) => dispatch(
                                     setSceneFilters(
@@ -216,6 +226,19 @@ export const SceneManager = (props: SceneManagerProps) => {
                                     )
                                 )}
                             />}
+                        </List.Item>
+                        <List.Item title = {"Есть заметки"}>
+                            <Checkbox
+                                checked = {sceneFilters?.hasNotes}
+                                onChange={(val) => dispatch(
+                                    setSceneFilters(
+                                        {
+                                            ...sceneFilters,
+                                            hasNotes: val
+                                        }
+                                    )
+                                )}
+                            />
                         </List.Item>
                     </List>
                 </Collapse.Panel>

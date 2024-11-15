@@ -6,7 +6,8 @@ export interface ISceneFilters{
     searchStr: string
     character?: ICharacter
     notPassedCheckId?: number
-    stateId?: number
+    stateId?: number,
+    hasNotes?: boolean
 }
 
 export interface SceneFiltersSlice {

@@ -22,6 +22,7 @@ export const useSceneManager = (bookId: number) => {
         .sortBy("sortOrderId")
     }, [bookId])
 
+
     const sceneIds = useLiveQuery(() => sceneList?.map(s => s.id!), [sceneList])
 
     const sceneCharacters = useLiveQuery(async () => {
@@ -31,6 +32,15 @@ export const useSceneManager = (bookId: number) => {
             .anyOf(sceneIds)
             .toArray()
     }, [sceneList, sceneIds]
+    )
+
+    const sceneNotes = useLiveQuery(async () => {
+            if (!sceneIds) return
+            return db.sceneNotes
+            .where("sceneId")
+            .anyOf(sceneIds)
+            .toArray()
+        }, [sceneList, sceneIds]
     )
 
     const bookSymbolCount = useLiveQuery(async () => {
@@ -98,7 +108,8 @@ export const useSceneManager = (bookId: number) => {
         sceneStates,
         onCreateNewScene,
         sceneChecks,
-        sceneCheckStates
+        sceneCheckStates,
+        sceneNotes
     }
 
 }
