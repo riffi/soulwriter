@@ -175,6 +175,10 @@ export const SceneManager = (props: SceneManagerProps) => {
                         </List.Item>
                         <List.Item title={"Статус"}>
                             {sceneChecks && <Selector
+                                style={{
+                                    "--padding": "3px 10px",
+                                    fontSize: '12px',
+                                }}
                                 options={sceneStates}
                                 fieldNames={{
                                     label: 'title',
@@ -196,7 +200,11 @@ export const SceneManager = (props: SceneManagerProps) => {
                                 options={sceneChecks}
                                 fieldNames={{
                                     label: 'title',
-                                    value: 'id'
+                                    value: 'id',
+                                }}
+                                style={{
+                                    "--padding": "3px 10px",
+                                    fontSize: '12px',
                                 }}
                                 value={[sceneFilters?.notPassedCheckId]}
                                 onChange={(val) => dispatch(
