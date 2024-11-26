@@ -1,7 +1,7 @@
-import {AutoCenter, Button, Card, Image, List, Popup, Space} from "antd-mobile";
+import {AutoCenter, Button, Card, Image, List, Popup, Space, Tabs} from "antd-mobile";
 import {AddCircleOutline, CloseOutline} from "antd-mobile-icons";
 import {IEditSceneLinkFormProps} from "../model/types.ts";
-import {useState} from "react";
+import React, {useState} from "react";
 import {ISceneLink} from "@entities/Scene";
 import {BookItemSelector} from "../../../bookItem/BookItemSelector";
 import {useSceneLinks} from "../model/useSceneLinks.ts";
@@ -60,78 +60,90 @@ export const EditSceneLinkForm = (props: IEditSceneLinkFormProps) => {
                 </Button>
             }
         >
-            <List>
+            <Tabs
+                style={{"--title-font-size": "14px", "paddingTop":"10px"}}
+                defaultActiveKey={"main"}
+            >
+                <Tabs.Tab title={"Данные связи"} key={"main"}>
+                    <List>
 
-                <List.Item key={"title"} title={"Название связи"}>
-                    <InlineTextArea
-                        value={sceneLink.title}
-                        defaultMode={sceneLink?.title !== '' ? ViewMode.READ : ViewMode.WRITE}
-                        onChange={async (val) => {
-                            const newData = {...sceneLink, title: val}
-                            await saveLink(newData)
-                            setSceneLink(() => {
-                                return {...newData}
-                            })
+                    <List.Item key={"title"} title={"Название связи"}>
+                        <InlineTextArea
+                            value={sceneLink.title}
+                            defaultMode={sceneLink?.title !== '' ? ViewMode.READ : ViewMode.WRITE}
+                            onChange={async (val) => {
+                                const newData = {...sceneLink, title: val}
+                                await saveLink(newData)
+                                setSceneLink(() => {
+                                    return {...newData}
+                                })
 
 
-                        }}
-                    />
-                </List.Item>
-                <List.Item key={"bookItemId"} title={"Элемент"}>
-                    <div>
-                        {newBookItemData?.type ? newBookItemData?.type + ':' : ''} {newBookItemData?.title}
-                    </div>
-                    <Button
-                        size={"mini"}
+                            }}
+                        />
+                    </List.Item>
+                    <List.Item key={"bookItemId"} title={"Элемент"}>
+                        <div>
+                            {newBookItemData?.type ? newBookItemData?.type + ':' : ''} {newBookItemData?.title}
+                        </div>
+                        <Button
+                            size={"mini"}
 
-                        onClick={() => setBookItemSelectorPopupVisible(true)}
-                    >
-                        Выбрать
-                    </Button>
-                </List.Item>
-                <List header={"Персонажи"}>
-                    {sceneLink?.characterLinks?.map((characterLink) =>
-                        <List.Item
-                            key = {characterLink.characterId}
-                            prefix={
-                                <ImageViewer guid={characterLink.character?.avatar} />
-                            }
-                            extra={
-                                <Button fill={"none"} onClick={async (e) => {
-                                    e.stopPropagation()
-                                    await onDeleteCharacter(characterLink)
-                                }}>
-                                    <CloseOutline />
-                                </Button>}
+                            onClick={() => setBookItemSelectorPopupVisible(true)}
                         >
-                            {characterLink?.character?.name}
-                        </List.Item>
-                    )}
-                    <List.Item title={""} key={"add"}>
-                        <AutoCenter>
-                            <Button size='large' fill={'none'}  onClick={() => {
-                                setCharPopupVisible(true)
-                            }}>
-                                <AddCircleOutline/>
+                            Выбрать
+                        </Button>
+                    </List.Item>
+                    <List header={"Персонажи"}>
+                        {sceneLink?.characterLinks?.map((characterLink) =>
+                            <List.Item
+                                key = {characterLink.characterId}
+                                prefix={
+                                    <ImageViewer guid={characterLink.character?.avatar} />
+                                }
+                                extra={
+                                    <Button fill={"none"} onClick={async (e) => {
+                                        e.stopPropagation()
+                                        await onDeleteCharacter(characterLink)
+                                    }}>
+                                        <CloseOutline />
+                                    </Button>}
+                            >
+                                {characterLink?.character?.name}
+                            </List.Item>
+                        )}
+                        <List.Item title={""} key={"add"}>
+                            <AutoCenter>
+                                <Button size='large' fill={'none'}  onClick={() => {
+                                    setCharPopupVisible(true)
+                                }}>
+                                    <AddCircleOutline/>
 
+                                </Button>
+                            </AutoCenter>
+                        </List.Item>
+                    </List>
+                    <List.Item>
+                        <Space>
+                            {props.sceneLink.id && <Button
+                                color={"danger"}
+                                onClick={() => {
+                                    props.onDelete(sceneLink)
+                                }}
+                            >
+                                {props.sceneLink.id && "Удалить"}
                             </Button>
-                        </AutoCenter>
+                            }
+                        </Space>
                     </List.Item>
                 </List>
-                <List.Item>
-                    <Space>
-                        {props.sceneLink.id && <Button
-                            color={"danger"}
-                            onClick={() => {
-                                props.onDelete(sceneLink)
-                            }}
-                        >
-                            {props.sceneLink.id && "Удалить"}
-                        </Button>
-                        }
-                    </Space>
-                </List.Item>
-            </List>
+                </Tabs.Tab>
+                <Tabs.Tab title={"Знания"} key={"links"}>
+                    <List>
+
+                    </List>
+                </Tabs.Tab>
+            </Tabs>
         </Card>
         <Popup
             visible={bookItemSelectorPopupVisible}

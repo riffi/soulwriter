@@ -9,7 +9,7 @@ import {
     ISceneNote,
     ISceneState
 } from "../../Scene";
-import {IBookItem} from "../../BookItem";
+import {IBookItem, IKnowledge, IKnowledgeLink} from "../../BookItem";
 import {IStoryLine, IStoryLineCharacter, IStoryLineItem} from "@entities/StoryLine/models/types.ts";
 import {IMeasure, IMeasureKind, IMeasureRadio} from "@entities/Measure";
 
@@ -24,6 +24,8 @@ export class DbAdapter extends Dexie {
     sceneNotes!: Table<ISceneNote>
     sceneCharacters!: Table<ISceneCharacters>
     bookItems!: Table<IBookItem>
+    knowledge!: Table<IKnowledge>
+    knowledgeLinks!: Table<IKnowledgeLink>
     sceneLinks!: Table<ISceneLink>
     sceneChecks!: Table<ISceneCheck>
     sceneCheckStates!: Table<ISceneCheckState>
@@ -49,6 +51,8 @@ export class DbAdapter extends Dexie {
         sceneNotes: '++id, sceneId',
         sceneCheckStates: '++id, sceneId, bookId, sceneCheckId',
         bookItems: '++id, bookId, parentId, type, needMention, sortOrderId',
+        knowledge: '++id, bookItemId',
+        knowledgeLinks: '++id, knowledgeId, characterId, sceneId',
         sceneLinks: '++id, sceneId, bookId, bookItemId',
         characterLinks: '++id, characterId, sceneLinkId',
         storyLines: '++id, title, bookId',

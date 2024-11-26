@@ -16,3 +16,24 @@ export enum IBookItemShiftDirection{
     UP = 'UP',
     DOWN = 'DOWN'
 }
+
+export enum VerityType{
+    TRUE = 'TRUE',
+    FALSE = 'FALSE'
+}
+
+
+export interface IKnowledge {
+    id: number
+    bookItemId: number
+    title: string
+    verity: VerityType
+}
+
+export interface IKnowledgeLink {
+    id: number
+    knowledgeId: number
+    title: string
+    sceneId: number
+    characterId: number
+}
