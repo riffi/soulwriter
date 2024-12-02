@@ -14,6 +14,7 @@ export const GeneralSettings = () => {
         exportTextDb,
         exportFileDb,
         exportDocx,
+        exportEpub,
         uploadToYandexDiscQuery,
     } = useGeneralSettings()
 
@@ -41,6 +42,9 @@ export const GeneralSettings = () => {
                             </Button>
                             <Button onClick={exportDocx}>
                                 <DownlandOutline /> Экспорт в docx
+                            </Button>
+                            <Button onClick={exportEpub}>
+                                <DownlandOutline /> Экспорт в epub
                             </Button>
 
                         </Space>

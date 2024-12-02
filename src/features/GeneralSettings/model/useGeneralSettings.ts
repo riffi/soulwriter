@@ -9,8 +9,8 @@ import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
 import {Dialog, Toast} from "antd-mobile";
 import {uploadFile} from "@features/GeneralSettings/api/YandexDiscAPI.ts";
 import {fileDb, FileDbAdapter} from "@entities/Db/model/fileDb.ts";
-
-
+import {Chapter, Content, Options} from 'epub-gen-memory';
+import epub from 'epub-gen-memory/bundle';
 
 const downloadBlob = (blob: Blob, fileName: string) => {
     const url = window.URL.createObjectURL(blob);
@@ -225,12 +225,47 @@ export const useGeneralSettings = () => {
         });
     }
 
+    const exportEpub = async () => {
+        const scenes = await db.scenes
+        .where("bookId")
+        .equals(currentBook?.id)
+        .toArray()
+
+        const options: Options = {
+            title: currentBook?.title,
+            author: currentBook?.author, // *Required, name of the author.
+            publisher: "Soulwriter", // optional
+            description: currentBook?.description, // optional
+        };
+
+        const content: Chapter[] = []
+
+        scenes.forEach((scene) => {
+            content.push({
+                title: scene.title,
+                content: scene.body
+            })
+        })
+
+
+        epub(options, content).then(
+            content => {
+                const date = moment();
+                const dateStr = date.format("YYYY-MM-DD_HH-mm-ss")
+                downloadBlob(content,`${currentBook?.title} ${dateStr}.epub`)
+            },
+            err => console.error("Failed to generate Ebook because of ", err)
+        );
+
+    }
+
     return {
         exportTextDb,
         exportFileDb,
         importTextDb,
         importFileDB,
         exportDocx,
+        exportEpub,
         uploadToYandexDiscQuery
     }
 }
