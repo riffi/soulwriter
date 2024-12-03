@@ -128,7 +128,7 @@ export const useGeneralSettings = () => {
         const scenes = await db.scenes
             .where("bookId")
             .equals(currentBook?.id)
-            .toArray()
+            .sortBy("sortOrderId")
 
         const paragraphs: Paragraph[] = []
 
@@ -229,7 +229,7 @@ export const useGeneralSettings = () => {
         const scenes = await db.scenes
         .where("bookId")
         .equals(currentBook?.id)
-        .toArray()
+        .sortBy("sortOrderId")
 
         const options: Options = {
             title: currentBook?.title,
