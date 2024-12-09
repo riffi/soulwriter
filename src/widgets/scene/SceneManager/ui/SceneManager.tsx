@@ -372,12 +372,20 @@ export const SceneManager = (props: SceneManagerProps) => {
             {viewPoint === SceneManagerViewPoint.CHAPTERS && <div>
                 <List>
                     {chapters?.map(chapter =>(
-                        <List.Item key={chapter.id}>
+                        <List.Item
+                            key={chapter.id}
+                        >
                             <InlineEdit
                                 value={chapter.title}
                                 onChange={(val) => changeChapterTitle(chapter?.id, val)}
                                 prefix={`${chapter.sortOrderId} - `}
                             />
+                            <div style={{
+                                fontSize: "11px",
+                                color: "#969696",
+                            }}>
+                                Символов: {getChapterScenes(chapter)?.reduce((acc: number, obj: IScene) => acc + obj?.symbolCount, 0)}
+                            </div>
                             <Divider />
                             <List
                                 style={{
