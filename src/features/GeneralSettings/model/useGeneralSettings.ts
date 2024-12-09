@@ -11,6 +11,7 @@ import {uploadFile} from "@features/GeneralSettings/api/YandexDiscAPI.ts";
 import {fileDb, FileDbAdapter} from "@entities/Db/model/fileDb.ts";
 import {Chapter, Content, Options} from 'epub-gen-memory';
 import epub from 'epub-gen-memory/bundle';
+import {IChapter} from "@entities/Scene";
 
 const downloadBlob = (blob: Blob, fileName: string) => {
     const url = window.URL.createObjectURL(blob);
@@ -226,13 +227,20 @@ export const useGeneralSettings = () => {
     }
 
     const exportEpub = async () => {
+
+        const chapters: IChapter[] = await db.chapters
+            .where({bookId: currentBook?.id})
+            .sortBy("sortOrderId")
+
+
         const scenes = await db.scenes
-        .where("bookId")
-        .equals(currentBook?.id)
-        .sortBy("sortOrderId")
+            .where("bookId")
+            .equals(currentBook?.id)
+            .sortBy("sortOrderId")
 
         const options: Options = {
             title: currentBook?.title,
+            tocTitle: 'Содержание',
             author: currentBook?.author, // *Required, name of the author.
             publisher: "Soulwriter", // optional
             description: currentBook?.description, // optional
@@ -240,10 +248,23 @@ export const useGeneralSettings = () => {
 
         const content: Chapter[] = []
 
-        scenes.forEach((scene) => {
+        chapters.forEach((chapter) => {
+            const chapterScenes = scenes.filter((scene) => {
+                return scene.chapterId === chapter.id
+            })
+            let text = ""
+            chapterScenes.forEach((scene, index) => {
+                if (index > 0){
+                    text += `***<br>${scene.body}`
+                }
+                else{
+                    text += `${scene.body}`
+                }
+
+            })
             content.push({
-                title: scene.title,
-                content: scene.body
+                title: chapter.title,
+                content: text
             })
         })
 
