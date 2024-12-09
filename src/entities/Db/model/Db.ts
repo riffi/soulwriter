@@ -2,6 +2,7 @@ import Dexie, {Table} from 'dexie'
 import {ICharacter, ICharacterDictAttribute, ICharacterGroup, ICharacterLink} from "../../Character";
 import {IBook} from "../../Book";
 import {
+    IChapter,
     IScene,
     ISceneCharacters, ISceneCheck,
     ISceneCheckState,
@@ -21,6 +22,7 @@ export class DbAdapter extends Dexie {
     characterAttributeDict!: Table<ICharacterDictAttribute>
     books!: Table<IBook>
     scenes!: Table<IScene>
+    chapters!: Table<IChapter>
     sceneNotes!: Table<ISceneNote>
     sceneCharacters!: Table<ISceneCharacters>
     bookItems!: Table<IBookItem>
@@ -42,7 +44,8 @@ export class DbAdapter extends Dexie {
         characterAttributeDict: '++id, title, bookId',
         worlds: '++id, title, bookId',
         books: '++id, title, description, author',
-        scenes: '++id, title, bookId, sortOrderId, dayStart, dayEnd, stateId',
+        scenes: '++id, title, bookId, sortOrderId, dayStart, dayEnd, stateId, chapterId',
+        chapters: '++id, bookId, sceneId, sortOrderId',
         sceneCharacters: '++id, sceneId, characterId',
         sceneStates: '++id, bookId, isDefault',
         sceneChecks: '++id, sceneId, bookId',

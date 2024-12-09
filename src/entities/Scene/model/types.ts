@@ -1,6 +1,14 @@
 import {IBookItem} from "../../BookItem";
 import {ICharacterLink} from "@entities/Character";
 
+export interface IChapter{
+    id?: number
+    title: string
+    bookId: number
+    sortOrderId: number
+    symbolCount?: number
+}
+
 export interface IScene{
     id?: number
     title: string
@@ -12,6 +20,7 @@ export interface IScene{
     dayStart?: number
     dayEnd?: number
     stateId?: number
+    chapterId?: number
 }
 
 

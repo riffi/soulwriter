@@ -1,7 +1,7 @@
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "@entities/Db/model/Db.ts";
 import {useNavigate} from "react-router-dom";
-import {IScene} from "@entities/Scene";
+import {IChapter, IScene} from "@entities/Scene";
 import {ISceneShiftDirection} from "./types.ts";
 
 export const useSceneManager = (bookId: number) => {
@@ -11,6 +11,11 @@ export const useSceneManager = (bookId: number) => {
     const sceneList = useLiveQuery(() => db.scenes
         .where("bookId")
         .equals(bookId)
+        .sortBy("sortOrderId")
+        , [bookId])
+
+    const chapters = useLiveQuery(() => db.chapters
+        .where({bookId})
         .sortBy("sortOrderId")
         , [bookId])
 
@@ -98,10 +103,36 @@ export const useSceneManager = (bookId: number) => {
             })
         navigate(`/scene/card?id=${newSceneId}`)
 
-}
+    }
+
+    const changeChapterTitle = (chapterId: number, title: string) => {
+        db.chapters.update(chapterId, {title})
+    }
+
+    const appendChapter = async () => {
+        const count = await db.chapters
+        .where("bookId")
+        .equals(bookId)
+        .count()
+
+        await db.chapters.add({
+            bookId: bookId,
+            title: 'Новая глава',
+            sortOrderId: count + 1
+        })
+    }
+
+    const appendSceneToChapter = async (scene: IScene, chapter: IChapter) => {
+        await db.scenes.update(scene.id, {chapterId: chapter.id})
+    }
+
+    const removeSceneFromChapter = async (scene: IScene) => {
+        await db.scenes.update(scene.id, {chapterId: undefined})
+    }
 
     return {
         sceneList,
+        chapters,
         sceneCharacters,
         shiftScene,
         bookSymbolCount,
@@ -109,7 +140,11 @@ export const useSceneManager = (bookId: number) => {
         onCreateNewScene,
         sceneChecks,
         sceneCheckStates,
-        sceneNotes
+        sceneNotes,
+        changeChapterTitle,
+        appendChapter,
+        appendSceneToChapter,
+        removeSceneFromChapter
     }
 
 }

@@ -5,16 +5,25 @@ import {useNavigate} from "react-router-dom";
 import {
     AutoCenter,
     Button,
-    Card, Checkbox,
-    Collapse,
+    Card,
+    Checkbox,
+    Collapse, Divider,
     List,
     Popup,
     ProgressBar,
-    SearchBar, Selector,
+    SearchBar,
+    Selector,
     Space,
-    Tag
+    TabBar
 } from "antd-mobile";
-import {AddCircleOutline, CloseOutline, DownOutline, FingerdownOutline, UpOutline} from "antd-mobile-icons";
+import {
+    AddCircleOutline,
+    AddOutline,
+    CloseOutline, DeleteOutline,
+    DownOutline,
+    FingerdownOutline,
+    UpOutline
+} from "antd-mobile-icons";
 
 import {RootState} from "../../../../store.ts";
 import {setSceneFilters} from "@features/scene/SceneFilters/sceneFiltersSlice.ts";
@@ -23,9 +32,15 @@ import {ImageViewer} from "@shared/ui/ImageViewer";
 import {CharacterManager} from "@features/character/CharacterManager";
 import {SceneDescription} from "@features/scene/SceneDesription";
 
-import {ISceneShiftDirection, SceneManagerMode, SceneManagerProps} from "../model/types.ts";
+import {
+    ISceneShiftDirection,
+    SceneManagerMode,
+    SceneManagerProps,
+    SceneManagerViewPoint
+} from "../model/types.ts";
 import {useSceneManager} from "../model/useSceneManager.ts";
-import {IScene} from "@entities/Scene";
+import {IChapter, IScene} from "@entities/Scene";
+import {InlineEdit} from "@shared/ui/InlineEdit";
 
 
 export const SceneManager = (props: SceneManagerProps) => {
@@ -33,10 +48,14 @@ export const SceneManager = (props: SceneManagerProps) => {
     const dispatch = useDispatch()
 
     const [mode, setMode] = useState<SceneManagerMode>(SceneManagerMode.BASIC)
+    const [viewPoint, setViewPoint] = useState<SceneManagerViewPoint>(SceneManagerViewPoint.SCENES)
     const [blinkItemId, setBlinkItemId] = useState<number>()
     const [charPopupVisible, setCharPopupVisible] = useState<boolean>(false)
+    const [sceneSelectorPopupVisible, setSceneSelectorPopupVisible] = useState<boolean>(false)
+    const [currentChapter, setCurrentChapter] = useState<IChapter>()
 
     const {sceneList,
+        chapters,
         sceneCharacters,
         onCreateNewScene,
         shiftScene,
@@ -44,7 +63,11 @@ export const SceneManager = (props: SceneManagerProps) => {
         sceneStates,
         sceneChecks,
         sceneCheckStates,
-        sceneNotes
+        sceneNotes,
+        changeChapterTitle,
+        appendChapter,
+        appendSceneToChapter,
+        removeSceneFromChapter
     } = useSceneManager(props.book.id)
 
     const getSceneStateJSX = (scene: IScene) => {
@@ -125,6 +148,14 @@ export const SceneManager = (props: SceneManagerProps) => {
         || (debouncedFilters?.stateId !== undefined)
 
     const symbolTotalPercentage = Math.round(bookSymbolCount / targetSymbolCount * 100)
+    const getChapterScenes = (chapter: IChapter) => {
+        return sceneList?.filter(s => s.chapterId === chapter.id)
+    }
+
+    const getChapterById = (id: number) => {
+        return chapters?.find(c => c.id === id)
+    }
+
 
     return (
         <>
@@ -140,196 +171,280 @@ export const SceneManager = (props: SceneManagerProps) => {
                     "whiteSpace": "pre-line"
                 }}
             />
-            <Collapse
-                defaultActiveKey={showFilters ? 'filters' : null}
-                accordion={true}
-                style={{color: '#999999'}}
+            <TabBar
+                onChange={(key: SceneManagerViewPoint) => setViewPoint(key)}
+                style={{"--adm-font-size-2": "12px"}}
             >
-                <Collapse.Panel key='filters' title='Фильтры'>
-                    <List style={{"--padding-left": '0px'}}>
-                        <List.Item title={"Поиск в тексте"}>
-                            <SearchBar
-                                style={{marginTop: '5px'}}
-                                placeholder={"Поиск"}
-                                clearable={true}
-                                defaultValue={sceneFilters?.searchStr}
-                                onChange={(val) => {
-                                    dispatch(setSceneFilters({...sceneFilters, searchStr: val}))
-                                }}
-                            />
-                        </List.Item>
-                        <List.Item
-                            title={"Персонаж"}
-                        >
-                            <Space wrap={true} style={{marginTop: '5px'}} align={"center"}>
-                                {sceneFilters?.character &&
-                                    <ImageViewer guid={sceneFilters.character?.avatar}/>
-                                }
-                                <div style={{fontSize: '14px'}}>{sceneFilters.character?.name}</div>
-                                <Button
-                                    size={"small"}
-                                    onClick={() => setCharPopupVisible(true)}
-                                >
-                                    Выбрать
-                                </Button>
-                                {sceneFilters?.character && <Button
-                                    size={"small"}
-                                    fill={"none"}
-                                    onClick={() =>  dispatch(setSceneFilters({...sceneFilters, character: undefined}))}
-                                >
-                                    <CloseOutline/>
-                                </Button>}
-                            </Space>
-                        </List.Item>
-                        <List.Item title={"Статус"}>
-                            {sceneChecks && <Selector
-                                style={{
-                                    "--padding": "3px 10px",
-                                    fontSize: '12px',
-                                }}
-                                options={sceneStates}
-                                fieldNames={{
-                                    label: 'title',
-                                    value: 'id'
-                                }}
-                                showCheckMark = {false}
-                                value={[sceneFilters?.stateId]}
-                                onChange={(val) => dispatch(
-                                    setSceneFilters(
-                                        {
-                                            ...sceneFilters,
-                                            stateId: val[0] ? +val[0] : undefined
-                                        }
-                                    )
-                                )}
-                            />}
-                        </List.Item>
-                        <List.Item title={"Не пройдена проверка"}>
-                            {sceneChecks && <Selector
-                                options={sceneChecks}
-                                fieldNames={{
-                                    label: 'title',
-                                    value: 'id',
-                                }}
-                                style={{
-                                    "--padding": "3px 10px",
-                                    fontSize: '12px',
-                                }}
-                                showCheckMark = {false}
-                                value={[sceneFilters?.notPassedCheckId]}
-                                onChange={(val) => dispatch(
-                                    setSceneFilters(
-                                        {
-                                            ...sceneFilters,
-                                            notPassedCheckId: val[0] ? +val[0] : undefined
-                                        }
-                                    )
-                                )}
-                            />}
-                        </List.Item>
-                        <List.Item title = {"Есть заметки"}>
-                            <Checkbox
-                                checked = {sceneFilters?.hasNotes}
-                                onChange={(val) => dispatch(
-                                    setSceneFilters(
-                                        {
-                                            ...sceneFilters,
-                                            hasNotes: val
-                                        }
-                                    )
-                                )}
-                            />
-                        </List.Item>
-                    </List>
-                </Collapse.Panel>
-                <Collapse.Panel key='actions' title='Действия'>
-                <Space
-                    justify={"center"}
-                    direction={"horizontal"}
-                    style={{marginTop: '10px'}}
+                <TabBar.Item title="Сцены" key={SceneManagerViewPoint.SCENES}/>
+                <TabBar.Item title="Главы" key={SceneManagerViewPoint.CHAPTERS}/>
+            </TabBar>
+            {viewPoint === SceneManagerViewPoint.SCENES && <div>
+                <Collapse
+                    defaultActiveKey={showFilters ? 'filters' : null}
+                    accordion={true}
+                    style={{color: '#999999'}}
                 >
-                    <Button
-                        size={"small"}
-                        style={{marginBottom: '10px'}}
-                        color={(mode === SceneManagerMode.REORDER) ?  'warning' : 'default'}
-                        onClick={() => {
-                            if (mode === SceneManagerMode.BASIC){
-                                setMode(SceneManagerMode.REORDER)
-                            }
-                            else{
-                                setMode(SceneManagerMode.BASIC)
-                            }
-
-                        }}
-                    >
-                        <FingerdownOutline /> Переставить
-                    </Button>
-                </Space>
-                </Collapse.Panel>
-            </Collapse>
-
-
-            <List style={{"--padding-left": "0px"}} header={"Сцены"}>
-                {scenes?.map(scene =>(
-                    <List.Item
-                        className={blinkItemId === scene.id ? "blink" : ''}
-                        key={scene.id}
-                        description={
-                            <>
-                               <SceneDescription scene={scene} book = {props.book}/>
-                            </>
-                        }
-                        prefix={scene.sortOrderId}
-                        style={{"whiteSpace": "pre-line"}}
-                        extra={mode === SceneManagerMode.REORDER &&
-                            <>
-                                {(scene.sortOrderId > 1) && <Button
-                                    onClick={() => {
-                                        setBlinkItemId(scene.id)
-                                        shiftScene(scene, ISceneShiftDirection.UP)
+                    <Collapse.Panel key='filters' title='Фильтры'>
+                        <List style={{"--padding-left": '0px'}}>
+                            <List.Item title={"Поиск в тексте"}>
+                                <SearchBar
+                                    style={{marginTop: '5px'}}
+                                    placeholder={"Поиск"}
+                                    clearable={true}
+                                    defaultValue={sceneFilters?.searchStr}
+                                    onChange={(val) => {
+                                        dispatch(setSceneFilters({...sceneFilters, searchStr: val}))
                                     }}
-                                >
-                                    <UpOutline />
-                                </Button>
-                                }
-                                {(scene.sortOrderId < sceneList?.length) &&
-                                <Button
-                                    onClick={() => {
-                                        setBlinkItemId(scene.id)
-                                        shiftScene(scene, ISceneShiftDirection.DOWN)
+                                />
+                            </List.Item>
+                            <List.Item
+                                title={"Персонаж"}
+                            >
+                                <Space wrap={true} style={{marginTop: '5px'}} align={"center"}>
+                                    {sceneFilters?.character &&
+                                        <ImageViewer guid={sceneFilters.character?.avatar}/>
+                                    }
+                                    <div style={{fontSize: '14px'}}>{sceneFilters.character?.name}</div>
+                                    <Button
+                                        size={"small"}
+                                        onClick={() => setCharPopupVisible(true)}
+                                    >
+                                        Выбрать
+                                    </Button>
+                                    {sceneFilters?.character && <Button
+                                        size={"small"}
+                                        fill={"none"}
+                                        onClick={() =>  dispatch(setSceneFilters({...sceneFilters, character: undefined}))}
+                                    >
+                                        <CloseOutline/>
+                                    </Button>}
+                                </Space>
+                            </List.Item>
+                            <List.Item title={"Статус"}>
+                                {sceneChecks && <Selector
+                                    style={{
+                                        "--padding": "3px 10px",
+                                        fontSize: '12px',
                                     }}
-                                >
-                                    <DownOutline />
-                                </Button>
-                                }
-                            </>
-                        }
-                        clickable={mode === SceneManagerMode.BASIC}
-                        onClick = {() => {
-                            if (mode === SceneManagerMode.BASIC) {
-                                navigate(`/scene/card?id=${scene.id}`)
-                            }
-                        }}
+                                    options={sceneStates}
+                                    fieldNames={{
+                                        label: 'title',
+                                        value: 'id'
+                                    }}
+                                    showCheckMark = {false}
+                                    value={[sceneFilters?.stateId]}
+                                    onChange={(val) => dispatch(
+                                        setSceneFilters(
+                                            {
+                                                ...sceneFilters,
+                                                stateId: val[0] ? +val[0] : undefined
+                                            }
+                                        )
+                                    )}
+                                />}
+                            </List.Item>
+                            <List.Item title={"Не пройдена проверка"}>
+                                {sceneChecks && <Selector
+                                    options={sceneChecks}
+                                    fieldNames={{
+                                        label: 'title',
+                                        value: 'id',
+                                    }}
+                                    style={{
+                                        "--padding": "3px 10px",
+                                        fontSize: '12px',
+                                    }}
+                                    showCheckMark = {false}
+                                    value={[sceneFilters?.notPassedCheckId]}
+                                    onChange={(val) => dispatch(
+                                        setSceneFilters(
+                                            {
+                                                ...sceneFilters,
+                                                notPassedCheckId: val[0] ? +val[0] : undefined
+                                            }
+                                        )
+                                    )}
+                                />}
+                            </List.Item>
+                            <List.Item title = {"Есть заметки"}>
+                                <Checkbox
+                                    checked = {sceneFilters?.hasNotes}
+                                    onChange={(val) => dispatch(
+                                        setSceneFilters(
+                                            {
+                                                ...sceneFilters,
+                                                hasNotes: val
+                                            }
+                                        )
+                                    )}
+                                />
+                            </List.Item>
+                        </List>
+                    </Collapse.Panel>
+                    <Collapse.Panel key='actions' title='Действия'>
+                    <Space
+                        justify={"center"}
+                        direction={"horizontal"}
+                        style={{marginTop: '10px'}}
                     >
+                        <Button
+                            size={"small"}
+                            style={{marginBottom: '10px'}}
+                            color={(mode === SceneManagerMode.REORDER) ?  'warning' : 'default'}
+                            onClick={() => {
+                                if (mode === SceneManagerMode.BASIC){
+                                    setMode(SceneManagerMode.REORDER)
+                                }
+                                else{
+                                    setMode(SceneManagerMode.BASIC)
+                                }
 
-                        <div>
-                         {scene.title}
-                        </div>
-                        {getSceneStateJSX(scene)}
-
-                    </List.Item>
-                ))}
-                <List.Item title={""}>
-                    <AutoCenter>
-                        <Button size='large' fill={'none'}  onClick={() => {
-                            onCreateNewScene()
-                        }}>
-                            <AddCircleOutline />
-
+                            }}
+                        >
+                            <FingerdownOutline /> Переставить
                         </Button>
-                    </AutoCenter>
-                </List.Item>
-            </List>
+                    </Space>
+                    </Collapse.Panel>
+                </Collapse>
+
+               <List style={{"--padding-left": "0px"}}>
+                    {scenes?.map(scene =>(
+                        <List.Item
+                            className={blinkItemId === scene.id ? "blink" : ''}
+                            key={scene.id}
+                            description={
+                                <>
+                                   <SceneDescription scene={scene} book = {props.book}/>
+                                </>
+                            }
+                            prefix={scene.sortOrderId}
+                            style={{"whiteSpace": "pre-line"}}
+                            extra={mode === SceneManagerMode.REORDER &&
+                                <>
+                                    {(scene.sortOrderId > 1) && <Button
+                                        onClick={() => {
+                                            setBlinkItemId(scene.id)
+                                            shiftScene(scene, ISceneShiftDirection.UP)
+                                        }}
+                                    >
+                                        <UpOutline />
+                                    </Button>
+                                    }
+                                    {(scene.sortOrderId < sceneList?.length) &&
+                                    <Button
+                                        onClick={() => {
+                                            setBlinkItemId(scene.id)
+                                            shiftScene(scene, ISceneShiftDirection.DOWN)
+                                        }}
+                                    >
+                                        <DownOutline />
+                                    </Button>
+                                    }
+                                </>
+                            }
+                            clickable={mode === SceneManagerMode.BASIC}
+                            onClick = {() => {
+                                if (mode === SceneManagerMode.BASIC) {
+                                    navigate(`/scene/card?id=${scene.id}`)
+                                }
+                            }}
+                        >
+
+                            <div>
+                             {scene.title}
+                            </div>
+                            {getSceneStateJSX(scene)}
+
+                        </List.Item>
+                    ))}
+                    <List.Item title={""}>
+                        <AutoCenter>
+                            <Button size='large' fill={'none'}  onClick={() => {
+                                onCreateNewScene()
+                            }}>
+                                <AddCircleOutline />
+
+                            </Button>
+                        </AutoCenter>
+                    </List.Item>
+                </List>
+           </div>}
+            {viewPoint === SceneManagerViewPoint.CHAPTERS && <div>
+                <List>
+                    {chapters?.map(chapter =>(
+                        <List.Item key={chapter.id}>
+                            <InlineEdit
+                                value={chapter.title}
+                                onChange={(val) => changeChapterTitle(chapter?.id, val)}
+                                prefix={`${chapter.sortOrderId} - `}
+                            />
+                            <Divider />
+                            <List
+                                style={{
+                                    "--padding-left": "5px",
+                                    "--border-top": "none",
+                                    "--border-bottom": "none",
+                                    "--border-inner": "none",
+                                }}
+                            >
+                                {getChapterScenes(chapter)?.map(scene => (
+                                    <List.Item
+                                        key={scene.id}
+                                        extra={
+                                            <Button
+                                                fill={"none"}
+                                                size={"small"}
+                                                onClick={() => {
+                                                    removeSceneFromChapter(scene)
+                                                }}
+                                            >
+                                                <DeleteOutline />
+                                            </Button>
+                                        }
+                                    >
+                                        <div style={{
+                                            padding: "0px",
+                                            fontSize: "12px",
+                                            color: "#565656",
+                                        }}>
+                                            {scene.sortOrderId}. {scene.title}
+                                        </div>
+                                    </List.Item>
+                                ))}
+                                <List.Item>
+                                    <Button
+                                        size='small'
+                                        fill={'none'}
+                                        style={{
+                                            fontSize: "12px",
+                                            color: "#797979",
+                                            padding: "0px 0px",
+                                            padding: "0px 0px",
+                                        }}
+
+                                        onClick={() => {
+                                            setCurrentChapter(chapter)
+                                            setSceneSelectorPopupVisible(true)
+                                        }}
+                                    >
+                                        <AddOutline /> Сцена
+                                    </Button>
+                                </List.Item>
+                            </List>
+                        </List.Item>
+                    ))}
+                    <List.Item title={""}>
+                        <AutoCenter>
+                            <Button size='large' fill={'none'}  onClick={() => {
+                                appendChapter()
+                            }}>
+                                <AddCircleOutline />
+
+                            </Button>
+                        </AutoCenter>
+                    </List.Item>
+                </List>
+            </div>}
         </Card>
         {charPopupVisible &&
         <Popup
@@ -352,6 +467,36 @@ export const SceneManager = (props: SceneManagerProps) => {
                     }}/>
             </Card>
         </Popup>
+        }
+        {sceneSelectorPopupVisible &&
+            <Popup
+                visible={true}
+                showCloseButton={true}
+                onMaskClick={() => setSceneSelectorPopupVisible(false)}
+                onClose={() => setSceneSelectorPopupVisible(false)}
+                bodyStyle={{overflow: "auto", height: "100dvh"}}
+            >
+                <Card
+                    title={"Добавление сцены в главу"}
+                >
+                   <List
+                   >
+                       {sceneList?.map(scene => (
+                           <List.Item
+                               clickable
+                               key={scene.id}
+                               onClick={() => {
+                                   appendSceneToChapter(scene, currentChapter)
+                                   setSceneSelectorPopupVisible(false)
+                               }}
+                               description={scene.chapterId? "Глава: " + getChapterById(scene.chapterId)?.sortOrderId + ". " + getChapterById(scene.chapterId)?.title : ""}
+                           >
+                               {scene.sortOrderId}. {scene.title}
+                           </List.Item>
+                       ))}
+                   </List>
+                </Card>
+            </Popup>
         }
         </>
     )

@@ -9,6 +9,11 @@ export enum SceneManagerMode{
     REORDER = 'REORDER'
 }
 
+export enum SceneManagerViewPoint{
+    SCENES = 'SCENES',
+    CHAPTERS = 'CHAPTERS'
+}
+
 export enum ISceneShiftDirection{
     UP = 'UP',
     DOWN = 'DOWN'
