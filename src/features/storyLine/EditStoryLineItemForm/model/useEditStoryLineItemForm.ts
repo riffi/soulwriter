@@ -7,7 +7,7 @@ export const useEditStoryLineItemForm = (storyLineItem: IStoryLineItem, bookId: 
     const sceneList = useLiveQuery(() => db.scenes
         .where('bookId')
         .equals(bookId)
-        .toArray()
+        .sortBy("sortOrderId")
     )
 
     return {

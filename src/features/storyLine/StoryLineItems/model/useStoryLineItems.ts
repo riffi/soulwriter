@@ -2,6 +2,7 @@ import {IStoryLine, IStoryLineItem} from "@entities/StoryLine/models/types.ts";
 import {useLiveQuery} from "dexie-react-hooks";
 import {db} from "@entities/Db/model/Db.ts";
 import {IStoryLineSortKind} from "@features/storyLine/StoryLineItems";
+import {Dialog} from "antd-mobile";
 
 export const useStoryLineItems = (storyLine: IStoryLine, sortKind: IStoryLineSortKind) => {
     const storyLineItemsFull = useLiveQuery(async () => {
@@ -45,9 +46,34 @@ export const useStoryLineItems = (storyLine: IStoryLine, sortKind: IStoryLineSor
         }
     }
 
+    const deleteItem = async (storyLineItemData: IStoryLineItem) => {
+        Dialog.show({
+            content: `Удалить запись ${storyLineItemData.title}`,
+            closeOnMaskClick: true,
+            closeOnAction: true,
+            actions:[
+                {
+                    key: 'ok',
+                    text: 'Удалить',
+                    onClick: () => db.storyLineItems.delete(storyLineItemData.id)
+                },
+                {
+                    key: 'cancel',
+                    text: 'Отмена',
+                    onClick: () => (undefined)
+                }
+
+            ]
+        })
+
+    }
+
+
+
 
     return {
         storyLineItemsFull,
-        save
+        save,
+        deleteItem
     }
 }

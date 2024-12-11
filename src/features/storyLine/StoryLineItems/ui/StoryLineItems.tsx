@@ -25,7 +25,7 @@ export const StoryLineItems = (props: IStoryLineItemsProps) => {
 
     const [appendPopupVisible, setAppendPopupVisible] = useState<boolean>(false)
 
-    const {storyLineItemsFull,save} = useStoryLineItems(props.storyLine, sortKind)
+    const {storyLineItemsFull, save, deleteItem} = useStoryLineItems(props.storyLine, sortKind)
 
 
 
@@ -128,7 +128,10 @@ export const StoryLineItems = (props: IStoryLineItemsProps) => {
                         storyLineItem={currentItem}
                         onCancel={() => setAppendPopupVisible(false)}
                         bookId={props.storyLine.bookId}
-                        onDelete = {() => setAppendPopupVisible(false)}
+                        onDelete = {(item) => {
+                          setAppendPopupVisible(false)
+                          deleteItem(item)
+                        }}
                         onSave={save}
                     />
                 </Popup>

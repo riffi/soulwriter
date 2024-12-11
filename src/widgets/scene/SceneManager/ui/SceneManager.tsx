@@ -427,7 +427,6 @@ export const SceneManager = (props: SceneManagerProps) => {
                                             fontSize: "12px",
                                             color: "#797979",
                                             padding: "0px 0px",
-                                            padding: "0px 0px",
                                         }}
 
                                         onClick={() => {
