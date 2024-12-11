@@ -410,11 +410,15 @@ export const SceneManager = (props: SceneManagerProps) => {
                                             </Button>
                                         }
                                     >
-                                        <div style={{
-                                            padding: "0px",
-                                            fontSize: "12px",
-                                            color: "#565656",
-                                        }}>
+                                        <div
+                                            style={{
+                                                padding: "0px",
+                                                fontSize: "12px",
+                                                color: "#565656",
+                                                cursor: "pointer",
+                                            }}
+                                            onClick={() => navigate(`/scene/card?id=${scene.id}`)}
+                                        >
                                             {scene.sortOrderId}. {scene.title}
                                         </div>
                                     </List.Item>
