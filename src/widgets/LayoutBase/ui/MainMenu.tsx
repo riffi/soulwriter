@@ -1,23 +1,29 @@
-import {Space, TabBar} from "antd-mobile";
-import {UnorderedListOutline,
+import {TabBar} from "antd-mobile";
+import {
+    CollectMoneyOutline,
     FileOutline,
-    UserOutline,
-    SetOutline,
     GlobalOutline,
-    CollectMoneyOutline
+    MoreOutline,
+    UserOutline
 } from "antd-mobile-icons";
 import {useNavigate} from "react-router-dom";
-import {IMainMenuProps} from "../model/types.ts";
+import {CustomMenuItemCode, IMainMenuProps} from "../model/types.ts";
+
 
 export const MainMenu = (props: IMainMenuProps) => {
     const navigate = useNavigate()
 
-    //const [currentIndex, setCurrentIndex] = useState<number>(0)
     const navigateTo = (key: string) => {
+        if (key === CustomMenuItemCode.MORE) {
+            props.onSelectCustomMenuItem(CustomMenuItemCode.MORE)
+            return
+        }
         navigate(key)
     }
 
     return (
+        <>
+
         <TabBar
                 onChange={navigateTo}
                 activeKey={props?.route?.route}
@@ -27,7 +33,9 @@ export const MainMenu = (props: IMainMenuProps) => {
                 <TabBar.Item key="/characters" icon={<UserOutline/>} title={"Персонажи"}/>
                 <TabBar.Item key="/book-items" icon={<GlobalOutline/>} title={"База"}/>
                 <TabBar.Item key="/storylines" icon={<CollectMoneyOutline/>} title={"Cюжет"}/>
-                <TabBar.Item key="/settings" icon={<SetOutline/>} title={"Настройки"}/>
+                <TabBar.Item key={CustomMenuItemCode.MORE} icon={<MoreOutline />} title={"Еще"}/>
         </TabBar>
+
+        </>
     );
 }
