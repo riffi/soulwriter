@@ -15,6 +15,7 @@ import {ConsumeYandexToken} from "@pages/yandex/ConsumeYandexToken";
 import {StoryLines} from "@pages/StoryLines";
 import {StoryLineCard} from "@pages/StoryLineCard/ui/StoryLineCard.tsx";
 import {MeasureKindCard} from "@pages/measure/MeasureKindCard";
+import {BookNotesPage} from "@pages/BookNotesPage";
 
 export const AppRouter = () => {
     return (
@@ -36,6 +37,7 @@ export const AppRouter = () => {
                     <Route key={"/storylines"} path={"/storylines"} element={<StoryLines/>} />
                     <Route key={"/storyline/card"} path={"/storyline/card"} element={<StoryLineCard/>} />
                     <Route key={"/measure-kind/card"} path={"/measure-kind/card"} element={<MeasureKindCard/>} />
+                    <Route key={"/notes"} path={"/notes"} element={<BookNotesPage/>} />
                 </Route>
                 <Route key={"/scene/card"} path={"/scene/card"} element={<SceneCard/>} />
             </Routes>

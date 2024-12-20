@@ -71,6 +71,6 @@ export interface ISceneCheckState{
 
 export interface ISceneNote{
     id?: number
-    sceneId: number
+    sceneId?: number
     text: string
 }

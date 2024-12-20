@@ -19,4 +19,5 @@ export const pagesRoutes: PageRoute[] = [
     {route: '/storylines', title: 'Сюжет'},
     {route: '/storyline/card', title: 'Сюжетная линия'},
     {route: '/measure-kind/card', title: 'Единицы измерения'},
+    {route: '/notes', title: 'Заметки'},
 ]
