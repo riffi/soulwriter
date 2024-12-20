@@ -86,7 +86,11 @@ export const BookNotesManager = (props: IBookNotesManagerProps) => {
                       <List.Item
                           key={note.id}
                           clickable={false}
-                          onClick={() => navigate(`/scene/card?id=${note.sceneId}`)}
+                          onClick={() => {
+                            if (note.sceneId !== NO_SCENE_ID) {
+                              navigate(`/scene/card?id=${note.sceneId}`)
+                            }
+                          }}
                           extra={
                           <>
                             <div>
