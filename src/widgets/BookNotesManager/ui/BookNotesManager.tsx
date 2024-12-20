@@ -1,11 +1,11 @@
 import {IBookNotesManagerProps} from "@widgets/BookNotesManager/model/types.ts";
 import {useBookNotesManager} from "@widgets/BookNotesManager/model/useBookNotesManager.ts";
-import {AutoCenter, Button, List, Popup, TextArea} from "antd-mobile";
+import {AutoCenter, Button, List, Popup, Space, TextArea} from "antd-mobile";
 import {IScene, ISceneNote} from "@entities/Scene";
-import {AddCircleOutline, DeleteOutline} from "antd-mobile-icons";
-import {InlineTextArea} from "@shared/ui/InlineTextArea";
+import {AddCircleOutline, DeleteOutline, EditFill} from "antd-mobile-icons";
 import React from "react";
 import {SceneSelector} from "@features/scene/SceneSelector";
+import {useNavigate} from "react-router-dom";
 
 interface ISceneWithNotes{
   scene?: IScene,
@@ -15,6 +15,7 @@ interface ISceneWithNotes{
 const NO_SCENE_ID = -1
 
 const getNoteScene = (note: ISceneNote, scenes: IScene[]) => {
+  if (!note) return undefined
   return scenes.find(scene => scene.id === note.sceneId)
 }
 
@@ -60,8 +61,16 @@ export const BookNotesManager = (props: IBookNotesManagerProps) => {
   const [isNotePopupVisible, setIsNotePopupVisible] = React.useState(false)
   const [isSceneSelectPopupVisible, setIsSceneSelectPopupVisible] = React.useState(false)
 
-  const [selectedScene, setSelectedScene] = React.useState<IScene>()
-  const [editedNoteText, setEditedNoteText] = React.useState<string>("")
+  const [selectedNote, setSelectedNote]  = React.useState<ISceneNote>()
+
+  const scenesWithEmptyElement = scenes?  [
+    ...scenes,
+    {title: "Без привязки к сцене", sortOrderId: 0, id: NO_SCENE_ID}
+  ] : []
+
+  const selectedScene = getNoteScene(selectedNote, scenesWithEmptyElement)
+
+  const navigate = useNavigate()
 
   return (
       <>
@@ -76,22 +85,40 @@ export const BookNotesManager = (props: IBookNotesManagerProps) => {
                   {sceneWithNote.notes.map(note => (
                       <List.Item
                           key={note.id}
-                          clickable
+                          clickable={false}
+                          onClick={() => navigate(`/scene/card?id=${note.sceneId}`)}
                           extra={
-                            <Button
-                                onClick={() => removeNote(note)}
-                                fill={"none"}
-                            >
-                              <DeleteOutline />
-                            </Button>
+                          <>
+                            <div>
+                              <Button
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    setSelectedNote(note)
+                                    setIsNotePopupVisible(true)
+                                  }}
+
+                                  fill={"none"}
+                                  size={"small"}
+                              >
+                                <EditFill />
+                              </Button>
+                              <Button
+                                  onClick={(e) =>{
+                                    e.stopPropagation()
+                                    removeNote(note)}
+                                  }
+                                  fill={"none"}
+                                  size={"small"}
+                              >
+                                <DeleteOutline />
+                              </Button>
+
+                            </div>
+                          </>
                           }
                       >
                         <div style={{position: "relative"}}>
-                          <InlineTextArea
-                              value={note.text}
-                              onChange={(val) => saveNote({...note, text: val})}
-                              iconStyle={{right: "-10px", marginTop: "3px", fontSize: "18px"}}
-                          />
+                          {note.text}
                         </div>
                       </List.Item>
                   ))}
@@ -101,9 +128,8 @@ export const BookNotesManager = (props: IBookNotesManagerProps) => {
           <List.Item title={""}>
             <AutoCenter>
               <Button size='large' fill={'none'}  onClick={() => {
-                setSelectedScene(undefined)
                 setIsNotePopupVisible(true)
-                setEditedNoteText("")
+                setSelectedNote({sceneId: NO_SCENE_ID, text: ""})
               }}>
                 <AddCircleOutline />
 
@@ -114,29 +140,32 @@ export const BookNotesManager = (props: IBookNotesManagerProps) => {
         {isNotePopupVisible && <>
           <Popup
               visible={true}
-              bodyStyle={{overflow: "auto", height: "90dvh"}}
+              bodyStyle={{overflow: "auto", height: "100dvh"}}
               showCloseButton={true}
               onClose={() => setIsNotePopupVisible(false)}
           >
-            <List mode={"card"}>
+            <List
+                mode={"card"}
+                header={"Добавить заметку"}
+            >
               <List.Item
                   title={"Сцена"}
 
               >
-                {selectedScene && <>
+                {selectedScene && (selectedScene.id !== NO_SCENE_ID) && <>
                   <div>
-                    {selectedScene.sortOrderId}. {selectedScene.title}
+                    {selectedScene?.sortOrderId}. {selectedScene?.title}
                     <Button
                         fill={"none"}
                         size={"small"}
-                        onClick={() => setSelectedScene(undefined)}
+                        onClick={() => setSelectedNote({...selectedNote, sceneId: NO_SCENE_ID})}
                     >
                       <DeleteOutline />
                     </Button>
                   </div>
                 </>
                 }
-                {!selectedScene && <>
+                {(!selectedScene || (selectedScene.id === NO_SCENE_ID)) && <>
                   <div style={{color: "gray"}}>
                     [Без привязки к сцене]
                   </div>
@@ -151,8 +180,8 @@ export const BookNotesManager = (props: IBookNotesManagerProps) => {
               </List.Item>
               <List.Item title={"Текст"}>
                 <TextArea
-                    value={editedNoteText}
-                    onChange={(val) => setEditedNoteText(val)}
+                    value={selectedNote?.text ?? ""}
+                    onChange={(val) => setSelectedNote({...selectedNote, text: val})}
                     autoSize={{minRows: 1, maxRows: 10}}
                 ></TextArea>
               </List.Item>
@@ -160,10 +189,7 @@ export const BookNotesManager = (props: IBookNotesManagerProps) => {
                 <Button
                     color={"primary"}
                     onClick={() => {
-                      saveNote({
-                          sceneId: selectedScene?.id ?? NO_SCENE_ID,
-                          text: editedNoteText
-                        })
+                        saveNote(selectedNote)
                         setIsNotePopupVisible(false)
                     }}
                 >
@@ -182,7 +208,7 @@ export const BookNotesManager = (props: IBookNotesManagerProps) => {
               onClose={() => setIsSceneSelectPopupVisible(false)}
           >
             <SceneSelector bookId={props.bookId} onSelect={(scene) => {
-              setSelectedScene(scene)
+              setSelectedNote({...selectedNote, sceneId: scene.id})
               setIsSceneSelectPopupVisible(false)
             }}/>
           </Popup>
