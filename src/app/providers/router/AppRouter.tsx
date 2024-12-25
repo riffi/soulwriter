@@ -16,6 +16,11 @@ import {StoryLines} from "@pages/StoryLines";
 import {StoryLineCard} from "@pages/StoryLineCard/ui/StoryLineCard.tsx";
 import {MeasureKindCard} from "@pages/measure/MeasureKindCard";
 import {BookNotesPage} from "@pages/BookNotesPage";
+import {CharacterGroupsPage} from "@pages/character/CharacterGroupsPage/ui/CharacterGroupsPage.tsx";
+import {CharacterAttributesPage} from "@pages/character/CharacterAttributesPage";
+import {MeasuresDictPage} from "@pages/measure/MeasuresDictPage";
+import {SceneStatusesDict} from "@pages/scene/SceneStatusesDict";
+import {CheckListDict} from "@pages/scene/CheckListDict";
 
 export const AppRouter = () => {
     return (
@@ -38,6 +43,11 @@ export const AppRouter = () => {
                     <Route key={"/storyline/card"} path={"/storyline/card"} element={<StoryLineCard/>} />
                     <Route key={"/measure-kind/card"} path={"/measure-kind/card"} element={<MeasureKindCard/>} />
                     <Route key={"/notes"} path={"/notes"} element={<BookNotesPage/>} />
+                    <Route key={"/character-groups"} path={"/character-groups"} element={<CharacterGroupsPage/>} />
+                    <Route key={"/character-attributes"} path={"/character-attributes"} element={<CharacterAttributesPage/>} />
+                    <Route key={"/measures"} path={"/measures"} element={<MeasuresDictPage/>} />
+                    <Route key={"/scene-states"} path={"/scene-states"} element={<SceneStatusesDict/>} />
+                    <Route key={"/check-list"} path={"/check-list"} element={<CheckListDict/>} />
                 </Route>
                 <Route key={"/scene/card"} path={"/scene/card"} element={<SceneCard/>} />
             </Routes>

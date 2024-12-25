@@ -4,7 +4,9 @@ import styled from './LayoutBase.module.scss'
 import {useEffect, useState} from "react";
 import {Card, List, NavBar, Popup, Tag} from "antd-mobile";
 import {PageRoute, pagesRoutes} from "@shared/route/pages.ts";
-import { ContentOutline, SetOutline, TagOutline } from 'antd-mobile-icons'
+import {ContentOutline, SetOutline, TagOutline,
+    TeamOutline, BankcardOutline, CalculatorOutline, FlagOutline, CheckOutline
+} from 'antd-mobile-icons'
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
 import {CustomMenuItemCode} from "@widgets/LayoutBase/model/types.ts";
@@ -89,6 +91,71 @@ export const LayoutBase = () => {
                             prefix={<TagOutline  />}
                         >
                             Заметки
+                        </List.Item>
+                        <List.Item
+                            style={{
+                                fontSize: "20px",
+                            }}
+                            clickable
+                            onClick={() => {
+                                navigate('/character-groups')
+                                setMoreOptionsPopupVisible(false)
+                            }}
+                            prefix={<TeamOutline />}
+                        >
+                            Группы персонажей
+                        </List.Item>
+                        <List.Item
+                            style={{
+                                fontSize: "20px",
+                            }}
+                            clickable
+                            onClick={() => {
+                                navigate('/character-attributes')
+                                setMoreOptionsPopupVisible(false)
+                            }}
+                            prefix={<BankcardOutline />}
+                        >
+                            Атрибуты персонажей
+                        </List.Item>
+                        <List.Item
+                            style={{
+                                fontSize: "20px",
+                            }}
+                            clickable
+                            onClick={() => {
+                                navigate('/measures')
+                                setMoreOptionsPopupVisible(false)
+                            }}
+                            prefix={<CalculatorOutline />}
+                        >
+                            Единицы измерения
+                        </List.Item>
+                        <List.Item
+                            style={{
+                                fontSize: "20px",
+                            }}
+                            clickable
+                            onClick={() => {
+                                navigate('/scene-states')
+                                setMoreOptionsPopupVisible(false)
+                            }}
+                            prefix={<FlagOutline />}
+                        >
+                            Статусы сцен
+                        </List.Item>
+                        <List.Item
+                            style={{
+                                fontSize: "20px",
+                            }}
+                            clickable
+                            onClick={() => {
+                                navigate('/check-list')
+                                setMoreOptionsPopupVisible(false)
+                            }}
+                            prefix={<CheckOutline />}
+                        >
+                            Настройка чек-листа
                         </List.Item>
                         <List.Item
                             style={{

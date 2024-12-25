@@ -20,4 +20,9 @@ export const pagesRoutes: PageRoute[] = [
     {route: '/storyline/card', title: 'Сюжетная линия'},
     {route: '/measure-kind/card', title: 'Единицы измерения'},
     {route: '/notes', title: 'Заметки'},
+    {route: '/character-groups', title: 'Группы персонажей'},
+    {route: '/character-attributes', title: 'Атрибуты персонажей'},
+    {route: '/measures', title: 'Единицы измерения'},
+    {route: '/scene-states', title: 'Статусы сцен'},
+    {route: '/check-list', title: 'Чек лист'}
 ]
