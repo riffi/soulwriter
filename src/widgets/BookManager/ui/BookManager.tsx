@@ -1,5 +1,5 @@
 import {useBookManager} from "../model/useBookManager.ts";
-import {AutoCenter, Button, Grid, Input, List, Popup} from "antd-mobile";
+import {AutoCenter, Button, Grid, Input, List, Popup, Space} from "antd-mobile";
 import {AddCircleOutline, ContentOutline, EditSOutline} from "antd-mobile-icons";
 import {useState} from "react";
 import { useSelector, useDispatch } from 'react-redux'
@@ -20,6 +20,14 @@ export const BookManager = () => {
     return (
         <>
         <List>
+            {bookList?.length === 0 && <List.Item>
+                <div style={{
+                    textAlign: "center",
+                    fontSize: "22px"
+                }}>
+                    Добавьте вашу первую книгу!
+                </div>
+            </List.Item>}
             {bookList?.map((book)=>
                 <List.Item
                     prefix={
@@ -61,37 +69,41 @@ export const BookManager = () => {
             visible={popupAddBookVisible}
             onMaskClick={() => setPopupAddBookVisible(false)}
         >
-            <Grid columns={1} gap={1} style={{margin: '10px'}}>
-                <h3>Добавить книжечечку</h3>
-                <Input
-                    placeholder='Название книжечечки'
-                    value={newBookData.title}
-                    onChange={val => {
-                        setNewBookData((data) => {return {...data, title: val}})
-                    }}
-                />
-
-                <Input
-                    placeholder='Описание книжечечки'
-                    value={newBookData.description}
-                    onChange={val => {
-                        setNewBookData((data) => {return {...data, description: val}})
-                    }}
-                />
-
-                <Input
-                    placeholder='Автор'
-                    value={newBookData.author}
-                    onChange={val => {
-                        setNewBookData((data) => {return {...data, author: val}})
-                    }}
-                />
-
-                <Button onClick={() => {
-                    onSaveNewBook(newBookData)
-                    setPopupAddBookVisible(false)
-                }}>Сохранить</Button>
-            </Grid>
+            <List header={"Добавить книгу"}>
+                <List.Item>
+                    <Input
+                        placeholder='Название книги'
+                        value={newBookData.title}
+                        onChange={val => {
+                            setNewBookData((data) => {return {...data, title: val}})
+                        }}
+                    />
+                </List.Item>
+                <List.Item>
+                    <Input
+                        placeholder='Описание'
+                        value={newBookData.description}
+                        onChange={val => {
+                            setNewBookData((data) => {return {...data, description: val}})
+                        }}
+                    />
+                </List.Item>
+                <List.Item>
+                    <Input
+                        placeholder='Автор'
+                        value={newBookData.author}
+                        onChange={val => {
+                            setNewBookData((data) => {return {...data, author: val}})
+                        }}
+                    />
+                </List.Item>
+                <List.Item>
+                    <Button onClick={() => {
+                        onSaveNewBook(newBookData)
+                        setPopupAddBookVisible(false)
+                    }}>Сохранить</Button>
+                </List.Item>
+            </List>
         </Popup>
         </>
     )

@@ -44,7 +44,7 @@ export const LayoutBase = () => {
                 <NavBar
                     onBack={() => navigate(-1)}
                     className={styled.navBar}
-                    left={<Tag color={"primary"}>{currentBook?.title}</Tag>}
+                    left={currentBook && <Tag color={"primary"}>{currentBook?.title}</Tag>}
                     right={
                           <ContentOutline
                               onClick={() => navigate('/books')}
