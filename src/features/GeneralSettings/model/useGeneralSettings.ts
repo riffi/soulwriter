@@ -5,22 +5,17 @@ import Dexie from "dexie";
 import { Document, Packer, Paragraph } from "docx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store.ts";
-import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
 import {Dialog, Toast} from "antd-mobile";
 import {uploadFile} from "@features/GeneralSettings/api/YandexDiscAPI.ts";
 import {fileDb, FileDbAdapter} from "@entities/Db/model/fileDb.ts";
 import {Chapter, Content, Options} from 'epub-gen-memory';
 import epub from 'epub-gen-memory/bundle';
 import {IChapter} from "@entities/Scene";
+import {downloadDocx} from "@shared/lib/DocxUtils.ts";
+import {downloadBlob} from "@shared/lib/TextUtils.ts";
+import HTMLtoDOCX from "html-to-docx"
+import {makeCleanTextFromHtml} from "@shared/lib/HtmlUtils.ts";
 
-const downloadBlob = (blob: Blob, fileName: string) => {
-    const url = window.URL.createObjectURL(blob);
-    const tempLink = document.createElement('a');
-    tempLink.href = url;
-
-    tempLink.setAttribute('download', fileName);
-    tempLink.click();
-}
 
 const generateTextDbFileName = () => {
     const date = moment();
@@ -96,14 +91,7 @@ export const useGeneralSettings = () => {
         }
     }
 
-    const jsonToBlob = (json: object) => {
-        const str = JSON.stringify(json);
-        const bytes = new TextEncoder().encode(str);
-        return new Blob([bytes], {
-            type: "application/json;charset=utf-8"
-        });
 
-    }
 
      const importTextDb = async (file: File | undefined) => {
         await db.delete()
@@ -126,6 +114,11 @@ export const useGeneralSettings = () => {
     }
 
     const exportDocx = async () =>  {
+
+        const chapters: IChapter[] = await db.chapters
+            .where({bookId: currentBook?.id})
+            .sortBy("sortOrderId")
+
         const scenes = await db.scenes
             .where("bookId")
             .equals(currentBook?.id)
@@ -139,91 +132,51 @@ export const useGeneralSettings = () => {
         }))
 
 
-        scenes.forEach((scene) => {
-            paragraphs.push( new Paragraph({
-                text: "",
-            }))
-            paragraphs.push( new Paragraph({
-               text: `${scene.sortOrderId}.${scene.title}`,
-               heading: "Heading2"
-            }))
-            const parts = scene.body.split("<p>")
-            parts.forEach((part) => {
-                if (part != ''){
-                    const cleanText = makeCleanTextFromHtml(part)
-                    const p=  new Paragraph({
-                        text: cleanText,
-                        style: 'simple',
+        chapters.forEach((chapter) => {
+            const chapterScenes = scenes.filter((scene) => {
+                return scene.chapterId === chapter.id
+            })
 
-                    })
-                    paragraphs.push(p)
+            paragraphs.push(new Paragraph({
+                text: `${chapter.sortOrderId}.${chapter.title}`,
+                heading: "Heading2"
+            }))
+
+            chapterScenes.forEach((scene, index) => {
+                // Добавляем три звездочки между сценами
+                if (index > 0) {
+                    paragraphs.push(new Paragraph({
+                        text: "***",
+                        style: 'simple',
+                    }))
                 }
-           })
+
+                const parts = scene.body.split("<p>")
+                parts.forEach((part) => {
+                    if (part.trim() != '') {
+                        const cleanText = makeCleanTextFromHtml(part)
+                        if (part.indexOf("<em>") !== -1) {
+                            const p = new Paragraph({
+                                text: cleanText,
+                                style: 'italic',
+                            })
+                            paragraphs.push(p)
+
+                        }
+                        else{
+                            const p = new Paragraph({
+                                text: cleanText,
+                                style: 'simple',
+                            })
+                            paragraphs.push(p)
+
+                        }
+                    }
+                })
+            })
         })
 
-        const doc = new Document({
-            styles:{
-                paragraphStyles:[
-                    {
-                        id: 'simple',
-                        basedOn: 'Normal',
-                        run: {
-                            size: '14pt'
-                        },
-                        paragraph:{
-                            spacing:{
-                                line: 276
-                            },
-                            indent: {
-                                firstLine: "30pt",
-                            },
-                        }
-                    },
-                    {
-                        id: "Heading1",
-                        name: "Heading 1",
-                        basedOn: "Normal",
-                        next: "Normal",
-                        quickFormat: true,
-                        run: {
-                            size: '20pt',
-                            bold: true,
-                            color: "999999",
-                        },
-                    },
-                    {
-                        id: "Heading2",
-                        name: "Heading 2",
-                        basedOn: "Normal",
-                        next: "Normal",
-                        quickFormat: true,
-                        run: {
-                            size: '16pt',
-                            bold: true,
-                            color: "999999",
-                    },
-                    paragraph: {
-                        spacing: {
-                            before: 240,
-                            after: 120
-                        },
-                    },
-                },
-                ]
-            },
-            sections: [
-                {
-                    properties: {},
-                    children: paragraphs
-                },
-            ],
-        });
-
-        Packer.toBlob(doc).then((blob) => {
-            const date = moment();
-            const dateStr = date.format("YYYY-MM-DD_HH-mm-ss")
-            downloadBlob(blob,`${currentBook?.title} ${dateStr}.docx`)
-        });
+       downloadDocx(paragraphs, currentBook?.title)
     }
 
     const exportEpub = async () => {
