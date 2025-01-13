@@ -153,8 +153,8 @@ export const useGeneralSettings = () => {
 
                 const parts = scene.body.split("<p>")
                 parts.forEach((part) => {
-                    if (part.trim() != '') {
-                        const cleanText = makeCleanTextFromHtml(part)
+                    const cleanText = makeCleanTextFromHtml(part)
+                    if (cleanText.trim() != '') {
                         if (part.indexOf("<em>") !== -1) {
                             const p = new Paragraph({
                                 text: cleanText,

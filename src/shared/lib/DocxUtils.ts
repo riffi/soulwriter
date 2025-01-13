@@ -16,7 +16,7 @@ const paragraphStyles: IParagraphStyleOptions[] = [
       },
       alignment: AlignmentType.JUSTIFIED,
       indent: {
-        firstLine: "20pt",
+        firstLine: "30pt",
       },
     }
   },
@@ -33,7 +33,7 @@ const paragraphStyles: IParagraphStyleOptions[] = [
       },
       alignment: AlignmentType.JUSTIFIED,
       indent: {
-        firstLine: "20pt",
+        firstLine: "30pt",
       },
     }
   },
